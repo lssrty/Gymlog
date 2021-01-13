@@ -1,6 +1,6 @@
-# pohja
+# Salipäiväkirja
 
-Pohja kevään 2020 harjoitustöiden GIT-repoille
-
-Lue käyttöohjeet TIMistä: <https://tim.jyu.fi/view/kurssit/tie/ohj2/tyokalut/git/ohj2git#fork>
+Ohjelma on salipäiväkirja, mihin voi tallentaa treenin aikana tehdyt toistot, sarjat ja painot per liike.
+Oletuksena ohjelmassa on valmiina kyykky, penkki ja maastaveto, mutta muita liikkeitä voi lisätä.
+Joka sarjan perään on mahdollisuus lisätä "rate of perceived exertion" = koettu rasitus, sekä vapaamuotoista tekstiä.
 

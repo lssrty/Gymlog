@@ -1,36 +1,48 @@
 package fxSali;
 	
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
 
 
 /**
- * Salipäiväkirja, mihin voi tallentaa harjoituksen aikana tehdyt toistot, sarjat ja painot per liike. 
- * Oletuksena ohjelmassa on valmiina kyykky, penkki ja maastaveto, mutta muita liikkeitä voi lisätä. 
- * Suorituksiin on mahdollisuus lisätä vapaamuotoinen kommentti, sekä koettu rasitus asteikolla 1-10.
+ * Pääohjelma Sali-ohjelman käynnistämiseksi.
  * @author lasse
  * @version 24 Jan 2021
  *
  */
 public class SaliMain extends Application {
 	@Override
-	public void start(Stage primaryStage) {
-		try {
-			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("SaliGUIView.fxml"));
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("sali.css").toExternalForm());
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
+    public void start(Stage primaryStage) {
+        try {
+            final FXMLLoader ldr = new FXMLLoader(getClass().getResource("SaliGUIView.fxml"));
+            final Pane root = (Pane)ldr.load();
+            final SaliGUIController saliCtrl = (SaliGUIController)ldr.getController();
+
+            final Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("sali.css").toExternalForm());
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("Sali");
+            
+            // Platform.setImplicitExit(false); // tätä ei kai saa laittaa
+
+            primaryStage.setOnCloseRequest((event) -> {
+                    if ( !saliCtrl.voikoSulkea() ) event.consume();
+                });
+            
+            primaryStage.show();
+            if ( !saliCtrl.avaa() ) Platform.exit();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
 	
 	/**
-	 * @param args ei käytössä
+	 * Käynnistetään käyttöliittymä
+	 * @param args komentorivin parametrit
 	 */
 	public static void main(String[] args) {
 		launch(args);

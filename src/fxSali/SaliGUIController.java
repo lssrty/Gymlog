@@ -4,9 +4,7 @@ import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 
 /**
  * Controller ohjelman pääkäyttöliittymälle.
@@ -139,6 +137,10 @@ public class SaliGUIController {
     }
     
     
+    /**
+     * Lisää automaattisesti avauspäivälle luodun harjoituksen lisäksi
+     * uuden harjoituksen eri kellonajalla
+     */
     public void uusiHarjoitus() {
         Dialogs.showMessageDialog("Ei osata vielä lisätä uutta harjoitusta");
     }

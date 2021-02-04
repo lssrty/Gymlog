@@ -8,24 +8,24 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxSali.SaliLiikkeetController">
 <bottom>
 <ButtonBar prefHeight="40.0">
 <buttons>
-            <Button mnemonicParsing="false" text="Lisää liike" />
-            <Button mnemonicParsing="false" text="Poista liike" />
-<Button cancelButton="true" mnemonicParsing="false" text="Sulje" />
+<Button cancelButton="true" mnemonicParsing="false" onAction="#handleLiikeHistoria" text="Historia" />
+            <Button mnemonicParsing="false" onAction="#handleLisaaLiike" text="Lisää liike" />
+            <Button mnemonicParsing="false" onAction="#handlePoistaLiike" text="Poista liike" />
 </buttons>
-         <padding>
-            <Insets right="10.0" />
-         </padding>
          <BorderPane.margin>
             <Insets right="6.0" />
          </BorderPane.margin>
+         <padding>
+            <Insets right="10.0" />
+         </padding>
 </ButtonBar>
 </bottom>
    <top>
-      <Label text="Liikelista" BorderPane.alignment="CENTER">
+      <Label text="Liikkeet" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </BorderPane.margin>

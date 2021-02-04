@@ -4,9 +4,12 @@ import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 
 /**
+ * Controller ohjelman pääkäyttöliittymälle.
  * @author lasse
  * @version 24 Jan 2021
  *
@@ -19,23 +22,71 @@ public class SaliGUIController {
     private String kayttajanimi = "Harjoittelija";
 
 
+    /*
+     * Lisää suoritusvalikkoon uuden rivin
+     */
+    @FXML void handleLisaaSuoritus() {
+        Dialogs.showMessageDialog("Ei osata vielä lisätä uutta suoritusta");
+    }
+    
+    
+    /*
+     * Poistaa valitun suorituksen, esim. kyykky 3x5x150kg @ 10
+     */
     @FXML private void handlePoistaSuoritus() {
-        Dialogs.showMessageDialog("Vielä ei osata poistaa suorituksia");
+        boolean vastaus = Dialogs.showQuestionDialog("Poisto?",
+                "Poistetaanko suoritus: EI OSATA POISTAA VIELÄ", "Kyllä", "Ei");
+        if ( vastaus ) return;// poistaSuoritus(...
     }
     
     
+    /*
+     * Lisää uuden harjoituksen. Ohjelma lisää avatessa automaattisesti uuden harjoituksen per päivä,
+     * mutta jos halutaan luoda useampi harjoitus samalle päivälle, niin se onnistuu tällä.
+     */
     @FXML private void handleLisaaHarjoitus() {
-        Dialogs.showMessageDialog("Ei osata vielä lisätä uutta harjoitusta");
+        uusiHarjoitus();
     }
     
     
+    /*
+     * Poistaa aktiivisen harjoituksen, esim. 24.01.2021 18:00.
+     * TODO: Mitä tehdään, kun harjoitus poistetaan? Siirrytäänkö edelliseen, vai onko tyhjä?
+     */
     @FXML private void handlePoistaHarjoitus() {
-        Dialogs.showMessageDialog("Ei osata vielä poistaa aktiivista harjoitusta");
+        boolean vastaus = Dialogs.showQuestionDialog("Poisto?",
+                "Poistetaanko harjoitus: EI OSATA POISTAA VIELÄ", "Kyllä", "Ei");
+        if ( vastaus ) return;// poistaHarjoitus(...
     }
     
 
+    /*
+     * Näyttää listan tehdyistä liikkeistä ennätyksineen.
+     * Liikkeen nimeä klikkaamalla voi nähdä sen suoritushistorian.
+     */
+    @FXML void handleNaytaLiikkeet() {
+        ModalController.showModal(SaliGUIController.class.getResource("SaliLiikkeetView.fxml"), "Sali", null, "");
+    }
+    
+
+    
+    
     @FXML private void handleTallenna() {
         tallenna();
+    }
+    
+    
+    
+    
+    /*
+     * Pitäisi kutsua uusiHarjoitus-metodia toisen harjoituksen luomiseksi samalle päivälle.
+     * En osaa kuitenkaan vielä lukea Combo boxin tekstiä ja toteuttaa sillä ehtolausetta.
+     * En tiedä miksi kyseinen getSelectedText() ei yksinään toimi.
+     */
+    @FXML
+    void Select() {
+        String harjoitus = cbPvm.getSelectedText();
+        if (harjoitus == "Uusi harjoitus...") uusiHarjoitus();
     }
     
     
@@ -88,6 +139,11 @@ public class SaliGUIController {
     }
     
     
+    public void uusiHarjoitus() {
+        Dialogs.showMessageDialog("Ei osata vielä lisätä uutta harjoitusta");
+    }
+    
+    
     /**
      * Tietojen tallennus
      */
@@ -103,12 +159,5 @@ public class SaliGUIController {
     public boolean voikoSulkea() {
         tallenna();
         return true;
-    }
-    
-    private void uusiLiikeValittu() {
-        String valittuLiike = cbLisaaSuoritus.getSelectedText();
-        if (valittuLiike == "Uusi liike...") {
-            ModalController.showModal(SaliGUIController.class.getResource("SaliUusiLiike.fxml"), "Sali", null, "");
-        }
     }
 }

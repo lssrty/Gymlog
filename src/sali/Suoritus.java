@@ -13,7 +13,7 @@ import java.io.PrintStream;
  * | Vastuualueet:                                      |                   |
  * |                                                    |                   |
  * | - tietää suorituksen attribuutit(liike,toistot jne)|                   |
- * | - osaa tarkistaa, että rasitus on 1-10 välillä     |                   |
+ * | - osaa tarkistaa, että rasitus on 1-10 välillä     |                   | // <--- TO-DO: tee rasituksen arvon tarkistus
  * | - osaa muuttaa 4|2|2|2|1|125|8|Hyvin meni          |                   |
  * |   suorituksen tiedoiksi                            |                   |
  * | - osaa laittaa merkkijonon i:nneksi kentäksi       |                   |
@@ -41,7 +41,37 @@ public class Suoritus {
     private double  painot      = 0;
     private double  rasitus     = 0;
     private String  kommentit   = "";
+    
     private static int seuraavaNro    = 1;
+    
+    
+    /**
+     * @return liikkeen ID
+     * @example
+     * <pre name="test">
+     *   Suoritus kyykkysarja = new Suoritus();
+     *   kyykkysarja.taytaKyykkyTiedoilla();
+     *   kyykkysarja.getLiikeID() === 1;
+     * </pre>
+     */
+    public int getLiikeID() {
+        return liikeID;
+    }
+    
+    
+    /**
+     * Apumetodi, jolla saadaan täytettyä testiarvot suoritukselle.
+     * Harjoituksen ID arvotaan 1-9999 väliltä.
+     */
+    public void taytaKyykkyTiedoilla() {
+        harjoitusID = ((int) (Math.random() * (9999 - 1)) + 1);
+        liikeID = 1;
+        sarjat = 3;
+        toistot = 5;
+        painot = 160;
+        rasitus = 8;
+        kommentit = "Selkä kipeä";
+    }
     
     
     /**
@@ -49,8 +79,8 @@ public class Suoritus {
      * @param out tietovirta, johon tulostetaan
      */
     public void tulosta(PrintStream out) {
-        out.println(String.format("%03d", tunnusNro) + "  " + harjoitusID + "  "
-                + liikeID);
+        out.println(String.format("%03d", tunnusNro));
+        out.print("harjoituksen ID: " + harjoitusID + " liikkeen ID: " + liikeID);
         out.print(" sarjat: " + sarjat + " toistot: " + toistot + " painot: " + painot + " rasitus: " + rasitus);
         out.println("  kommentit: " + kommentit);
     }
@@ -70,13 +100,13 @@ public class Suoritus {
      * @return jäsenen uusi tunnusNro
      * @example
      * <pre name="test">
-     *   Jasen aku1 = new Jasen();
-     *   aku1.getTunnusNro() === 0;
-     *   aku1.rekisteroi();
-     *   Jasen aku2 = new Jasen();
-     *   aku2.rekisteroi();
-     *   int n1 = aku1.getTunnusNro();
-     *   int n2 = aku2.getTunnusNro();
+     *   Suoritus kyykkysarja1 = new Suoritus();
+     *   kyykkysarja1.getTunnusNro() === 0;
+     *   kyykkysarja1.rekisteroi();
+     *   Suoritus kyykkysarja2 = new Suoritus();
+     *   kyykkysarja2.rekisteroi();
+     *   int n1 = kyykkysarja1.getTunnusNro();
+     *   int n2 = kyykkysarja2.getTunnusNro();
      *   n1 === n2-1;
      * </pre>
      */
@@ -105,15 +135,12 @@ public class Suoritus {
         kyykkysarja.rekisteroi();
         kyykkysarja2.rekisteroi();
         
-        // kyykkysarja.rekisteroi();
-        // kyykkysarja2.rekisteroi();
-        
         kyykkysarja.tulosta(System.out);
-        // kyykkysarja.taytaKyykkyTiedoilla();
+        kyykkysarja.taytaKyykkyTiedoilla();
         kyykkysarja.tulosta(System.out);
         
         kyykkysarja2.tulosta(System.out);
-        // kyykkysarja2.taytaKyykkyTiedoilla();
+        kyykkysarja2.taytaKyykkyTiedoilla();
         kyykkysarja2.tulosta(System.out);
         
     }

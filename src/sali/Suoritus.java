@@ -3,6 +3,7 @@
  */
 package sali;
 
+import java.io.OutputStream;
 import java.io.PrintStream;
 
 /**
@@ -40,6 +41,7 @@ public class Suoritus {
     private double  painot      = 0;
     private double  rasitus     = 0;
     private String  kommentit   = "";
+    private static int seuraavaNro    = 1;
     
     
     /**
@@ -53,14 +55,55 @@ public class Suoritus {
         out.println("  kommentit: " + kommentit);
     }
     
+    
+    /**
+     * Tulostetaan suorituksen tiedot
+     * @param os tietovirta johon tulostetaan
+     */
+    public void tulosta(OutputStream os) {
+        tulosta(new PrintStream(os));
+    }
+    
+    
+    /**
+     * Antaa jäsenelle seuraavan rekisterinumeron.
+     * @return jäsenen uusi tunnusNro
+     * @example
+     * <pre name="test">
+     *   Jasen aku1 = new Jasen();
+     *   aku1.getTunnusNro() === 0;
+     *   aku1.rekisteroi();
+     *   Jasen aku2 = new Jasen();
+     *   aku2.rekisteroi();
+     *   int n1 = aku1.getTunnusNro();
+     *   int n2 = aku2.getTunnusNro();
+     *   n1 === n2-1;
+     * </pre>
+     */
+    public int rekisteroi() {
+        tunnusNro = seuraavaNro;
+        seuraavaNro++;
+        return tunnusNro;
+    }
+    
+    
+    /**
+     * Palauttaa jäsenen tunnusnumeron.
+     * @return jäsenen tunnusnumero
+     */
+    public int getTunnusNro() {
+        return tunnusNro;
+    }
+    
 
     /**
      *
      * @param args ei käytössä
      */
     public static void main(String[] args) {
-        Suoritus kyykkysarja = new Suoritus();
-        Suoritus kyykkysarja2 = new Suoritus();
+        Suoritus kyykkysarja = new Suoritus(), kyykkysarja2 = new Suoritus();
+        kyykkysarja.rekisteroi();
+        kyykkysarja2.rekisteroi();
         
         // kyykkysarja.rekisteroi();
         // kyykkysarja2.rekisteroi();

@@ -49,7 +49,7 @@ public class SaliGUIController {
     
     /*
      * Poistaa aktiivisen harjoituksen, esim. 24.01.2021 18:00.
-     * TODO: Mitä tehdään, kun harjoitus poistetaan? Siirrytäänkö edelliseen, vai onko tyhjä?
+     * TODO: Edelliseen harjoitukseen siirtyminen, kun tämänhetkinen poistetaan
      */
     @FXML private void handlePoistaHarjoitus() {
         boolean vastaus = Dialogs.showQuestionDialog("Poisto?",

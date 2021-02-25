@@ -5,6 +5,7 @@ package sali;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+import static kanta.RasitusTarkistus.*;
 
 /**
  * |------------------------------------------------------------------------|
@@ -13,7 +14,7 @@ import java.io.PrintStream;
  * | Vastuualueet:                                      |                   |
  * |                                                    |                   |
  * | - tietää suorituksen attribuutit(liike,toistot jne)|                   |
- * | - osaa tarkistaa, että rasitus on 1-10 välillä     |                   | // <--- TO-DO: tee rasituksen arvon tarkistus
+ * | - osaa tarkistaa, että rasitus on 1-10 välillä     |                   | // <--- TODO: tee rasituksen arvon tarkistus
  * | - osaa muuttaa 4|2|2|2|1|125|8|Hyvin meni          |                   |
  * |   suorituksen tiedoiksi                            |                   |
  * | - osaa laittaa merkkijonon i:nneksi kentäksi       |                   |
@@ -43,6 +44,20 @@ public class Suoritus {
     private String  kommentit   = "";
     
     private static int seuraavaNro    = 1;
+    
+    
+    /**
+     * @return harjoituksen ID
+     * TODO: Lisää testejä
+     * @example
+     * <pre name="test">
+     * Suoritus kyykkysarja = new Suoritus();
+     * kyykkysarja.getHarjoitusID() === 0;
+     * </pre>
+     */
+    public int getHarjoitusID() {
+        return harjoitusID;
+    }
     
     
     /**
@@ -80,7 +95,7 @@ public class Suoritus {
      */
     public void tulosta(PrintStream out) {
         out.println(String.format("%03d", tunnusNro));
-        out.print("harjoituksen ID: " + harjoitusID + " liikkeen ID: " + liikeID);
+        out.print("  harjoituksen ID: " + harjoitusID + " liikkeen ID: " + liikeID);
         out.print(" sarjat: " + sarjat + " toistot: " + toistot + " painot: " + painot + " rasitus: " + rasitus);
         out.println("  kommentit: " + kommentit);
     }

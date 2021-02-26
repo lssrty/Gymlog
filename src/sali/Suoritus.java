@@ -133,8 +133,8 @@ public class Suoritus {
     
     
     /**
-     * Palauttaa jäsenen tunnusnumeron.
-     * @return jäsenen tunnusnumero
+     * Palauttaa suorituksen tunnusnumeron.
+     * @return suorituksen tunnusnumero
      */
     public int getTunnusNro() {
         return tunnusNro;

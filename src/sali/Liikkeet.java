@@ -28,6 +28,10 @@ package sali;
  *
  */
 public class Liikkeet {
+    
+    private static final int MAX_LIIKKEITA = 8;
+    private int lkm = 0;
+    private Liike[] alkiot;
 
     /**
      * @param args ei käytössä

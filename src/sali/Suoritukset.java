@@ -79,7 +79,7 @@ public class Suoritukset {
     /**
      * Palauttaa viitteen i:teen suoritukseen.
      * @param i monennenko suorituksen viite halutaan
-     * @return viite jäseneen, jonka indeksi on i
+     * @return viite suoritukseen, jonka indeksi on i
      * @throws IndexOutOfBoundsException jos i ei ole sallitulla alueella 
      */
     public Suoritus anna(int i) throws IndexOutOfBoundsException {
@@ -122,7 +122,7 @@ public class Suoritukset {
         
         for (int i = 0; i < suoritukset.getLkm(); i++) {
             Suoritus suoritus = suoritukset.anna(i);
-            System.out.println("Jäsenindeksi: " + i);
+            System.out.println("Suoritusindeksi: " + i);
             suoritus.tulosta(System.out);
         }
     }

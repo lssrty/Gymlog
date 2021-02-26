@@ -6,7 +6,6 @@ package sali;
 import java.io.PrintStream;
 
 /**
- * TODO: Liike-luokka toimivaksi
  * |------------------------------------------------------------------------|
  * | Luokan nimi: Liike                                 | Avustajat:        |
  * |-------------------------------------------------------------------------

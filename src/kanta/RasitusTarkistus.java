@@ -7,5 +7,5 @@ package kanta;
  *
  */
 public class RasitusTarkistus {
-
+    //
 }

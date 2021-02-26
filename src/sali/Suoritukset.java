@@ -10,7 +10,7 @@ package sali;
  * | Vastuualueet:                                      |                   |
  * |                                                    | - Suoritus        |
  * | - pitää yllä rekisteriä suorituksista, eli osaa    |                   |
- * |   lisätä ja poistaa suorituksia                    |                   |
+ * |   lisätä ja poistaa suorituksia                    |                   |<-- TODO: Suoritusten poisto
  * | - lukee ja kirjoittaa suoritukset tiedostoon       |                   |
  * | - osaa etsiä liikkeistä niiden suurimman           |                   | <-- TODO: Liikekohtaisten ennätysten etsintä
  * |   sarjapainon eli ennätyksen                       |                   |

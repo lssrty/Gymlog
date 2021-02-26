@@ -30,7 +30,6 @@ import static kanta.RasitusTarkistus.*;
  * |-------------------------------------------------------------------------
  * @author lasse
  * @version 24 Feb 2021
- *
  */
 public class Suoritus {
     

@@ -5,6 +5,7 @@ import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import sali.Sali;
 
 /**
  * Controller ohjelman pääkäyttöliittymälle.
@@ -109,9 +110,11 @@ public class SaliGUIController {
     }
     
     
-    //===========================================================================================    
-    // Tästä eteenpäin oleva koodi ei liity suoraan käyttöliittymään    
+//===========================================================================================    
+// Tästä eteenpäin oleva koodi ei liity suoraan käyttöliittymään    
             
+    private Sali sali;
+    
     
     /**
      * Alustaa kerhon lukemalla sen valitun nimisestä tiedostosta
@@ -161,5 +164,14 @@ public class SaliGUIController {
     public boolean voikoSulkea() {
         tallenna();
         return true;
+    }
+
+
+    /**
+     * Asetetaan käytettävä sali
+     * @param sali sali, jota käytetään tässä käyttöliittymässä
+     */
+    public void setSali(Sali sali) {
+        this.sali = sali;
     }
 }

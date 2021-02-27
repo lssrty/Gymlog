@@ -3,6 +3,7 @@ package fxSali;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
+import sali.Sali;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
@@ -27,6 +28,8 @@ public class SaliMain extends Application {
             primaryStage.setScene(scene);
             primaryStage.setTitle("Sali");
             
+            Sali sali = new Sali();
+            saliCtrl.setSali(sali);
             // Platform.setImplicitExit(false); // tätä ei kai saa laittaa
 
             primaryStage.setOnCloseRequest((event) -> {

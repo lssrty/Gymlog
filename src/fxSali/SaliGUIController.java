@@ -190,6 +190,7 @@ public class SaliGUIController {
     /**
      * Lisätään käyttäjälle uusi suoritus
      * TODO: Luo suorituksen yhteys käyttäjän tiettyyn harjoitukseen
+     * TODO: Muuta luotu suoritus näyttämään liikettä, eikä sen ID:tä
      */
     private void lisaaSuoritus() {
         Suoritus suoritus = new Suoritus();

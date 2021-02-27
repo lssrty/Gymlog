@@ -1,11 +1,15 @@
 package fxSali;
 
+import fi.jyu.mit.fxgui.Chooser;
 import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
+import fi.jyu.mit.fxgui.StringGrid;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import sali.SailoException;
 import sali.Sali;
+import sali.Suoritus;
 
 /**
  * Controller ohjelman pääkäyttöliittymälle.
@@ -16,7 +20,7 @@ import sali.Sali;
 public class SaliGUIController {
 
     @FXML private ComboBoxChooser<String> cbPvm;
-    @FXML private ComboBoxChooser<String> cbLisaaSuoritus;
+    @FXML private StringGrid<Suoritus> sgSuoritukset;
     
     private String kayttajanimi = "Harjoittelija";
 
@@ -25,7 +29,8 @@ public class SaliGUIController {
      * Lisää suoritusvalikkoon uuden rivin
      */
     @FXML void handleLisaaSuoritus() {
-        Dialogs.showMessageDialog("Ei osata vielä lisätä uutta suoritusta");
+        // Dialogs.showMessageDialog("Ei osata vielä lisätä uutta suoritusta");
+        lisaaSuoritus();
     }
     
     
@@ -167,6 +172,39 @@ public class SaliGUIController {
     }
 
 
+    /**
+     * Hakee suoritusten tiedot listaan
+     */
+    private void hae() {
+       sgSuoritukset.clear();
+        
+        for (int i = 0; i < sali.getSuorituksia(); i++) {
+            Suoritus suoritus = sali.annaSuoritus(i);
+            sgSuoritukset.add(suoritus);
+    
+    sgSuoritukset.setOnCellString( (g, suor, defValue, r, c) -> suoritus.anna(c) );
+        }
+    }
+    
+    
+    /**
+     * Lisätään käyttäjälle uusi suoritus
+     * TODO: Luo suorituksen yhteys käyttäjän tiettyyn harjoitukseen
+     */
+    private void lisaaSuoritus() {
+        Suoritus suoritus = new Suoritus();
+        suoritus.rekisteroi();
+        suoritus.taytaKyykkyTiedoilla();    //TODO: Luo tyhjä rivi, johon voi kirjoittaa halutut tiedot. Jos ei onnistu, luo dialogi.
+        try {
+            sali.lisaa(suoritus);
+        } catch (SailoException e) {
+            Dialogs.showMessageDialog("Ongelmia uuden suorituksen lisäämisessä " + e.getMessage());
+            return;
+        }
+        hae();
+    }
+    
+    
     /**
      * Asetetaan käytettävä sali
      * @param sali sali, jota käytetään tässä käyttöliittymässä

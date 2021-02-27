@@ -8,6 +8,7 @@ import java.io.PrintStream;
 import static kanta.RasitusTarkistus.*;
 
 /**
+ * TODO: Poista turhat getterit, anna toteuttaa saman switchillä varmaankin kaikissa tarvittavissa tilanteissa?
  * |------------------------------------------------------------------------|
  * | Luokan nimi: Suoritus                              | Avustajat:        |
  * |-------------------------------------------------------------------------
@@ -70,6 +71,76 @@ public class Suoritus {
      */
     public int getLiikeID() {
         return liikeID;
+    }
+    
+    
+    /**
+     * @return suorituksen sarjamäärä
+     * @example
+     * <pre name="test">
+     *   Suoritus kyykkysarja = new Suoritus();
+     *   kyykkysarja.taytaKyykkyTiedoilla();
+     *   kyykkysarja.getSarjat() === 3;
+     * </pre>
+     */
+    public int getSarjat() {
+        return sarjat;
+    }
+    
+    
+    /**
+     * @return suorituksen toistomäärät
+     * @example
+     * <pre name="test">
+     *   Suoritus kyykkysarja = new Suoritus();
+     *   kyykkysarja.taytaKyykkyTiedoilla();
+     *   kyykkysarja.getToistot() === 5;
+     * </pre>
+     */
+    public int getToistot() {
+        return toistot;
+    }
+    
+    
+    /**
+     * @return Sarjapainot
+     * @example
+     * <pre name="test">
+     *   Suoritus kyykkysarja = new Suoritus();
+     *   kyykkysarja.taytaKyykkyTiedoilla();
+     *   kyykkysarja.getPainot() ~~~ 160;
+     * </pre>
+     */
+    public double getPainot() {
+        return painot;
+    }
+    
+    
+    /**
+     * @return rasitus
+     * @example
+     * <pre name="test">
+     *   Suoritus kyykkysarja = new Suoritus();
+     *   kyykkysarja.taytaKyykkyTiedoilla();
+     *   kyykkysarja.getRasitus() ~~~ 8;
+     * </pre>
+     */
+    public double getRasitus() {
+        return rasitus;
+    }
+    
+    
+    /**
+     * @return suorituksen kommentit
+     * @example
+     * <pre name="test">
+     *   Suoritus kyykkysarja = new Suoritus();
+     *   kyykkysarja.taytaKyykkyTiedoilla();
+     *   kyykkysarja.getKommentit() === "Selkä kipeä";
+     * </pre>
+     */
+    public String getKommentit() {
+        return kommentit;
     }
     
     
@@ -139,7 +210,32 @@ public class Suoritus {
         return tunnusNro;
     }
     
-
+    
+    /**
+     * Kertoo, minkä sarakkeen kohdalle palautetaan mitäkin tietoa
+     * @param i sarakkeen indeksi
+     * @return sarakkeeseen tuleva tieto
+     * @example
+     * <pre name="test">
+     *   Suoritus kyykkysarja = new Suoritus();
+     *   kyykkysarja.taytaKyykkyTiedoilla();
+     *   kyykkysarja.anna(5) === "Selkä kipeä";
+     * </pre>
+     */
+    public String anna(int i) {
+        switch (i) {
+            case 0: return ""+liikeID;
+            case 1: return ""+sarjat;
+            case 2: return ""+toistot;
+            case 3: return ""+painot;
+            case 4: return ""+rasitus;
+            case 5: return kommentit;
+            default: break;
+        }
+        return "";
+    }
+    
+    
     /**
      *
      * @param args ei käytössä
@@ -158,5 +254,4 @@ public class Suoritus {
         kyykkysarja2.tulosta(System.out);
         
     }
-
 }

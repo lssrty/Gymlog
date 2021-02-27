@@ -13,7 +13,7 @@ package sali;
  * | - huolehtii suoritukset, liikkeet ja harjoitukset  | - Liikkeet        |
  * |   välisestä yhteistyöstä ja välittää niiden tietoja| - Harjoitukset    |
  * |   pyydettäessä                                     | - Suoritus        |
- * | - lukee ja kirjoittaa harjoittelijan tiedostoon    | - Liike           | <- TODO: tiedoston lukeminen ja kirjoittaminen
+ * | - lukee ja kirjoittaa käyttäjän tiedostoon         | - Liike           | <- TODO: tiedoston lukeminen ja kirjoittaminen
  * |   pyytämällä apua avustajiltaan                    | - Harjoitus       |
  * | - osaa muuttaa liikkeen id:n liikkeen nimeksi      |                   |<- TODO: liikkeen id:n muuttaminen liikkeen nimeksi
  * |                                                    |                   |

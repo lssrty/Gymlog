@@ -155,7 +155,7 @@ public class Suoritus {
         toistot = 5;
         painot = 160;
         rasitus = 8;
-        kommentit = "Selkä kipeä";
+        kommentit = "Selkä kipeä " + ((int) (Math.random() * (999 - 1)) + 1);
     }
     
     

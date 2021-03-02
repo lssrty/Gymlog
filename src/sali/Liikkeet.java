@@ -38,6 +38,8 @@ public class Liikkeet implements Iterable<Liike> {
     private boolean muutettu = false;
     private int lkm = 0;
     private Liike[] alkiot;
+    
+    private String tiedostonNimi = "";
 
     
     /**
@@ -119,6 +121,29 @@ public class Liikkeet implements Iterable<Liike> {
         muutettu = true; 
         return 1; 
     } 
+    
+    
+    /**
+     * Lukee liikkeet tiedostosta.  
+     * TODO Kesken.
+     * @param hakemisto tiedoston hakemisto
+     * @throws SailoException jos lukeminen epäonnistuu
+     */
+    public void lueTiedostosta(String hakemisto) throws SailoException {
+        tiedostonNimi = hakemisto + ".lii";
+        throw new SailoException("Ei osata vielä lukea tiedostoa " + tiedostonNimi);
+    }
+
+
+    /**
+     * Tallentaa jäsenistön tiedostoon.  
+     * TODO Kesken.
+     * @throws SailoException jos talletus epäonnistuu
+     */
+    public void talleta() throws SailoException {
+        throw new SailoException("Ei osata vielä tallettaa tiedostoa " + tiedostonNimi);
+    }
+
     
     
     /**

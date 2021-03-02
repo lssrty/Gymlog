@@ -12,6 +12,7 @@ import sali.Sali;
 import sali.Suoritus;
 
 /**
+ * TODO: Selvitä, miksi StringGrid näyttää samaa suoritusta moneen kertaan
  * Controller ohjelman pääkäyttöliittymälle.
  * @author lasse
  * @version 24 Jan 2021
@@ -77,20 +78,6 @@ public class SaliGUIController {
     
     @FXML private void handleTallenna() {
         tallenna();
-    }
-    
-    
-    
-    
-    /*
-     * Pitäisi kutsua uusiHarjoitus-metodia toisen harjoituksen luomiseksi samalle päivälle.
-     * En osaa kuitenkaan vielä lukea Combo boxin tekstiä ja toteuttaa sillä ehtolausetta.
-     * En tiedä miksi kyseinen getSelectedText() ei yksinään toimi.
-     */
-    @FXML
-    void Select() {
-        String harjoitus = cbPvm.getSelectedText();
-        if (harjoitus == "Uusi harjoitus...") uusiHarjoitus();
     }
     
     

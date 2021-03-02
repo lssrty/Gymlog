@@ -46,10 +46,8 @@ public class Suoritukset {
     /**
      * Lisätään uusi suoritus taulukkoon
      * @param suoritus lisättävä suoritus
-     * @throws SailoException jos tietorakenne on jo täynnä
      * @example
      * <pre name="test">
-     * #THROWS SailoException
      * Suoritukset suoritukset = new Suoritukset();
      * Suoritus kyykkysarja1 = new Suoritus(), kyykkysarja2 = new Suoritus();
      * suoritukset.getLkm() === 0;
@@ -67,11 +65,17 @@ public class Suoritukset {
      * suoritukset.lisaa(kyykkysarja1); suoritukset.getLkm() === 6;
      * suoritukset.lisaa(kyykkysarja1); suoritukset.getLkm() === 7;
      * suoritukset.lisaa(kyykkysarja1); suoritukset.getLkm() === 8;
-     * suoritukset.lisaa(kyykkysarja1);  #THROWS SailoException
+     * suoritukset.lisaa(kyykkysarja1); suoritukset.getLkm() === 9; // Tässä luodaan kasvatettu taulukko, jotta kaikki mahtuu
      * </pre>
      */
-    public void lisaa(Suoritus suoritus) throws SailoException {
-        if ( lkm >= alkiot.length) throw new SailoException("Liikaa alkioita");
+    public void lisaa(Suoritus suoritus) {
+        if ( lkm >= alkiot.length) {
+            Suoritus[] kasvatettuAlkiot = new Suoritus[alkiot.length + MAX_SUORITUKSIA];
+            for (int i = 0; i < alkiot.length; i++) {
+                kasvatettuAlkiot[i] = alkiot[i];
+            }
+            alkiot = kasvatettuAlkiot;
+        }
         alkiot[lkm] = suoritus;
         lkm++;
     }
@@ -110,17 +114,22 @@ public class Suoritukset {
         kyykkysarja2.rekisteroi();
         kyykkysarja2.taytaKyykkyTiedoilla();
         
-        try {
-            suoritukset.lisaa(kyykkysarja);
-            suoritukset.lisaa(kyykkysarja2);
-        } catch (SailoException e) {
-            System.err.println(e.getMessage());
-        }
+        suoritukset.lisaa(kyykkysarja);
+        suoritukset.lisaa(kyykkysarja2);
+        suoritukset.lisaa(kyykkysarja2);
+        suoritukset.lisaa(kyykkysarja2);
+        suoritukset.lisaa(kyykkysarja2);
+        suoritukset.lisaa(kyykkysarja2);
+        suoritukset.lisaa(kyykkysarja2);
+        suoritukset.lisaa(kyykkysarja2);
+        suoritukset.lisaa(kyykkysarja2);
+        suoritukset.lisaa(kyykkysarja);
 
         
         System.out.println("======================= Suoritukset testi ====================");
         
         for (int i = 0; i < suoritukset.getLkm(); i++) {
+            System.out.println("");
             Suoritus suoritus = suoritukset.anna(i);
             System.out.println("Suoritusindeksi: " + i);
             suoritus.tulosta(System.out);

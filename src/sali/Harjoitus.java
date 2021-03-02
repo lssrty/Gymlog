@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * TODO: Harjoitus-luokka toimivaksi
  * |------------------------------------------------------------------------|
  * | Luokan nimi: Harjoitus                             | Avustajat:        |
  * |-------------------------------------------------------------------------

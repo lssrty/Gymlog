@@ -49,7 +49,6 @@ public class Liikkeet implements Iterable<Liike> {
     
     
     /**
-     * TODO: Taulukon koon kasvaminen tarvittaessa
      * Lisätään uusi liike taulukkoon
      * @param liike lisättävä suoritus
      * @throws SailoException jos tietorakenne on jo täynnä
@@ -72,11 +71,18 @@ public class Liikkeet implements Iterable<Liike> {
      * liikkeet.anna(3) === kyykky; #THROWS IndexOutOfBoundsException
      * liikkeet.lisaa(dippi); liikkeet.getLkm() === 4;
      * liikkeet.lisaa(pystypunnerrus); liikkeet.getLkm() === 5;
-     * liikkeet.lisaa(alatalja);  #THROWS SailoException
+     * liikkeet.lisaa(alatalja);  liikkeet.getLkm() === 6;
      * </pre>
      */
     public void lisaa(Liike liike) throws SailoException {
-        if ( lkm >= alkiot.length) throw new SailoException("Liikaa alkioita");
+        if ( lkm >= alkiot.length) {
+            Liike[] kasvatettuAlkiot = new Liike[alkiot.length + MAX_LIIKKEITA];
+            for (int i = 0; i < alkiot.length; i++) {
+                kasvatettuAlkiot[i] = alkiot[i];
+            }
+            alkiot = kasvatettuAlkiot;
+        }
+        
         if ( Arrays.asList(alkiot).contains(liike) == true )
             throw new SailoException("Sama liike on jo olemassa");
         alkiot[lkm] = liike;
@@ -312,6 +318,7 @@ public class Liikkeet implements Iterable<Liike> {
         System.out.println("======================= Suoritukset testi ====================");
         
         for (int i = 0; i < liikkeet.getLkm(); i++) {
+            System.out.println("");
             Liike liike = liikkeet.anna(i);
             System.out.println("Liikeindeksi: " + i);
             liike.tulosta(System.out);

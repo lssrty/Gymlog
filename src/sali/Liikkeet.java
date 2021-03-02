@@ -49,6 +49,7 @@ public class Liikkeet implements Iterable<Liike> {
     
     
     /**
+     * TODO: Taulukon koon kasvaminen tarvittaessa
      * Lisätään uusi liike taulukkoon
      * @param liike lisättävä suoritus
      * @throws SailoException jos tietorakenne on jo täynnä

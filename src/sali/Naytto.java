@@ -4,7 +4,7 @@
 package sali;
 
 /**
- * TODO: Naytto-luokkaan toimminnallisuutta
+ * TODO: Naytto-luokkaan toiminnallisuutta
  * |------------------------------------------------------------------------|
  * | Luokan nimi: Naytto                                | Avustajat:        |
  * |-------------------------------------------------------------------------

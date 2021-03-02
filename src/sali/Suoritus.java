@@ -181,8 +181,8 @@ public class Suoritus {
     
     
     /**
-     * Antaa jäsenelle seuraavan rekisterinumeron.
-     * @return jäsenen uusi tunnusNro
+     * Antaa suoritukselle seuraavan rekisterinumeron.
+     * @return suorituksen uusi tunnusNro
      * @example
      * <pre name="test">
      *   Suoritus kyykkysarja1 = new Suoritus();

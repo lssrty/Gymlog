@@ -10,10 +10,9 @@
 
 <BorderPane prefHeight="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxSali.SaliLiikkeetController">
 <bottom>
-<ButtonBar prefHeight="40.0">
+<ButtonBar prefHeight="40.0" >
 <buttons>
-<Button cancelButton="true" mnemonicParsing="false" onAction="#handleLiikeHistoria" text="Historia" />
-            <Button mnemonicParsing="false" onAction="#handleLisaaLiike" text="Lisää liike" />
+<Button cancelButton="true" mnemonicParsing="false" onAction="#handleLiikeHistoria" text="Historia"/>
             <Button mnemonicParsing="false" onAction="#handlePoistaLiike" text="Poista liike" />
 </buttons>
          <BorderPane.margin>

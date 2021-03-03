@@ -4,7 +4,6 @@
 package sali;
 
 /**
- * TODO: Sali-luokkaan toiminnallisuutta
  * |------------------------------------------------------------------------|
  * | Luokan nimi: Sali                                  | Avustajat:        |
  * |-------------------------------------------------------------------------
@@ -56,7 +55,7 @@ public class Sali {
      * sali.lisaa(kyykkysarja1); sali.getSuorituksia() === 6;
      * sali.lisaa(kyykkysarja1); sali.getSuorituksia() === 7;
      * sali.lisaa(kyykkysarja1); sali.getSuorituksia() === 8;
-     * sali.lisaa(kyykkysarja1);            #THROWS SailoException
+     * sali.lisaa(kyykkysarja1); sali.getSuorituksia() === 9;
      * </pre>
      */
     public void lisaa(Suoritus suoritus) throws SailoException {
@@ -73,9 +72,9 @@ public class Sali {
     
 
     /**
-     * Antaa kerhon i:nnen jäsenen
-     * @param i monesko jäsen
-     * @return jäsen paikasta i
+     * Antaa harjoittelijan i:nnen suorituksen
+     * @param i monesko suoritus
+     * @return suoritus paikasta i
      */
     public Suoritus annaSuoritus(int i) {
         return suoritukset.anna(i);

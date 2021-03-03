@@ -157,22 +157,7 @@ public class SaliGUIController {
         tallenna();
         return true;
     }
-
-
-    /**
-     * Hakee suoritusten tiedot listaan
-     */
-    private void hae() {
-       sgSuoritukset.clear();
-        
-        for (int i = 0; i < sali.getSuorituksia(); i++) {
-            Suoritus suoritus = sali.annaSuoritus(i);
-            sgSuoritukset.add(suoritus);
-    
-    sgSuoritukset.setOnCellString( (g, suor, defValue, r, c) -> suoritus.anna(c) );
-        }
-    }
-    
+ 
     
     /**
      * Lisätään käyttäjälle uusi suoritus
@@ -180,7 +165,7 @@ public class SaliGUIController {
      * TODO: Muuta luotu suoritus näyttämään liikettä, eikä sen ID:tä
      */
     private void lisaaSuoritus() {
-        Suoritus suoritus = new Suoritus();
+        Suoritus suoritus = new Suoritus(); //TODO: Lisää tähän parametriksi harjoitus, johon lisätään
         suoritus.rekisteroi();
         suoritus.taytaKyykkyTiedoilla();    //TODO: Luo tyhjä rivi, johon voi kirjoittaa halutut tiedot. Jos ei onnistu, luo dialogi.
         try {
@@ -189,7 +174,11 @@ public class SaliGUIController {
             Dialogs.showMessageDialog("Ongelmia uuden suorituksen lisäämisessä " + e.getMessage());
             return;
         }
-        hae();
+        
+        String[] rivi = new String[6];
+        for (int k=0; k < rivi.length; k++)
+            rivi[k] = suoritus.anna(k);
+        sgSuoritukset.add(suoritus, rivi);
     }
     
     

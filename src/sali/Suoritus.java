@@ -8,7 +8,7 @@ import java.io.PrintStream;
 import static kanta.RasitusTarkistus.*;
 
 /**
- * TODO: Poista turhat getterit, anna toteuttaa saman switchillä varmaankin kaikissa tarvittavissa tilanteissa?
+ * TODO: Poista turhat getterit, anna(int i) toteuttaa saman switchillä varmaankin kaikissa tarvittavissa tilanteissa?
  * |------------------------------------------------------------------------|
  * | Luokan nimi: Suoritus                              | Avustajat:        |
  * |-------------------------------------------------------------------------
@@ -160,6 +160,7 @@ public class Suoritus {
     
     
     /**
+     * TODO: Tulostuksessa muuta liikkeen ID liikkeen nimeksi
      * Tulostetaan suorituksen tiedot
      * @param out tietovirta, johon tulostetaan
      */

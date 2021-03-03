@@ -11,7 +11,7 @@ package sali;
  * |                                                    | - Suoritus        |
  * | - pitää yllä rekisteriä suorituksista, eli osaa    |                   |
  * |   lisätä ja poistaa suorituksia                    |                   |<-- TODO: Suoritusten poisto
- * | - lukee ja kirjoittaa suoritukset tiedostoon       |                   |
+ * | - lukee ja kirjoittaa suoritukset tiedostoon       |                   |<-- TODO: Suoritusten kirjoitus tiedostoon
  * | - osaa etsiä liikkeistä niiden suurimman           |                   | <-- TODO: Liikekohtaisten ennätysten etsintä
  * |   sarjapainon eli ennätyksen                       |                   |
  * |                                                    |                   |

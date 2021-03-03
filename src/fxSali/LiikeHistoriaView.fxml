@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="497.0" prefWidth="354.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxSali.LiikeHistoriaController">
+   <bottom>
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <buttons>
+          <Button defaultButton="true" mnemonicParsing="false" onAction="#handleOK" text="OK" />
+        </buttons>
+         <padding>
+            <Insets right="10.0" />
+         </padding>
+      </ButtonBar>
+   </bottom>
+   <center>
+      <TextArea fx:id="tulostusAlue" editable="false" minWidth="500.0" prefHeight="200.0" prefWidth="200.0" text="Kyykky suoritushistoria (EI VALMIS, MALLIDATAA)&#10;----------------------------------------------&#10;&#10;Harjoitus        |sarjat     |toistot |painot  |rasitus  |kommentit&#10;-----------------------------------------------------------&#10;03.12.2020 16:00 |3&#9;     |5       |160     |8        |Selkä kipeä&#10;05.12.2020 14:33 |3&#9;     |5       |165     |         |&#10;08.12.2020 16:00 |3&#9;     |3       |170     |9        |Ennätystä kohti" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="Consolas" size="12.0" />
+         </font>
+      </TextArea>
+   </center>
+</BorderPane>

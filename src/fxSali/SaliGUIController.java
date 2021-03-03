@@ -12,6 +12,25 @@ import sali.Sali;
 import sali.Suoritus;
 
 /**
+ * |------------------------------------------------------------------------|
+ * | Luokan nimi: Naytto                                | Avustajat:        |
+ * |-------------------------------------------------------------------------
+ * | Vastuualueet:                                      |                   |
+ * |                                                    | - Sali            |
+ * | - hoitaa kaiken näyttöön tulevan tekstin           | - Suoritus        |
+ * | - hoitaa kaiken tiedon pyytämisen käyttäjältä      | - Liike           |
+ * |                                                    | - Harjoitus       |
+ * |                                                    |                   |
+ * |                                                    |                   |
+ * |                                                    |                   |
+ * |                                                    |                   |
+ * |                                                    |                   |
+ * |                                                    |                   |
+ * |                                                    |                   |
+ * |                                                    |                   |
+ * |                                                    |                   |
+ * |                                                    |                   |
+ * |-------------------------------------------------------------------------
  * Controller ohjelman pääkäyttöliittymälle.
  * @author lasse
  * @version 24 Jan 2021

@@ -1,6 +1,7 @@
 package fxSali;
 
 import fi.jyu.mit.fxgui.Dialogs;
+import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
 
@@ -17,7 +18,7 @@ public class SaliLiikkeetController implements ModalControllerInterface<String>{
      * Näyttää historian liikkeen suorituksista
      */
     @FXML void handleLiikeHistoria() {
-        Dialogs.showMessageDialog("Ei osata vielä näyttää liikehistoriaa");
+        ModalController.showModal(SaliLiikkeetController.class.getResource("LiikeHistoriaView.fxml"), "Sali", null, "");
     }
 
 

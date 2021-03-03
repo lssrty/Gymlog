@@ -12,7 +12,6 @@ import sali.Sali;
 import sali.Suoritus;
 
 /**
- * TODO: Selvitä, miksi StringGrid näyttää samaa suoritusta moneen kertaan
  * Controller ohjelman pääkäyttöliittymälle.
  * @author lasse
  * @version 24 Jan 2021

@@ -171,7 +171,7 @@ public class Liike {
         return liikeID;
     }
 
-     
+    
     /**
      * Testiohjelma liikkeelle.
      * @param args ei käytössä

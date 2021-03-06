@@ -3,9 +3,8 @@
  */
 package sali;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.io.*;
+import java.util.*;
 
 
 /**
@@ -37,9 +36,9 @@ public class Liikkeet implements Iterable<Liike> {
     private static final int MAX_LIIKKEITA = 5;
     private boolean muutettu = false;
     private int lkm = 0;
+    private String kokoNimi = "Testi Treenaaja";  // Muuta tyhjäksi, kun ohjelma valmis
+    private String tiedostonPerusNimi = "liikkeet";
     private Liike[] alkiot;
-    
-    private String tiedostonNimi = "";
 
     
     /**
@@ -124,26 +123,114 @@ public class Liikkeet implements Iterable<Liike> {
     
     
     /**
-     * Lukee liikkeet tiedostosta.  
-     * TODO Kesken.
-     * @param hakemisto tiedoston hakemisto
+     * TODO: Testit ei suostu tallentamaan tiedostoa, miksi? Korjaa.
+     * @param tied tiedoston perusnimi
      * @throws SailoException jos lukeminen epäonnistuu
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException 
+     * #import java.io.File;
+     * 
+     *  Liikkeet liikkeet = new Liikkeet();
+     *  Liike kyykky = new Liike(), penkki = new Liike();
+     *  kyykky.rekisteroi();
+     *  kyykky.setLiikeNimi("kyykky");
+     *  penkki.rekisteroi();
+     *  penkki.setLiikeNimi("penkki");
+     *  String hakemisto = "testiliikkeet";
+     *  String tiedNimi = hakemisto+"/liikkeet";
+     *  File ftied = new File(tiedNimi+".dat");
+     *  File dir = new File(hakemisto);
+     *  dir.mkdir();
+     *  ftied.delete();
+     *  liikkeet.lueTiedostosta(tiedNimi); #THROWS SailoException
+     *  liikkeet.lisaa(kyykky);
+     *  liikkeet.lisaa(penkki);
+     *  liikkeet.tallenna();                    // EI ILMEISESTI TALLENNA. MIKSI TOIMII PÄÄOHJELMASSA, MUTTEI TESTEISSÄ?
+     *  liikkeet = new Liikkeet();            // Poistetaan vanhat luomalla uusi
+     *  liikkeet.lueTiedostosta(tiedNimi);  // johon ladataan tiedot tiedostosta. TÄMÄ RIVI AIHEUTTAA ENSIMMÄISEN VIRHEEN
+     *  Iterator<Liike> i = liikkeet.iterator();
+     *  i.next() === kyykky;
+     *  i.next() === penkki;
+     *  i.hasNext() === false;
+     *  liikkeet.lisaa(penkki);
+     *  liikkeet.tallenna();
+     *  ftied.delete() === true;
+     *  File fbak = new File(tiedNimi+".bak");
+     *  fbak.delete() === true;
+     *  dir.delete() === true;
+     * </pre>
      */
-    public void lueTiedostosta(String hakemisto) throws SailoException {
-        tiedostonNimi = hakemisto + ".lii";
-        throw new SailoException("Ei osata vielä lukea tiedostoa " + tiedostonNimi);
+    public void lueTiedostosta(String tied) throws SailoException {
+        setTiedostonPerusNimi(tied);
+        try ( BufferedReader fi = new BufferedReader(new FileReader(getTiedostonNimi())) ) {
+            kokoNimi = fi.readLine();
+            if ( kokoNimi == null ) throw new SailoException("Harjoittelijan nimi puuttuu");
+            String rivi = fi.readLine();
+            if ( rivi == null ) throw new SailoException("Maksimikoko puuttuu");
+            // int maxKoko = Mjonot.erotaInt(rivi,10); // tehdään jotakin
+
+            while ( (rivi = fi.readLine()) != null ) {
+                rivi = rivi.trim();
+                if ( "".equals(rivi) || rivi.charAt(0) == ';' ) continue;
+                Liike liike = new Liike();
+                liike.parse(rivi); // voisi olla virhekäsittely
+                lisaa(liike);
+            }
+            muutettu = false;
+        } catch ( FileNotFoundException e ) {
+            throw new SailoException("Tiedosto " + getTiedostonNimi() + " ei aukea");
+        } catch ( IOException e ) {
+            throw new SailoException("Ongelmia tiedoston kanssa: " + e.getMessage());
+        }
     }
 
 
     /**
-     * Tallentaa jäsenistön tiedostoon.  
-     * TODO Kesken.
-     * @throws SailoException jos talletus epäonnistuu
+     * Luetaan aikaisemmin annetun nimisestä tiedostosta
+     * @throws SailoException jos tulee poikkeus
      */
-    public void talleta() throws SailoException {
-        throw new SailoException("Ei osata vielä tallettaa tiedostoa " + tiedostonNimi);
+    public void lueTiedostosta() throws SailoException {
+        lueTiedostosta(getTiedostonPerusNimi());
     }
 
+
+    /**
+     * Tallentaa liikelistan tiedostoon.  
+     * Tiedoston muoto:
+     * <pre>
+     * Harri harjoittelija
+     * 3
+     * 1|Kyykky
+     * 2|Penkki
+     * 3|Maastaveto
+     * </pre>
+     * @throws SailoException jos talletus epäonnistuu
+     */
+    public void tallenna() throws SailoException {
+        if ( !muutettu ) return;
+
+        File fbak = new File(getBakNimi());
+        File ftied = new File(getTiedostonNimi());
+        fbak.delete(); // if .. System.err.println("Ei voi tuhota");
+        ftied.renameTo(fbak); // if .. System.err.println("Ei voi nimetä");
+
+        try ( PrintWriter fo = new PrintWriter(new FileWriter(ftied.getCanonicalPath())) ) {
+            fo.println(getKokoNimi());
+            fo.println(alkiot.length);
+            for (Liike liike : this) {
+                fo.println(liike.toString());
+            }
+            //} catch ( IOException e ) { // ei heitä poikkeusta
+            //  throw new SailoException("Tallettamisessa ongelmia: " + e.getMessage());
+        } catch ( FileNotFoundException ex ) {
+            throw new SailoException("Tiedosto " + ftied.getName() + " ei aukea");
+        } catch ( IOException ex ) {
+            throw new SailoException("Tiedoston " + ftied.getName() + " kirjoittamisessa ongelmia");
+        }
+
+        muutettu = false;
+    }
     
     
     /**
@@ -182,6 +269,42 @@ public class Liikkeet implements Iterable<Liike> {
         return null; 
     } 
     
+    
+    /**
+     * Palauttaa tiedoston nimen, jota käytetään tallennukseen
+     * @return tallennustiedoston nimi
+     */
+    public String getTiedostonPerusNimi() {
+        return tiedostonPerusNimi;
+    }
+
+
+    /**
+     * Asettaa tiedoston perusnimen ilman tarkenninta
+     * @param nimi tallennustiedoston perusnimi
+     */
+    public void setTiedostonPerusNimi(String nimi) {
+        tiedostonPerusNimi = nimi;
+    }
+
+
+    /**
+     * Palauttaa tiedoston nimen, jota käytetään tallennukseen
+     * @return tallennustiedoston nimi
+     */
+    public String getTiedostonNimi() {
+        return getTiedostonPerusNimi() + ".dat";
+    }
+
+
+    /**
+     * Palauttaa varakopiotiedoston nimen
+     * @return varakopiotiedoston nimi
+     */
+    public String getBakNimi() {
+        return tiedostonPerusNimi + ".bak";
+    }
+
     
     /**
      * Luokka liikkeiden iteroimiseksi.
@@ -267,6 +390,15 @@ public class Liikkeet implements Iterable<Liike> {
     
     
     /**
+     * Palauttaa harjoittelijan koko nimen
+     * @return harjoittelijan koko nimi merkkijononna
+     */
+    public String getKokoNimi() {
+        return kokoNimi;
+    }
+
+    
+    /**
      * Palauttaa luotujen liikkeiden lukumäärän
      * @return liikkeiden lukumäärä
      */
@@ -299,8 +431,9 @@ public class Liikkeet implements Iterable<Liike> {
     
     /**
      * @param args ei käytössä
+     * @throws SailoException poikkeus, jos tiedoston tallennus ei toimi
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SailoException {
         Liikkeet liikkeet = new Liikkeet();
         
         Liike kyykky = new Liike();
@@ -348,7 +481,14 @@ public class Liikkeet implements Iterable<Liike> {
             System.out.println("Liikeindeksi: " + i);
             liike.tulosta(System.out);
         }
-    
+        liikkeet.tallenna();
+        liikkeet.lueTiedostosta("liikkeet");
+        Iterator<Liike> i = liikkeet.iterator();
+        System.out.println("\n" + i.next());
+        System.out.println(i.next());
+        System.out.println(i.next());
+        System.out.println(i.next());
+        System.out.println(i.next());
     }
 
 }

@@ -14,7 +14,7 @@ package sali;
  * |   pyydettäessä                                     | - Suoritus        |
  * | - lukee ja kirjoittaa käyttäjän tiedostoon         | - Liike           | <- TODO: tiedoston lukeminen ja kirjoittaminen
  * |   pyytämällä apua avustajiltaan                    | - Harjoitus       |
- * | - osaa muuttaa liikkeen id:n liikkeen nimeksi      |                   |<- TODO: liikkeen id:n muuttaminen liikkeen nimeksi
+ * | - osaa muuttaa liikkeen id:n liikkeen nimeksi      |                   | <- TODO: liikkeen id:n muuttaminen liikkeen nimeksi
  * |                                                    |                   |
  * |                                                    |                   |
  * |                                                    |                   |

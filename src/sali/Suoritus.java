@@ -132,12 +132,6 @@ public class Suoritus {
     
     /**
      * @return suorituksen kommentit
-     * @example
-     * <pre name="test">
-     *   Suoritus kyykkysarja = new Suoritus();
-     *   kyykkysarja.taytaKyykkyTiedoilla();
-     *   kyykkysarja.getKommentit() === "Selkä kipeä";
-     * </pre>
      */
     public String getKommentit() {
         return kommentit;
@@ -220,7 +214,7 @@ public class Suoritus {
      * <pre name="test">
      *   Suoritus kyykkysarja = new Suoritus();
      *   kyykkysarja.taytaKyykkyTiedoilla();
-     *   kyykkysarja.anna(5) === "Selkä kipeä";
+     *   kyykkysarja.anna(4) === "8.0";
      * </pre>
      */
     public String anna(int i) {

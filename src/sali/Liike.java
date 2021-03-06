@@ -5,6 +5,8 @@ package sali;
 
 import java.io.PrintStream;
 
+import fi.jyu.mit.ohj2.Mjonot;
+
 /**
  * |------------------------------------------------------------------------|
  * | Luokan nimi: Liike                                 | Avustajat:        |
@@ -69,6 +71,60 @@ public class Liike {
     
     
     /**
+     * Asettaa liikeID:n ja samalla varmistaa että
+     * seuraava numero on aina suurempi kuin tähän mennessä suurin.
+     * @param nr asetettava tunnusnumero
+     */
+    private void setLiikeID(int nr) {
+        liikeID = nr;
+        if (liikeID >= seuraavaNro) seuraavaNro = liikeID + 1;
+    }
+
+    
+    /**
+     * Palauttaa liikkeen tiedot merkkijonona jonka voi tallentaa tiedostoon.
+     * @return liikeID ja liikenimi tolppaeroteltuna merkkijonona 
+     * @example
+     * <pre name="test">
+     *   Liike penkki = new Liike();
+     *   penkki.parse("   2  |  penkki");
+     *   penkki.toString() === "2|penkki";
+     * </pre>  
+     */
+    @Override
+    public String toString() {
+        return "" + getLiikeID() + "|" + liikeNimi;
+    }
+
+    
+    /**
+     * Selvittää liikkeen tiedot | erotellusta merkkijonosta
+     * Pitää huolen että seuraavaNro on suurempi kuin tuleva liikeID.
+     * @param rivi josta liikkeen tiedot otetaan
+     * 
+     * @example
+     * <pre name="test">
+     *   Liike penkki = new Liike();
+     *   penkki.parse("   2  |  penkki");
+     *   penkki.getLiikeID() === 2;
+     *   penkki.toString() === "2|penkki";
+     *
+     *   penkki.rekisteroi();
+     *   int n = penkki.getLiikeID();
+     *   penkki.parse(""+(n+20));       // Otetaan merkkijonosta vain liikeID
+     *   penkki.rekisteroi();           // ja tarkistetaan että seuraavalla kertaa tulee yhtä isompi
+     *   penkki.getLiikeID() === n+20+1;
+     *     
+     * </pre>
+     */
+    public void parse(String rivi) {
+        StringBuffer sb = new StringBuffer(rivi);
+        setLiikeID(Mjonot.erota(sb, '|', getLiikeID()));
+        liikeNimi = Mjonot.erota(sb, '|', liikeNimi);
+    }
+
+    
+    /**
      * Palauttaa liikkeen nimen.
      * @return liikkeen nimi
      * @example
@@ -105,9 +161,19 @@ public class Liike {
     public void tulosta(PrintStream out) {
         out.println(String.format("%02d", liikeID) + " " + liikeNimi);
     }
-    
+
     
     /**
+     * Palauttaa lajitteluavaimena liikeID:n
+     */
+    @Override
+    public int hashCode() {
+        return liikeID;
+    }
+
+     
+    /**
+     * Testiohjelma liikkeelle.
      * @param args ei käytössä
      */
     public static void main(String[] args) {
@@ -126,7 +192,9 @@ public class Liike {
     
     kyykky.tulosta(System.out);
     penkki.tulosta(System.out);
-    maastaveto.tulosta(System.out);    
+    maastaveto.tulosta(System.out);
+    
+    System.out.println(kyykky);
     }
 
 }

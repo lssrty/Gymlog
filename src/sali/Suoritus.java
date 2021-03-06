@@ -5,10 +5,14 @@ package sali;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+
+import fi.jyu.mit.ohj2.Mjonot;
+
 import static kanta.RasitusTarkistus.*;
 
 /**
  * TODO: Poista turhat getterit, anna(int i) toteuttaa saman switchillä varmaankin kaikissa tarvittavissa tilanteissa?
+ * TODO: toString, parse, hashcode
  * |------------------------------------------------------------------------|
  * | Luokan nimi: Suoritus                              | Avustajat:        |
  * |-------------------------------------------------------------------------
@@ -139,6 +143,73 @@ public class Suoritus {
     
     
     /**
+     * Palauttaa liikkeen tiedot merkkijonona jonka voi tallentaa tiedostoon.
+     * @return liikeID ja liikenimi tolppaeroteltuna merkkijonona 
+     * @example
+     * <pre name="test">
+     *   Liike penkki = new Liike();
+     *   penkki.parse("   2  |  penkki");
+     *   penkki.toString() === "2|penkki";
+     * </pre>  
+     */
+    @Override
+    public String toString() {
+        return "" +
+                getTunnusNro() + "|" +
+                getHarjoitusID() + "|" +
+                getLiikeID() + "|" +        // TODO: Korvaa liikenimellä ja korvaa getterit anna(i):llä
+                getSarjat() + "|" +
+                getToistot() + "|" +
+                getPainot() + "|" +
+                getRasitus() + "|" +
+                getKommentit();
+    }
+
+    
+    /**
+     * Asettaa tunnusnumeron ja samalla varmistaa että
+     * seuraava numero on aina suurempi kuin tähän mennessä suurin.
+     * @param nr asetettava tunnusnumero
+     */
+    private void setTunnusNro(int nr) {
+        tunnusNro = nr;
+        if (tunnusNro >= seuraavaNro) seuraavaNro = tunnusNro + 1;
+    }
+
+    
+    /**
+     * Selvittää liikkeen tiedot | erotellusta merkkijonosta
+     * Pitää huolen että seuraavaNro on suurempi kuin tuleva tunnusNro.
+     * @param rivi josta liikkeen tiedot otetaan
+     * 
+     * @example
+     * <pre name="test">
+     *   Suoritus kyykkysarja = new Suoritus();
+     *   kyykkysarja.parse("   1  |  1  | 1  | 3 | 5 | 160.0 | 8.0 | Selkä kipeä");
+     *   kyykkysarja.getTunnusNro() === 1;
+     *   kyykkysarja.toString() === "1|1|1|3|5|160.0|8.0|Selkä kipeä";
+     *
+     *   kyykkysarja.rekisteroi();
+     *   int n = kyykkysarja.getTunnusNro();
+     *   kyykkysarja.parse(""+(n+20));       // Otetaan merkkijonosta vain liikeID
+     *   kyykkysarja.rekisteroi();           // ja tarkistetaan että seuraavalla kertaa tulee yhtä isompi
+     *   kyykkysarja.getTunnusNro() === n+20+1;
+     * </pre>
+     */
+    public void parse(String rivi) {
+        StringBuffer sb = new StringBuffer(rivi);
+        setTunnusNro(Mjonot.erota(sb, '|', getTunnusNro()));
+        harjoitusID = Mjonot.erota(sb, '|', harjoitusID);
+        liikeID = Mjonot.erota(sb, '|', liikeID);
+        sarjat = Mjonot.erota(sb, '|', sarjat);
+        toistot = Mjonot.erota(sb, '|', toistot);
+        painot = Mjonot.erota(sb, '|', painot);
+        rasitus = Mjonot.erota(sb, '|', rasitus);
+        kommentit = Mjonot.erota(sb, '|', kommentit);
+    }
+    
+    
+    /**
      * Apumetodi, jolla saadaan täytettyä testiarvot suoritukselle.
      * Harjoituksen ID arvotaan 1-9999 väliltä.
      */
@@ -198,6 +269,16 @@ public class Suoritus {
     
     
     /**
+     * Asettaa lajitteluavaimeksi suorituksen tunnusnumeron
+     */
+    @Override
+    public int hashCode() {
+        return tunnusNro;
+    }
+
+    
+    
+    /**
      * Palauttaa suorituksen tunnusnumeron.
      * @return suorituksen tunnusnumero
      */
@@ -248,5 +329,7 @@ public class Suoritus {
         kyykkysarja2.taytaKyykkyTiedoilla();
         kyykkysarja2.tulosta(System.out);
         
+        System.out.println("\n" + kyykkysarja);
+        System.out.println(kyykkysarja2);
     }
 }

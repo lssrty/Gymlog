@@ -164,7 +164,7 @@ public class Liike {
 
     
     /**
-     * Palauttaa lajitteluavaimena liikeID:n
+     * Asettaa lajitteluavaimeksi liikeID:n
      */
     @Override
     public int hashCode() {

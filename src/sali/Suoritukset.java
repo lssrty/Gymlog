@@ -4,6 +4,7 @@
 package sali;
 
 /**
+ * TODO: Suoritusten tallennus ja lukeminen
  * |------------------------------------------------------------------------|
  * | Luokan nimi: Suoritukset                           | Avustajat:        |
  * |-------------------------------------------------------------------------

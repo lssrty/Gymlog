@@ -7,6 +7,8 @@ import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.StringGrid;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import sali.SailoException;
 import sali.Sali;
 import sali.Suoritus;
@@ -40,9 +42,8 @@ public class SaliGUIController {
 
     @FXML private ComboBoxChooser<String> cbPvm;
     @FXML private StringGrid<Suoritus> sgSuoritukset;
+    @FXML private Label labelVirhe;
     
-    private String kayttajanimi = "Harjoittelija";
-
 
     /*
      * Lisää suoritusvalikkoon uuden rivin
@@ -122,20 +123,53 @@ public class SaliGUIController {
     
 //===========================================================================================    
 // Tästä eteenpäin oleva koodi ei liity suoraan käyttöliittymään    
-            
+    
+    private String kayttajanimi = "Harjoittelija";
     private Sali sali;
+    private Suoritus suoritusKohdalla;
+    private TextArea areaSuoritus = new TextArea();
+    
+    
+    /**
+     * Näyttää suoritusten alapuolella virhetekstin, jos tulee virhe
+     * @param virhe näytettävä virhe
+     */
+    private void naytaVirhe(String virhe) {
+        if ( virhe == null || virhe.isEmpty() ) {
+            labelVirhe.setText("");
+            labelVirhe.getStyleClass().removeAll("virhe");
+            return;
+        }
+        labelVirhe.setText(virhe);
+        labelVirhe.getStyleClass().add("virhe");
+    }
+    
+    
+    private void setTitle(String title) {
+        ModalController.getStage(sgSuoritukset).setTitle(title);  //TODO: Selvitä, mitä getStage tekee, mallissa getStage(hakuehto)
+    }
     
     
     /**
      * Alustaa kerhon lukemalla sen valitun nimisestä tiedostosta
      * @param nimi tiedosto josta kerhon tiedot luetaan
+     * @return null jos onnistuu, muuten virhe tekstinä
      */
-    protected void lueTiedosto(String nimi) {
+    protected String lueTiedosto(String nimi) {
         kayttajanimi = nimi;
-        String virhe = "Ei osata vielä luoda tai lukea tiedostoja";  // TODO: tähän oikea tiedoston lukeminen
-        // if (virhe != null) 
-            Dialogs.showMessageDialog(virhe);
-    }
+        setTitle("Salipäiväkirja - " + kayttajanimi);
+        try {
+            sali.lueTiedostosta(nimi);
+            // hae(0); //TODO: Toteuta hae-metodi suoritusten hakemiseksi sgSuoritukset -listaan
+            return null;
+        } catch (SailoException e) {
+           // hae(0);
+            String virhe = e.getMessage(); 
+            if ( virhe != null ) Dialogs.showMessageDialog(virhe);
+            return virhe;
+        }
+     }
+
     
     
     /**
@@ -161,11 +195,18 @@ public class SaliGUIController {
     
     /**
      * Tietojen tallennus
+     * @return null jos onnistuu, muuten virhe tekstinä
      */
-    private void tallenna() {
-        Dialogs.showMessageDialog("Tallennetetaan (paitsi ei osata vielä)");
+    private String tallenna() {
+        try {
+            sali.tallenna();
+            return null;
+        } catch (SailoException ex) {
+            Dialogs.showMessageDialog("Tallennuksessa ongelmia! " + ex.getMessage());
+            return ex.getMessage();
+        }
     }
-    
+
     
     /**
      * Tarkistetaan onko tallennus tehty
@@ -176,6 +217,9 @@ public class SaliGUIController {
         return true;
     }
  
+ 
+    
+    
     
     /**
      * Lisätään käyttäjälle uusi suoritus

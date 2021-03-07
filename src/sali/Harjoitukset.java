@@ -3,6 +3,13 @@
  */
 package sali;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 
 /**
@@ -31,6 +38,8 @@ import java.util.*;
  */
 public class Harjoitukset implements Iterable<Harjoitus> {
     
+    private boolean muutettu = false;
+    private String tiedostonPerusNimi = "harjoitukset";
     
     /** Taulukko harrastuksista */
     private final Collection<Harjoitus> alkiot = new ArrayList<Harjoitus>();
@@ -50,8 +59,143 @@ public class Harjoitukset implements Iterable<Harjoitus> {
      */
     public void lisaa(Harjoitus har) {
         alkiot.add(har);
+        muutettu = true;
     }
 
+    
+    /**
+     * Lukee harjoitukset tiedostosta.
+     * @param tied tiedoston nimen alkuosa
+     * @throws SailoException jos lukeminen epäonnistuu
+     * 
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException 
+     * #import java.io.File;
+     *  Harjoitukset treenit = new Harjoitukset();
+     *  Harjoitus reeni21 = new Harjoitus(); reeni21.rekisteroi();
+     *  Harjoitus reeni11 = new Harjoitus(); reeni11.rekisteroi();
+     *  Harjoitus reeni22 = new Harjoitus(); reeni22.rekisteroi();
+     *  Harjoitus reeni12 = new Harjoitus(); reeni12.rekisteroi();
+     *  Harjoitus reeni23 = new Harjoitus(); reeni23.rekisteroi();
+     *  String tiedNimi = "testiharjoitukset";
+     *  File ftied = new File(tiedNimi+".dat");
+     *  ftied.delete();
+     *  treenit.lueTiedostosta(tiedNimi); #THROWS SailoException
+     *  treenit.lisaa(reeni21);
+     *  treenit.lisaa(reeni11);
+     *  treenit.lisaa(reeni22);
+     *  treenit.lisaa(reeni12);
+     *  treenit.lisaa(reeni23);
+     *  treenit.tallenna();
+     *  treenit = new Harjoitukset();
+     *  treenit.lueTiedostosta(tiedNimi);
+     *  Iterator<Harjoitus> i = treenit.iterator();
+     *  i.next().toString() === reeni21.toString();
+     *  i.next().toString() === reeni11.toString();
+     *  i.next().toString() === reeni22.toString();
+     *  i.next().toString() === reeni12.toString();
+     *  i.next().toString() === reeni23.toString();
+     *  i.hasNext() === false;
+     *  treenit.lisaa(reeni23);
+     *  treenit.tallenna();
+     *  ftied.delete() === true;
+     *  File fbak = new File(tiedNimi+".bak");
+     *  fbak.delete() === true;
+     * </pre>
+     */
+    public void lueTiedostosta(String tied) throws SailoException {
+        setTiedostonPerusNimi(tied);
+        try ( BufferedReader fi = new BufferedReader(new FileReader(getTiedostonNimi())) ) {
+
+            String rivi;
+            while ( (rivi = fi.readLine()) != null ) {
+                rivi = rivi.trim();
+                if ( "".equals(rivi) || rivi.charAt(0) == ';' ) continue;
+                Harjoitus har = new Harjoitus();
+                har.parse(rivi); // voisi olla virhekäsittely
+                lisaa(har);
+            }
+            muutettu = false;
+
+        } catch ( FileNotFoundException e ) {
+            throw new SailoException("Tiedosto " + getTiedostonNimi() + " ei aukea");
+        } catch ( IOException e ) {
+            throw new SailoException("Ongelmia tiedoston kanssa: " + e.getMessage());
+        }
+    }
+    
+    
+    /**
+     * Luetaan aikaisemmin annetun nimisestä tiedostosta
+     * @throws SailoException jos tulee poikkeus
+     */
+    public void lueTiedostosta() throws SailoException {
+        lueTiedostosta(getTiedostonPerusNimi());
+    }
+    
+    
+    /**
+     * Tallentaa listan harjoituksista viitenumeroineen ja päivämäärineen tiedostoon.  
+     * @throws SailoException jos talletus epäonnistuu
+     */
+    public void tallenna() throws SailoException {
+        if ( !muutettu ) return;
+
+        File fbak = new File(getBakNimi());
+        File ftied = new File(getTiedostonNimi());
+        fbak.delete(); //  if ... System.err.println("Ei voi tuhota");
+        ftied.renameTo(fbak); //  if ... System.err.println("Ei voi nimetä");
+
+        try ( PrintWriter fo = new PrintWriter(new FileWriter(ftied.getCanonicalPath())) ) {
+            for (Harjoitus har : this) {
+                fo.println(har.toString());
+            }
+        } catch ( FileNotFoundException ex ) {
+            throw new SailoException("Tiedosto " + ftied.getName() + " ei aukea");
+        } catch ( IOException ex ) {
+            throw new SailoException("Tiedoston " + ftied.getName() + " kirjoittamisessa ongelmia");
+        }
+
+        muutettu = false;
+    }
+    
+    
+    /**
+     * Palauttaa tiedoston nimen, jota käytetään tallennukseen
+     * @return tallennustiedoston nimi
+     */
+    public String getTiedostonPerusNimi() {
+        return tiedostonPerusNimi;
+    }
+
+
+    /**
+     * Asettaa tiedoston perusnimen ilman tarkenninta
+     * @param nimi tallennustiedoston perusnimi
+     */
+    public void setTiedostonPerusNimi(String nimi) {
+        tiedostonPerusNimi = nimi;
+    }
+
+
+    /**
+     * Palauttaa tiedoston nimen, jota käytetään tallennukseen
+     * @return tallennustiedoston nimi
+     */
+    public String getTiedostonNimi() {
+        return getTiedostonPerusNimi() + ".dat";
+    }
+
+
+    /**
+     * Palauttaa varakopiotiedoston nimen
+     * @return varakopiotiedoston nimi
+     */
+    public String getBakNimi() {
+        return tiedostonPerusNimi + ".bak";
+    }
+    
     
     /**
      * Palauttaa harjoittelijan harjoitusten lukumäärän
@@ -125,8 +269,9 @@ public class Harjoitukset implements Iterable<Harjoitus> {
     /**
      * Testiohjelma harjoituksille
      * @param args ei käytössä
+     * @throws SailoException jos tallennus ei onnistu
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SailoException {
         Harjoitukset treenit = new Harjoitukset();
         Harjoitus reeni1 = new Harjoitus(); reeni1.rekisteroi(); treenit.lisaa(reeni1);
         Harjoitus reeni2 = new Harjoitus(); reeni2.rekisteroi(); treenit.lisaa(reeni2);
@@ -143,6 +288,7 @@ public class Harjoitukset implements Iterable<Harjoitus> {
             har.tulosta(System.out);
         }
     
+        treenit.tallenna();
     }
 
 }

@@ -88,6 +88,7 @@ public class Liikkeet implements Iterable<Liike> {
             throw new SailoException("Sama liike on jo olemassa");
         alkiot[lkm] = liike;
         lkm++;
+        muutettu = true;
     }
     
     
@@ -123,7 +124,6 @@ public class Liikkeet implements Iterable<Liike> {
     
     
     /**
-     * TODO: Testit ei suostu tallentamaan tiedostoa, miksi? Korjaa.
      * @param tied tiedoston perusnimi
      * @throws SailoException jos lukeminen epäonnistuu
      * @example
@@ -146,12 +146,12 @@ public class Liikkeet implements Iterable<Liike> {
      *  liikkeet.lueTiedostosta(tiedNimi); #THROWS SailoException
      *  liikkeet.lisaa(kyykky);
      *  liikkeet.lisaa(penkki);
-     *  liikkeet.tallenna();                    // EI ILMEISESTI TALLENNA. MIKSI TOIMII PÄÄOHJELMASSA, MUTTEI TESTEISSÄ?
-     *  liikkeet = new Liikkeet();            // Poistetaan vanhat luomalla uusi
-     *  liikkeet.lueTiedostosta(tiedNimi);  // johon ladataan tiedot tiedostosta. TÄMÄ RIVI AIHEUTTAA ENSIMMÄISEN VIRHEEN
+     *  liikkeet.tallenna();                    
+     *  liikkeet = new Liikkeet();           
+     *  liikkeet.lueTiedostosta(tiedNimi);
      *  Iterator<Liike> i = liikkeet.iterator();
-     *  i.next() === kyykky;
-     *  i.next() === penkki;
+     *  i.next().toString() === kyykky.toString();
+     *  i.next().toString() === penkki.toString();
      *  i.hasNext() === false;
      *  liikkeet.lisaa(penkki);
      *  liikkeet.tallenna();

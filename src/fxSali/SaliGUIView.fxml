@@ -126,6 +126,7 @@
                   <Insets left="10.0" right="10.0" />
                </VBox.margin>
             </HBox>
+            <Label fx:id="labelVirhe" alignment="CENTER" maxWidth="1.7976931348623157E308" />
          </children>
       </VBox>
    </center>

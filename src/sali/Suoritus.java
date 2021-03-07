@@ -12,7 +12,6 @@ import static kanta.RasitusTarkistus.*;
 
 /**
  * TODO: Poista turhat getterit, anna(int i) toteuttaa saman switchillä varmaankin kaikissa tarvittavissa tilanteissa?
- * TODO: toString, parse, hashcode
  * |------------------------------------------------------------------------|
  * | Luokan nimi: Suoritus                              | Avustajat:        |
  * |-------------------------------------------------------------------------
@@ -48,6 +47,23 @@ public class Suoritus {
     private String  kommentit   = "";
     
     private static int seuraavaNro    = 1;
+    
+    
+    /**
+     * Alustetaan harrastus.  Toistaiseksi ei tarvitse tehdä mitään
+     */
+    public Suoritus() {
+        // Vielä ei tarvita mitään
+    }
+    
+    
+    /**
+     * Alustetaan tietyn harjoituksen suoritus.  
+     * @param harjoitusID suorituksen viitenumero 
+     */
+    public Suoritus(int harjoitusID) {
+        this.harjoitusID = harjoitusID;
+    }
     
     
     /**
@@ -215,6 +231,22 @@ public class Suoritus {
      */
     public void taytaKyykkyTiedoilla() {
         harjoitusID = ((int) (Math.random() * (9999 - 1)) + 1);
+        liikeID = 1;
+        sarjat = 3;
+        toistot = 5;
+        painot = 160;
+        rasitus = 8;
+        kommentit = "Selkä kipeä " + ((int) (Math.random() * (999 - 1)) + 1);
+    }
+    
+    
+    /**
+     * Apumetodi, jolla saadaan täytettyä testiarvot suoritukselle. Tässä versiossa päätetään itse harjoitusID.
+     * Harjoituksen ID arvotaan 1-9999 väliltä.
+     * @param nro kyykkyyn tuleva harjoitusID
+     */
+    public void taytaKyykkyTiedoilla(int nro) {
+        harjoitusID = nro;
         liikeID = 1;
         sarjat = 3;
         toistot = 5;

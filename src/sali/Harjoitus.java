@@ -47,7 +47,7 @@ public class Harjoitus {
      * #import java.time.LocalDateTime;
      * #import java.time.format.DateTimeFormatter;
      * LocalDateTime paivamaara = LocalDateTime.now();
-     * DateTimeFormatter pvmMuotoilija = DateTimeFormatter.ofPattern("dd.MM.yyyy_HH:mm.ss");
+     * DateTimeFormatter pvmMuotoilija = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm.ss");
      * String pvm = paivamaara.format(pvmMuotoilija);
      * Harjoitus treeni = new Harjoitus();
      * treeni.getPvm() === pvm;
@@ -55,7 +55,7 @@ public class Harjoitus {
      */
     public Harjoitus() {
         LocalDateTime paivamaara = LocalDateTime.now();
-        DateTimeFormatter pvmMuotoilija = DateTimeFormatter.ofPattern("dd.MM.yyyy_HH:mm.ss");
+        DateTimeFormatter pvmMuotoilija = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm.ss");
         this.pvm = paivamaara.format(pvmMuotoilija);
     }
     

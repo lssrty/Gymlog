@@ -1,5 +1,7 @@
 package fxSali;
 
+import java.io.IOException;
+
 import fi.jyu.mit.fxgui.Chooser;
 import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
@@ -155,15 +157,20 @@ public class SaliGUIController {
      * @param nimi tiedosto josta kerhon tiedot luetaan
      * @return null jos onnistuu, muuten virhe tekstinä
      */
-    protected String lueTiedosto(String nimi) {
+    protected String lueTiedosto(String nimi) { //Voiko olla private?
         kayttajanimi = nimi;
         setTitle("Salipäiväkirja - " + kayttajanimi);
         try {
             sali.lueTiedostosta(nimi);
-            // hae(0); //TODO: Toteuta hae-metodi suoritusten hakemiseksi sgSuoritukset -listaan
+            String[] rivi = new String[6];
+            for (int i=0; i < sali.getSuorituksia(); i++) {
+                rivi[0] = sali.annaLiike(sali.annaSuoritus(i).getLiikeID()-1).getLiikeNimi();
+                for (int k=1; k < rivi.length; k++)
+                    rivi[k] = sali.annaSuoritus(i).anna(k);
+                sgSuoritukset.add(sali.annaSuoritus(i), rivi);
+            }
             return null;
         } catch (SailoException e) {
-           // hae(0);
             String virhe = e.getMessage(); 
             if ( virhe != null ) Dialogs.showMessageDialog(virhe);
             return virhe;
@@ -238,9 +245,11 @@ public class SaliGUIController {
         }
         
         String[] rivi = new String[6];
-        for (int k=0; k < rivi.length; k++)
+        rivi[0] = sali.annaLiike(suoritus.getLiikeID()-1).getLiikeNimi();
+        for (int k=1; k < rivi.length; k++)
             rivi[k] = suoritus.anna(k);
         sgSuoritukset.add(suoritus, rivi);
+
     }
     
     

@@ -164,20 +164,17 @@ public class Liikkeet implements Iterable<Liike> {
     public void lueTiedostosta(String tied) throws SailoException {
         setTiedostonPerusNimi(tied);
         try ( BufferedReader fi = new BufferedReader(new FileReader(getTiedostonNimi())) ) {
-            kokoNimi = fi.readLine();
-            if ( kokoNimi == null ) throw new SailoException("Harjoittelijan nimi puuttuu");
-            String rivi = fi.readLine();
-            if ( rivi == null ) throw new SailoException("Maksimikoko puuttuu");
-            // int maxKoko = Mjonot.erotaInt(rivi,10); // tehdään jotakin
 
+            String rivi;
             while ( (rivi = fi.readLine()) != null ) {
                 rivi = rivi.trim();
                 if ( "".equals(rivi) || rivi.charAt(0) == ';' ) continue;
-                Liike liike = new Liike();
-                liike.parse(rivi); // voisi olla virhekäsittely
-                lisaa(liike);
+                Liike lii = new Liike();
+                lii.parse(rivi); // voisi olla virhekäsittely
+                lisaa(lii);
             }
             muutettu = false;
+
         } catch ( FileNotFoundException e ) {
             throw new SailoException("Tiedosto " + getTiedostonNimi() + " ei aukea");
         } catch ( IOException e ) {
@@ -216,8 +213,6 @@ public class Liikkeet implements Iterable<Liike> {
         ftied.renameTo(fbak); // if .. System.err.println("Ei voi nimetä");
 
         try ( PrintWriter fo = new PrintWriter(new FileWriter(ftied.getCanonicalPath())) ) {
-            fo.println(getKokoNimi());
-            fo.println(alkiot.length);
             for (Liike liike : this) {
                 fo.println(liike.toString());
             }

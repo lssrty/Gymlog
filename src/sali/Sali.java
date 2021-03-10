@@ -4,6 +4,7 @@
 package sali;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
@@ -130,17 +131,27 @@ public class Sali {
     
     
     /**
-     * Asettaa tiedostojen perusnimet
+     * Asettaa tiedostojen perusnimet ja luo tyhjät tiedostot suoritukset.dat, liikkeet.dat ja harjoitukset.dat
+     * jos niitä ei ole vielä ole olemassa
      * @param nimi uusi nimi
+     * @throws IOException Jos tyhjien pohjatiedostojen luonnin kanssa on ongelmia
      */
-    public void setTiedosto(String nimi) {
+    public void setTiedosto(String nimi) throws IOException {
         File dir = new File(nimi);
         dir.mkdirs();
         String hakemistonNimi = "";
         if ( !nimi.isEmpty() ) hakemistonNimi = nimi +"/";
-        suoritukset.setTiedostonPerusNimi(hakemistonNimi + "suoritukset");
+        suoritukset.setTiedostonPerusNimi(hakemistonNimi + "suoritukset");        
         liikkeet.setTiedostonPerusNimi(hakemistonNimi + "liikkeet");
         harjoitukset.setTiedostonPerusNimi(hakemistonNimi + "harjoitukset");
+
+        File suorituksetPohja  = new File(suoritukset.getTiedostonNimi());
+        File liikkeetPohja     = new File(liikkeet.getTiedostonNimi());
+        File harjoituksetPohja = new File(harjoitukset.getTiedostonNimi());
+        
+        if (!suorituksetPohja.isFile()) suorituksetPohja.createNewFile();
+        if (!suorituksetPohja.isFile()) liikkeetPohja.createNewFile();
+        if (!suorituksetPohja.isFile()) harjoituksetPohja.createNewFile();
     }
     
     
@@ -148,10 +159,10 @@ public class Sali {
      * Lukee käyttäjän tiedot tiedostosta
      * @param nimi jota käyteään lukemisessa
      * @throws SailoException jos lukeminen epäonnistuu
-     * 
      * @example
      * <pre name="test">
-     * #THROWS SailoException 
+     * #THROWS SailoException
+     * #THROWS IOException 
      * #import java.io.*;
      * #import java.util.*;
      * 
@@ -206,6 +217,7 @@ public class Sali {
      *  ih.hasNext() === false;
      *  sali.lisaa(reeni2);
      *  sali.lisaa(kyykky4);
+     *  sali.lisaa(kyykky);
      *  sali.tallenna();
      *  fhtied.delete() === true;
      *  fltied.delete() === true;
@@ -214,7 +226,7 @@ public class Sali {
      *  File flbak = new File(hakemisto+"/liikkeet.bak");
      *  File fsbak = new File(hakemisto+"/suoritukset.bak");
      *  fhbak.delete() === true;
-     *  flbak.delete(); // === true; TODO: Selvitä, miksi testi ei luonut liikkeet.bak
+     *  flbak.delete(); // === true;
      *  fsbak.delete() === true; 
      *  dir.delete() === true;
      * </pre>
@@ -224,7 +236,12 @@ public class Sali {
         harjoitukset = new Harjoitukset();
         liikkeet = new Liikkeet();
 
-        setTiedosto(nimi);
+        try {
+            setTiedosto(nimi);
+        } catch (IOException e) {
+            throw new SailoException("Ongelmia tyhjän pohjatiedoston luonnin kanssa: " + e.getMessage());
+        }
+        
         suoritukset.lueTiedostosta();
         harjoitukset.lueTiedostosta();
         liikkeet.lueTiedostosta();
@@ -285,6 +302,16 @@ public class Sali {
      */
     public Suoritus annaSuoritus(int i) {
         return suoritukset.anna(i);
+    }
+    
+    
+    /**
+     * Antaa liikkeistä i:nnen liikkeen
+     * @param i monesko liike
+     * @return liike paikasta i
+     */
+    public Liike annaLiike(int i) {
+        return liikkeet.anna(i);
     }
     
     

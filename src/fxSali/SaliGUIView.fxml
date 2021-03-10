@@ -98,7 +98,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
             </HBox>
-            <StringGrid fx:id="sgSuoritukset" editable="true" emptyStyleClass="" prefHeight="230.0" rivit="Liike|Sarjat|Toistot|Paino|Rasitus|Kommentti&#10;Kyykky|3|6|150&#9;|@9|Rankka oli&#10;Penkki|4|5|110&#9;|@10|&#10;Maastaveto|2|6|180&#9;|@8&#9;|Kevyttä :)">
+            <StringGrid fx:id="sgSuoritukset" editable="true" emptyStyleClass="" prefHeight="230.0" rivit="Liike|Sarjat|Toistot|Paino|Rasitus|Kommentti">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>

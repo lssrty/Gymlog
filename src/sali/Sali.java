@@ -82,7 +82,7 @@ public class Sali {
     
     
     /** 
-     * Palauttaa "taulukossa" hakuehtoon (comboboxin päivämäärään) vastaavien suoritusten viitteet 
+     * Palauttaa "taulukossa" hakuehtoon (eli comboboxin päivämäärään) vastaavien suoritusten viitteet 
      * @param k etsittävän kentän indeksi  
      * @return tietorakenteen löytyneistä suorituksista 
      * @throws SailoException Jos jotakin menee väärin
@@ -294,6 +294,14 @@ public class Sali {
         return suoritukset.getLkm();
     }
     
+    
+    /**
+     * @return harjoitusten lukumäärä
+     */
+    public int getHarjoituksia() {
+        return harjoitukset.getLkm();
+    }
+    
 
     /**
      * Antaa harjoittelijan i:nnen suorituksen
@@ -312,6 +320,15 @@ public class Sali {
      */
     public Liike annaLiike(int i) {
         return liikkeet.anna(i);
+    }
+    
+    
+    /**
+     * Antaa harjoittelijan harjoitukset listana
+     * @return harjoitus paikasta i
+     */
+    public List<Harjoitus> annaHarjoitukset() {
+        return harjoitukset.annaHarjoitukset();
     }
     
     

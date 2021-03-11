@@ -162,6 +162,8 @@ public class SaliGUIController {
         setTitle("Salipäiväkirja - " + kayttajanimi);
         try {
             sali.lueTiedostosta(nimi);
+            
+            // Hakee tallennetut suoritukset stringGridiin, ja muuttaa liikeID:t liikenimiksi
             String[] rivi = new String[6];
             for (int i=0; i < sali.getSuorituksia(); i++) {
                 rivi[0] = sali.annaLiike(sali.annaSuoritus(i).getLiikeID()-1).getLiikeNimi();
@@ -169,6 +171,14 @@ public class SaliGUIController {
                     rivi[k] = sali.annaSuoritus(i).anna(k);
                 sgSuoritukset.add(sali.annaSuoritus(i), rivi);
             }
+            
+            // Hakee tallennetut harjoitukset ComboBoxChooseriin
+            cbPvm.clear(); // Poistaa tyhjän arvon comboBoxista
+            for (int i = sali.getHarjoituksia()-1; i >= 0; i--) {
+                cbPvm.add(sali.annaHarjoitukset().get(i).getPvm());
+            }
+            cbPvm.setSelectedIndex(0);
+            
             return null;
         } catch (SailoException e) {
             String virhe = e.getMessage(); 

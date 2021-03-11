@@ -10,9 +10,9 @@
 
 <BorderPane prefHeight="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxSali.SaliLiikkeetController">
 <bottom>
-<ButtonBar prefHeight="40.0" >
+<ButtonBar prefHeight="40.0">
 <buttons>
-<Button cancelButton="true" mnemonicParsing="false" onAction="#handleLiikeHistoria" text="Historia"/>
+<Button cancelButton="true" mnemonicParsing="false" onAction="#handleLiikeHistoria" text="Historia" />
             <Button mnemonicParsing="false" onAction="#handlePoistaLiike" text="Poista liike" />
 </buttons>
          <BorderPane.margin>
@@ -34,7 +34,7 @@
       </Label>
    </top>
    <center>
-      <StringGrid editable="true" rivit="liike|ennätys|pvm&#10;kyykky|1x180kg|30.10.2020&#10;penkki|1x130kg|30.12.2020&#10;maastaveto|2x210kg|15.07.2018&#10;pystypunnerrus|6x60kg|04.01.2021" BorderPane.alignment="CENTER">
+      <StringGrid editable="true" rivit="liike|ennätys|pvm&#10;kyykky|1x180kg|30.10.2020&#10;penkki|1x130kg|30.12.2020&#10;maastaveto|2x210kg|15.07.2018" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </BorderPane.margin>

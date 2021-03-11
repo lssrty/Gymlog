@@ -150,8 +150,8 @@ public class Sali {
         File harjoituksetPohja = new File(harjoitukset.getTiedostonNimi());
         
         if (!suorituksetPohja.isFile()) suorituksetPohja.createNewFile();
-        if (!suorituksetPohja.isFile()) liikkeetPohja.createNewFile();
-        if (!suorituksetPohja.isFile()) harjoituksetPohja.createNewFile();
+        if (!liikkeetPohja.isFile()) liikkeetPohja.createNewFile();
+        if (!harjoituksetPohja.isFile()) harjoituksetPohja.createNewFile();
     }
     
     

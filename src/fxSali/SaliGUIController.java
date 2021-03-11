@@ -11,9 +11,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import sali.SailoException;
-import sali.Sali;
-import sali.Suoritus;
+import sali.*;
 
 /**
  * |------------------------------------------------------------------------|
@@ -69,6 +67,7 @@ public class SaliGUIController {
     /*
      * Lisää uuden harjoituksen. Ohjelma lisää avatessa automaattisesti uuden harjoituksen per päivä,
      * mutta jos halutaan luoda useampi harjoitus samalle päivälle, niin se onnistuu tällä.
+     * TODO: Mieti, onko sittenkään järkevää luoda automaattisesti uutta harjoitusta ohjelmaa avatessa
      */
     @FXML private void handleLisaaHarjoitus() {
         uusiHarjoitus();
@@ -151,6 +150,32 @@ public class SaliGUIController {
         ModalController.getStage(sgSuoritukset).setTitle(title);  //TODO: Selvitä, mitä getStage tekee, mallissa getStage(hakuehto)
     }
     
+    /**
+     * Hakee tallennetut harjoitukset ComboBoxChooseriin
+     */
+    private void haeHarjoitukset() {
+        cbPvm.clear(); // Poistaa tyhjän arvon comboBoxista
+        for (int i = sali.getHarjoituksia()-1; i >= 0; i--) {
+            cbPvm.add(sali.annaHarjoitukset().get(i).getPvm());
+        }
+        cbPvm.setSelectedIndex(0);
+    }
+    
+    
+    /**
+     * Hakee tallennetut suoritukset stringGridiin, ja muuttaa liikeID:t liikenimiksi
+     * TODO: overloadattu funktio mille annetaan parametriksi liikeID? Hakisi tietyn liikkeen suoritushistorian
+     */
+    private void haeSuoritukset() {
+        String[] rivi = new String[6];
+        for (int i=0; i < sali.getSuorituksia(); i++) {
+            rivi[0] = sali.annaLiike(sali.annaSuoritus(i).getLiikeID()-1).getLiikeNimi();
+            for (int k=1; k < rivi.length; k++)
+                rivi[k] = sali.annaSuoritus(i).anna(k);
+            sgSuoritukset.add(sali.annaSuoritus(i), rivi);
+        }
+    }
+    
     
     /**
      * Alustaa kerhon lukemalla sen valitun nimisestä tiedostosta
@@ -163,21 +188,9 @@ public class SaliGUIController {
         try {
             sali.lueTiedostosta(nimi);
             
-            // Hakee tallennetut suoritukset stringGridiin, ja muuttaa liikeID:t liikenimiksi
-            String[] rivi = new String[6];
-            for (int i=0; i < sali.getSuorituksia(); i++) {
-                rivi[0] = sali.annaLiike(sali.annaSuoritus(i).getLiikeID()-1).getLiikeNimi();
-                for (int k=1; k < rivi.length; k++)
-                    rivi[k] = sali.annaSuoritus(i).anna(k);
-                sgSuoritukset.add(sali.annaSuoritus(i), rivi);
-            }
+            haeSuoritukset();
             
-            // Hakee tallennetut harjoitukset ComboBoxChooseriin
-            cbPvm.clear(); // Poistaa tyhjän arvon comboBoxista
-            for (int i = sali.getHarjoituksia()-1; i >= 0; i--) {
-                cbPvm.add(sali.annaHarjoitukset().get(i).getPvm());
-            }
-            cbPvm.setSelectedIndex(0);
+            haeHarjoitukset();
             
             return null;
         } catch (SailoException e) {
@@ -202,11 +215,20 @@ public class SaliGUIController {
     
     
     /**
-     * Lisää automaattisesti avauspäivälle luodun harjoituksen lisäksi
-     * uuden harjoituksen eri kellonajalla
+     * Lisää uuden harjoituksen
      */
     public void uusiHarjoitus() {
-        Dialogs.showMessageDialog("Ei osata vielä lisätä uutta harjoitusta");
+        Harjoitus harjoitus = new Harjoitus(); //TODO: Lisää tähän parametriksi harjoitus, johon lisätään
+        harjoitus.rekisteroi(); //TODO: Luo tyhjä rivi, johon voi kirjoittaa halutut tiedot. Jos ei onnistu, luo dialogi.
+        
+        try {
+            sali.lisaa(harjoitus);
+        } catch (SailoException e) {
+            Dialogs.showMessageDialog("Ongelmia uuden suorituksen lisäämisessä " + e.getMessage());
+            return;
+        }
+        
+        haeHarjoitukset();        
     }
     
     
@@ -235,9 +257,6 @@ public class SaliGUIController {
     }
  
  
-    
-    
-    
     /**
      * Lisätään käyttäjälle uusi suoritus
      * TODO: Luo suorituksen yhteys käyttäjän tiettyyn harjoitukseen

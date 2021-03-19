@@ -230,7 +230,6 @@ public class Suoritus {
      * Harjoituksen ID arvotaan 1-9999 väliltä.
      */
     public void taytaKyykkyTiedoilla() {
-        harjoitusID = ((int) (Math.random() * (9999 - 1)) + 1);
         liikeID = 1;
         sarjat = 3;
         toistot = 5;

@@ -325,7 +325,7 @@ public class Sali {
     
     /**
      * Antaa harjoittelijan harjoitukset listana
-     * @return harjoitus paikasta i
+     * @return Lista harjoituksista
      */
     public List<Harjoitus> annaHarjoitukset() {
         return harjoitukset.annaHarjoitukset();

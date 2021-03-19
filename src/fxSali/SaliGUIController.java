@@ -1,6 +1,8 @@
 package fxSali;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import fi.jyu.mit.fxgui.Chooser;
 import fi.jyu.mit.fxgui.ComboBoxChooser;
@@ -9,6 +11,7 @@ import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.StringGrid;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import sali.*;
@@ -38,13 +41,24 @@ import sali.*;
  * @version 24 Jan 2021
  *
  */
-public class SaliGUIController {
+public class SaliGUIController implements Initializable {
 
-    @FXML private ComboBoxChooser<String> cbPvm;
+    @FXML private ComboBoxChooser<Harjoitus> cbPvm;
     @FXML private StringGrid<Suoritus> sgSuoritukset;
     @FXML private Label labelVirhe;
     
 
+    /**
+     * Alustaa salipäiväkirjan
+     * @param url ei käytössä
+     * @param bundle ei käytössä
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle bundle) {
+        alusta();      
+    }
+    
+    
     /*
      * Lisää suoritusvalikkoon uuden rivin
      */
@@ -128,7 +142,17 @@ public class SaliGUIController {
     private String kayttajanimi = "Harjoittelija";
     private Sali sali;
     private Suoritus suoritusKohdalla;
+    private Harjoitus harjoitusKohdalla;
     private TextArea areaSuoritus = new TextArea();
+    
+    
+    /**
+     * Tekee tarvittavat muut alustukset. Alustetaan mm.harjoitus-comboboxin kuuntelija.
+     */
+    protected void alusta() {
+        cbPvm.clear();
+        cbPvm.addSelectionListener(e -> naytaHarjoitus());
+    }
     
     
     /**
@@ -156,9 +180,21 @@ public class SaliGUIController {
     private void haeHarjoitukset() {
         cbPvm.clear(); // Poistaa tyhjän arvon comboBoxista
         for (int i = sali.getHarjoituksia()-1; i >= 0; i--) {
-            cbPvm.add(sali.annaHarjoitukset().get(i).getPvm());
+            cbPvm.add(sali.annaHarjoitukset().get(i)); //TODO: Piilota harjoitusID, näytä pelkkä päivämäärä?
         }
         cbPvm.setSelectedIndex(0);
+    }
+    
+    
+    /**
+     * Asettaa nykyiseksi harjoitukseksi cbPvm:stä valitun harjoituksen.
+     * Vaikuttaa uuden suorituksen harjoitusID:hen, sekä siihen,
+     * minkä harjoituksen suoritukset näkyvät StringGridissä.
+     */
+    protected void naytaHarjoitus() {
+        harjoitusKohdalla = cbPvm.getSelectedObject();
+        if (harjoitusKohdalla == null) return;
+        haeSuoritukset();
     }
     
     
@@ -167,18 +203,21 @@ public class SaliGUIController {
      * TODO: overloadattu funktio mille annetaan parametriksi liikeID? Hakisi tietyn liikkeen suoritushistorian
      */
     private void haeSuoritukset() {
+        sgSuoritukset.clear();
         String[] rivi = new String[6];
         for (int i=0; i < sali.getSuorituksia(); i++) {
-            rivi[0] = sali.annaLiike(sali.annaSuoritus(i).getLiikeID()-1).getLiikeNimi();
-            for (int k=1; k < rivi.length; k++)
-                rivi[k] = sali.annaSuoritus(i).anna(k);
-            sgSuoritukset.add(sali.annaSuoritus(i), rivi);
+            if (sali.annaSuoritus(i).getHarjoitusID() == harjoitusKohdalla.getHarjoitusID()) {
+                rivi[0] = sali.annaLiike(sali.annaSuoritus(i).getLiikeID()-1).getLiikeNimi();
+                for (int k=1; k < rivi.length; k++)
+                    rivi[k] = sali.annaSuoritus(i).anna(k);
+                sgSuoritukset.add(sali.annaSuoritus(i), rivi);
+            }
         }
     }
     
     
     /**
-     * Alustaa kerhon lukemalla sen valitun nimisestä tiedostosta
+     * Alustaa salin lukemalla sen valitun nimisestä tiedostosta
      * @param nimi tiedosto josta kerhon tiedot luetaan
      * @return null jos onnistuu, muuten virhe tekstinä
      */
@@ -188,9 +227,8 @@ public class SaliGUIController {
         try {
             sali.lueTiedostosta(nimi);
             
-            haeSuoritukset();
-            
             haeHarjoitukset();
+            haeSuoritukset();
             
             return null;
         } catch (SailoException e) {
@@ -210,6 +248,10 @@ public class SaliGUIController {
         String uusinimi = SaliSplashController.kysyNimi(null, kayttajanimi);
         if (uusinimi == null) return false;
         lueTiedosto(uusinimi);
+        if (harjoitusKohdalla == null) {
+            uusiHarjoitus();
+            sali.annaHarjoitukset().get(0);
+        }
         return true;
     }
     
@@ -263,7 +305,12 @@ public class SaliGUIController {
      * TODO: Muuta luotu suoritus näyttämään liikettä, eikä sen ID:tä
      */
     private void lisaaSuoritus() {
-        Suoritus suoritus = new Suoritus(); //TODO: Lisää tähän parametriksi harjoitus, johon lisätään
+        if (harjoitusKohdalla == null) {
+            Dialogs.showMessageDialog("Luo ensin harjoitus\nsuoritukselle");
+            return;
+        }
+        
+        Suoritus suoritus = new Suoritus(harjoitusKohdalla.getHarjoitusID());
         suoritus.rekisteroi();
         suoritus.taytaKyykkyTiedoilla();    //TODO: Luo tyhjä rivi, johon voi kirjoittaa halutut tiedot. Jos ei onnistu, luo dialogi.
         try {

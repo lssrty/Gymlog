@@ -18,9 +18,9 @@ import java.util.List;
  * | - huolehtii suoritukset, liikkeet ja harjoitukset  | - Liikkeet        |
  * |   välisestä yhteistyöstä ja välittää niiden tietoja| - Harjoitukset    |
  * |   pyydettäessä                                     | - Suoritus        |
- * | - lukee ja kirjoittaa käyttäjän tiedostoon         | - Liike           | <- TODO: tiedoston lukeminen ja kirjoittaminen
+ * | - lukee ja kirjoittaa käyttäjän tiedostoon         | - Liike           | 
  * |   pyytämällä apua avustajiltaan                    | - Harjoitus       |
- * | - osaa muuttaa liikkeen id:n liikkeen nimeksi      |                   | <- TODO: liikkeen id:n muuttaminen liikkeen nimeksi
+ * | - osaa muuttaa liikkeen id:n liikkeen nimeksi      |                   | 
  * |                                                    |                   |
  * |                                                    |                   |
  * |                                                    |                   |
@@ -187,7 +187,7 @@ public class Sali {
      *  fhtied.delete();
      *  fltied.delete();
      *  fstied.delete();
-     *  sali.lueTiedostosta(hakemisto); #THROWS SailoException
+     *  sali.lueTiedostosta(hakemisto);
      *  sali.lisaa(reeni1);
      *  sali.lisaa(reeni2);
      *  sali.lisaa(kyykky1);
@@ -314,12 +314,16 @@ public class Sali {
     
     
     /**
+     * TODO: Antaa tyhjän liikkeen, jos kyseistä liikettä ei ole. Mieti, mikä olisi fiksumpi tapa toteuttaa.
      * Antaa liikkeistä i:nnen liikkeen
      * @param i monesko liike
      * @return liike paikasta i
      */
     public Liike annaLiike(int i) {
-        return liikkeet.anna(i);
+        Liike annettava = new Liike();
+        for (Liike liike : liikkeet)
+            if (liike.getLiikeID() == i) annettava = liike;
+        return annettava;
     }
     
     
@@ -333,6 +337,7 @@ public class Sali {
     
     
     /**
+     * TODO: Isot testit kaikkien luokkien yhteistoiminnasta tähän
      * @param args ei käytössä
      */
     public static void main(String[] args) {

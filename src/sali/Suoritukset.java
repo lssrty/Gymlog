@@ -14,7 +14,7 @@ import java.util.*;
  * |                                                    | - Suoritus        |
  * | - pitää yllä rekisteriä suorituksista, eli osaa    |                   |
  * |   lisätä ja poistaa suorituksia                    |                   |<-- TODO: Suoritusten poisto
- * | - lukee ja kirjoittaa suoritukset tiedostoon       |                   |<-- TODO: Suoritusten kirjoitus tiedostoon
+ * | - lukee ja kirjoittaa suoritukset tiedostoon       |                   |
  * | - osaa etsiä liikkeistä niiden suurimman           |                   | <-- TODO: Liikekohtaisten ennätysten etsintä
  * |   sarjapainon eli ennätyksen                       |                   |
  * |                                                    |                   |
@@ -26,7 +26,6 @@ import java.util.*;
  * |                                                    |                   |
  * |                                                    |                   |
  * |-------------------------------------------------------------------------
- * TODO: Uuden alkiot-taulukon luonti, kun vanha on täynnä
  * @author lasse
  * @version 25 Feb 2021
  *

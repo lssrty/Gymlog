@@ -84,8 +84,13 @@ public class Liikkeet implements Iterable<Liike> {
             alkiot = kasvatettuAlkiot;
         }
         
-        if ( Arrays.asList(alkiot).contains(liike) == true )
+        if ( Arrays.asList(alkiot).contains(liike) == true ) // Tarkistaa, onko sama olio lisätty
             throw new SailoException("Sama liike on jo olemassa");
+        for (Liike olemassaoleva : alkiot) {                 // Tarkistaa, onko eri olio samalla nimellä lisätty
+            if (olemassaoleva != null && olemassaoleva.getLiikeNimi() == liike.getLiikeNimi())
+                throw new SailoException("Sama liike on jo olemassa");
+        }
+        
         alkiot[lkm] = liike;
         lkm++;
         muutettu = true;
@@ -468,7 +473,7 @@ public class Liikkeet implements Iterable<Liike> {
         }
 
         
-        System.out.println("======================= Suoritukset testi ====================");
+        System.out.println("======================= Liikkeet testi ====================");
         
         for (int i = 0; i < liikkeet.getLkm(); i++) {
             System.out.println("");

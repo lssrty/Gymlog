@@ -104,7 +104,7 @@ public class SaliGUIController implements Initializable {
      * Liikkeen nimeä klikkaamalla voi nähdä sen suoritushistorian.
      */
     @FXML void handleNaytaLiikkeet() {
-        ModalController.showModal(SaliGUIController.class.getResource("SaliLiikkeetView.fxml"), "Sali", null, "");
+        ModalController.showModal(SaliGUIController.class.getResource("SaliLiikkeetView.fxml"), "Sali", null, sali);
     }
     
 
@@ -206,11 +206,12 @@ public class SaliGUIController implements Initializable {
         sgSuoritukset.clear();
         String[] rivi = new String[6];
         for (int i=0; i < sali.getSuorituksia(); i++) {
-            if (sali.annaSuoritus(i).getHarjoitusID() == harjoitusKohdalla.getHarjoitusID()) {
-                rivi[0] = sali.annaLiike(sali.annaSuoritus(i).getLiikeID()-1).getLiikeNimi();
+            Suoritus suor = sali.annaSuoritus(i);
+            if (suor.getHarjoitusID() == harjoitusKohdalla.getHarjoitusID()) {
+                rivi[0] = sali.annaLiike(suor.getLiikeID()).getLiikeNimi();
                 for (int k=1; k < rivi.length; k++)
-                    rivi[k] = sali.annaSuoritus(i).anna(k);
-                sgSuoritukset.add(sali.annaSuoritus(i), rivi);
+                    rivi[k] = suor.anna(k);
+                sgSuoritukset.add(suor, rivi);
             }
         }
     }
@@ -221,7 +222,7 @@ public class SaliGUIController implements Initializable {
      * @param nimi tiedosto josta kerhon tiedot luetaan
      * @return null jos onnistuu, muuten virhe tekstinä
      */
-    protected String lueTiedosto(String nimi) { //Voiko olla private?
+    protected String lueTiedosto(String nimi) { //TODO: Voiko olla private?
         kayttajanimi = nimi;
         setTitle("Salipäiväkirja - " + kayttajanimi);
         try {
@@ -260,7 +261,7 @@ public class SaliGUIController implements Initializable {
      * Lisää uuden harjoituksen
      */
     public void uusiHarjoitus() {
-        Harjoitus harjoitus = new Harjoitus(); //TODO: Lisää tähän parametriksi harjoitus, johon lisätään
+        Harjoitus harjoitus = new Harjoitus();
         harjoitus.rekisteroi(); //TODO: Luo tyhjä rivi, johon voi kirjoittaa halutut tiedot. Jos ei onnistu, luo dialogi.
         
         try {
@@ -301,8 +302,6 @@ public class SaliGUIController implements Initializable {
  
     /**
      * Lisätään käyttäjälle uusi suoritus
-     * TODO: Luo suorituksen yhteys käyttäjän tiettyyn harjoitukseen
-     * TODO: Muuta luotu suoritus näyttämään liikettä, eikä sen ID:tä
      */
     private void lisaaSuoritus() {
         if (harjoitusKohdalla == null) {
@@ -321,7 +320,7 @@ public class SaliGUIController implements Initializable {
         }
         
         String[] rivi = new String[6];
-        rivi[0] = sali.annaLiike(suoritus.getLiikeID()-1).getLiikeNimi();
+        rivi[0] = sali.annaLiike(suoritus.getLiikeID()).getLiikeNimi();
         for (int k=1; k < rivi.length; k++)
             rivi[k] = suoritus.anna(k);
         sgSuoritukset.add(suoritus, rivi);

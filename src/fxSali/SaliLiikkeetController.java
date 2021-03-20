@@ -3,7 +3,10 @@ package fxSali;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
+import fi.jyu.mit.fxgui.StringGrid;
 import javafx.fxml.FXML;
+import sali.Liike;
+import sali.Sali;
 
 /**
  * Controller ohjelman liikelistalle. TODO: Saata toimivaksi. Jotain säätöä modaalisuuden kanssa?
@@ -11,8 +14,9 @@ import javafx.fxml.FXML;
  * @version 3 Feb 2021
  *
  */
-public class SaliLiikkeetController implements ModalControllerInterface<String>{
+public class SaliLiikkeetController implements ModalControllerInterface<Sali>{
 
+    @FXML private StringGrid<Liike> sgLiikkeet;
     
     /*
      * Näyttää historian liikkeen suorituksista
@@ -41,7 +45,7 @@ public class SaliLiikkeetController implements ModalControllerInterface<String>{
 
 
     @Override
-    public String getResult() {
+    public Sali getResult() {
         // TODO Auto-generated method stub
         return null;
     }
@@ -55,9 +59,14 @@ public class SaliLiikkeetController implements ModalControllerInterface<String>{
 
 
     @Override
-    public void setDefault(String oletus) {
+    public void setDefault(Sali oletus) {
         // TODO Auto-generated method stub
         
     }
+    
+  //===========================================================================================    
+ // Tästä eteenpäin oleva koodi ei liity suoraan käyttöliittymään    
+    
+
 
 }

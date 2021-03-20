@@ -173,7 +173,7 @@ public class Suoritus {
         return "" +
                 getTunnusNro() + "|" +
                 getHarjoitusID() + "|" +
-                getLiikeID() + "|" +        // TODO: Korvaa liikenimellä ja korvaa getterit anna(i):llä
+                getLiikeID() + "|" +        
                 getSarjat() + "|" +
                 getToistot() + "|" +
                 getPainot() + "|" +
@@ -256,7 +256,6 @@ public class Suoritus {
     
     
     /**
-     * TODO: Tulostuksessa muuta liikkeen ID liikkeen nimeksi
      * Tulostetaan suorituksen tiedot
      * @param out tietovirta, johon tulostetaan
      */

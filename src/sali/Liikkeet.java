@@ -59,6 +59,8 @@ public class Liikkeet implements Iterable<Liike> {
      * Liikkeet liikkeet = new Liikkeet();
      * Liike kyykky = new Liike(), penkki = new Liike(), maastaveto = new Liike(), 
      * dippi = new Liike(), pystypunnerrus = new Liike(), alatalja = new Liike();
+     * kyykky.setLiikeNimi("kyykky"); penkki.setLiikeNimi("penkki"); maastaveto.setLiikeNimi("maastaveto");
+     * dippi.setLiikeNimi("dippi"); pystypunnerrus.setLiikeNimi("pystypunnerrus"); alatalja.setLiikeNimi("alatalja");  
      * liikkeet.getLkm() === 0;
      * liikkeet.lisaa(kyykky); liikkeet.getLkm() === 1;
      * liikkeet.lisaa(penkki); liikkeet.getLkm() === 2;
@@ -107,6 +109,7 @@ public class Liikkeet implements Iterable<Liike> {
      * Liikkeet liikkeet = new Liikkeet();
      * Liike kyykky = new Liike(), penkki = new Liike(), maastaveto = new Liike();
      * kyykky.rekisteroi(); penkki.rekisteroi(); maastaveto.rekisteroi();
+     * kyykky.setLiikeNimi("kyykky"); penkki.setLiikeNimi("penkki"); maastaveto.setLiikeNimi("maastaveto"); 
      * int id1 = kyykky.getLiikeID();
      * liikkeet.lisaa(kyykky); liikkeet.lisaa(penkki); liikkeet.lisaa(maastaveto);
      * liikkeet.poista(id1+1) === 1;
@@ -255,6 +258,7 @@ public class Liikkeet implements Iterable<Liike> {
      * Liikkeet liikkeet = new Liikkeet();
      * Liike kyykky = new Liike(), penkki = new Liike(), maastaveto = new Liike();
      * kyykky.rekisteroi(); penkki.rekisteroi(); maastaveto.rekisteroi();
+     * kyykky.setLiikeNimi("kyykky"); penkki.setLiikeNimi("penkki"); maastaveto.setLiikeNimi("maastaveto");
      * int id1 = kyykky.getLiikeID();
      * liikkeet.lisaa(kyykky); liikkeet.lisaa(penkki); liikkeet.lisaa(maastaveto);
      * liikkeet.annaId(id1  ) == kyykky === true;
@@ -317,6 +321,7 @@ public class Liikkeet implements Iterable<Liike> {
      * Liikkeet liikkeet = new Liikkeet();
      * Liike kyykky = new Liike(), penkki = new Liike(), maastaveto = new Liike();
      * kyykky.rekisteroi(); penkki.rekisteroi(); maastaveto.rekisteroi();
+     * kyykky.setLiikeNimi("kyykky"); penkki.setLiikeNimi("penkki"); maastaveto.setLiikeNimi("maastaveto");
      *
      * liikkeet.lisaa(kyykky); liikkeet.lisaa(penkki); liikkeet.lisaa(maastaveto);
      *
@@ -416,6 +421,7 @@ public class Liikkeet implements Iterable<Liike> {
      * Liikkeet liikkeet = new Liikkeet();
      * Liike kyykky = new Liike(), penkki = new Liike(), maastaveto = new Liike();
      * kyykky.rekisteroi(); penkki.rekisteroi(); maastaveto.rekisteroi();
+     * kyykky.setLiikeNimi("kyykky"); penkki.setLiikeNimi("penkki"); maastaveto.setLiikeNimi("maastaveto");
      * int id1 = kyykky.getLiikeID();
      * liikkeet.lisaa(kyykky); liikkeet.lisaa(penkki); liikkeet.lisaa(maastaveto);
      * liikkeet.etsiId(id1+1) === 1;

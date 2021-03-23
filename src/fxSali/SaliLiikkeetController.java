@@ -9,7 +9,7 @@ import sali.Liike;
 import sali.Sali;
 
 /**
- * Controller ohjelman liikelistalle. TODO: Saata toimivaksi. Jotain säätöä modaalisuuden kanssa?
+ * Controller ohjelman liikelistalle. TODO: Tarkista, hakeeko SaliGUIControllerissa olevan salin. Säätöä modaalisuuden kanssa.
  * @author lasse
  * @version 3 Feb 2021
  *

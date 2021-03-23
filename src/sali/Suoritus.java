@@ -8,7 +8,7 @@ import java.io.PrintStream;
 
 import fi.jyu.mit.ohj2.Mjonot;
 
-import static kanta.RasitusTarkistus.*;
+// import static kanta.RasitusTarkistus.*; TODO: Onko turha?
 
 /**
  * TODO: Poista turhat getterit, anna(int i) toteuttaa saman switchillä varmaankin kaikissa tarvittavissa tilanteissa?

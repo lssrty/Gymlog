@@ -1,10 +1,8 @@
 package fxSali;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import fi.jyu.mit.fxgui.Chooser;
 import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;

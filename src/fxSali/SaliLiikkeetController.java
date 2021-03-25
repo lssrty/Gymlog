@@ -7,6 +7,7 @@ import fi.jyu.mit.fxgui.StringGrid;
 import javafx.fxml.FXML;
 import sali.Liike;
 import sali.Sali;
+import sali.Suoritus;
 
 /**
  * Controller ohjelman liikelistalle. TODO: Tarkista, hakeeko SaliGUIControllerissa olevan salin. Säätöä modaalisuuden kanssa.
@@ -67,6 +68,21 @@ public class SaliLiikkeetController implements ModalControllerInterface<Sali>{
   //===========================================================================================    
  // Tästä eteenpäin oleva koodi ei liity suoraan käyttöliittymään    
     
-
-
+    /**
+     * Hakee tallennetut liikkeet StringGridiin, ja etsii niiden sarjaennätyksen sekä ennätyksen päivämäärän
+     * TODO: Miten saadaan tähän SaliGUIControllerin sali?
+     */
+    private void haeLiikkeet() {
+        sgLiikkeet.clear();
+        /*
+        String[] rivi = new String[3];
+         for (int i=0; i < sali.getLiikkeita(); i++) {
+            Liike lii = sali.annaLiike(i);
+            rivi[0] = lii.getLiikeNimi();
+            rivi[1] = "1000"; // TODO : suurimman painon hakeminen
+            rivi[2] = "1.1.2000"; // TODO: Ylläolevan liikkeen harjoituksen pvm hakeminen    
+            sgLiikkeet.add(lii, rivi);
+            }
+        */
+    }   
 }

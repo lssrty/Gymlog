@@ -11,7 +11,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
 import sali.*;
 
 /**
@@ -77,9 +77,8 @@ public class SaliGUIController implements Initializable {
     
     
     /*
-     * Lisää uuden harjoituksen. Ohjelma lisää avatessa automaattisesti uuden harjoituksen per päivä,
-     * mutta jos halutaan luoda useampi harjoitus samalle päivälle, niin se onnistuu tällä.
-     * TODO: Mieti, onko sittenkään järkevää luoda automaattisesti uutta harjoitusta ohjelmaa avatessa
+     * Lisää uuden harjoituksen. Ohjelma lisää avatessa automaattisesti uuden harjoituksen, jos yhtään
+     * harjoitusta ei ole valmiina olemassa
      */
     @FXML private void handleLisaaHarjoitus() {
         uusiHarjoitus();
@@ -139,9 +138,7 @@ public class SaliGUIController implements Initializable {
     
     private String kayttajanimi = "Harjoittelija";
     private Sali sali;
-    private Suoritus suoritusKohdalla;
     private Harjoitus harjoitusKohdalla;
-    private TextArea areaSuoritus = new TextArea();
     
     
     /**
@@ -150,6 +147,41 @@ public class SaliGUIController implements Initializable {
     protected void alusta() {
         cbPvm.clear();
         cbPvm.addSelectionListener(e -> naytaHarjoitus());
+        
+        Suoritus apusuoritus = new Suoritus();
+        int eka = apusuoritus.ekaKentta();
+
+        sgSuoritukset.setOnGridEdit( (g, suoritus, defValue, r, c) -> {
+            if ( c == 0 ) {
+                for (Liike liike : sali.annaLiikkeet()) { 
+                    if (liike.getLiikeNimi().equalsIgnoreCase(defValue)) { // Asetetaan syötettyä liikkeen nimeä vastaava LiikeID
+                        suoritus.asetaLiike(liike);
+                    }
+                }
+                if (!sali.onkoLiike(defValue)) {
+                    Liike uusi = lisaaLiike(defValue);
+                    suoritus.asetaLiike(uusi);
+                }
+            }
+            haeSuoritukset(); // TODO: Nyt siirtää valitsimen aina ylimpään. Haittaako?
+            return defValue;
+        });
+        
+        sgSuoritukset.setOnGridLiveEdit((g, suoritus, defValue, r, c, edit) -> {
+            String virhe = null;
+            if ( c != 0 ) virhe = suoritus.aseta(c+eka,defValue); // tarkistetaan, onko syötetty arvo laillinen
+            if ( virhe == null ) { // jos on, tehdään tämä
+                sali.korvaaTaiLisaa(suoritus); // jotta saadaan muutos
+                edit.setStyle(null); // virhetyyli pois
+                Dialogs.setToolTipText(edit,"");
+                naytaVirhe(virhe);
+            } else {
+                edit.setStyle("-fx-background-color: red"); // virhetyyli päälle
+                Dialogs.setToolTipText(edit,virhe);
+                naytaVirhe(virhe);
+            }
+            return defValue;
+        });
     }
     
     
@@ -309,7 +341,7 @@ public class SaliGUIController implements Initializable {
         
         Suoritus suoritus = new Suoritus(harjoitusKohdalla.getHarjoitusID());
         suoritus.rekisteroi();
-        suoritus.taytaKyykkyTiedoilla();    //TODO: Luo tyhjä rivi, johon voi kirjoittaa halutut tiedot. Jos ei onnistu, luo dialogi.
+        // suoritus.taytaKyykkyTiedoilla();    //TODO: Luo tyhjä rivi, johon voi kirjoittaa halutut tiedot. Jos ei onnistu, luo dialogi.
         try {
             sali.lisaa(suoritus);
         } catch (SailoException e) {
@@ -323,6 +355,24 @@ public class SaliGUIController implements Initializable {
             rivi[k] = suoritus.anna(k);
         sgSuoritukset.add(suoritus, rivi);
 
+    }
+    
+    
+    /**
+     * Lisätään käyttäjälle uusi liike.
+     * TODO: Selvitä, miksi joskus LiikeID saattaa pompata esim. 6 -> 11
+     */
+    private Liike lisaaLiike(String nimi) {
+        Liike liike = new Liike();
+        liike.setLiikeNimi(nimi);
+        liike.rekisteroi();
+        try {
+            sali.lisaa(liike);
+        } catch (SailoException e) {
+            System.err.println(e.getMessage());
+        }
+        return liike;
+        // haeLiikkeet();   
     }
     
     

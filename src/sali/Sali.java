@@ -4,7 +4,10 @@
 package sali;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.List;
 
@@ -32,6 +35,45 @@ import java.util.List;
  * @author lasse
  * @version 26 Feb 2021
  *
+ * Testien alustus
+ * @example
+ * <pre name="testJAVA">
+ * #import sali.SailoException;
+ *  private Sali sali;
+ *  private Suoritus kyykkysarja1;
+ *  private Suoritus kyykkysarja2;
+ *  private int sid1;
+ *  private int sid2;
+ *  private Harjoitus treeni21;
+ *  private Harjoitus treeni11;
+ *  private Harjoitus treeni22; 
+ *  private Harjoitus treeni12; 
+ *  private Harjoitus treeni23;
+ *  
+ *  public void alustaSali() {
+ *    sali = new Sali();
+ *    kyykkysarja1 = new Suoritus(); kyykkysarja1.taytaKyykkyTiedoilla(); kyykkysarja1.rekisteroi();
+ *    kyykkysarja2 = new Suoritus(); kyykkysarja2.taytaKyykkyTiedoilla(); kyykkysarja2.rekisteroi();
+ *    sid1 = kyykkysarja1.getTunnusNro();
+ *    sid2 = kyykkysarja2.getTunnusNro();
+ *    treeni21 = new Harjoitus(); treeni21.rekisteroi();
+ *    treeni11 = new Harjoitus(); treeni11.rekisteroi();
+ *    treeni22 = new Harjoitus(); treeni22.rekisteroi(); 
+ *    treeni12 = new Harjoitus(); treeni12.rekisteroi(); 
+ *    treeni23 = new Harjoitus(); treeni23.rekisteroi();
+ *    try {
+ *    sali.lisaa(kyykkysarja1);
+ *    sali.lisaa(kyykkysarja2);
+ *    sali.lisaa(treeni21);
+ *    sali.lisaa(treeni11);
+ *    sali.lisaa(treeni22);
+ *    sali.lisaa(treeni12);
+ *    sali.lisaa(treeni23);
+ *    } catch ( Exception e) {
+ *       System.err.println(e.getMessage());
+ *    }
+ *  }
+ * </pre>
  */
 public class Sali {
     private Harjoitukset harjoitukset = new Harjoitukset();
@@ -75,10 +117,65 @@ public class Sali {
      * Lisätään uusi harjoitus käyttäjälle
      * @param har lisättävä harjoitus 
      * @throws SailoException jos tulee ongelmia
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException
+     * Sali sali = new Sali();
+     * Harjoitus harjoitus1 = new Harjoitus();
+     * Harjoitus harjoitus2 = new Harjoitus();
+     * sali.getHarjoituksia() === 0;
+     * sali.lisaa(harjoitus1); sali.lisaa(harjoitus2);
+     * sali.getHarjoituksia() === 2;
+     * </pre>
      */
     public void lisaa(Harjoitus har) throws SailoException {
         harjoitukset.lisaa(har);
     }
+    
+    
+    /**
+     * Lisätään uusi liike käyttäjälle
+     * @param lii lisättävä liike 
+     * @throws SailoException jos tulee ongelmia
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException
+     * Sali sali = new Sali();
+     * Liike kyykky = new Liike(), penkki = new Liike();
+     * kyykky.rekisteroi(); penkki.rekisteroi();
+     * kyykky.setLiikeNimi("kyykky");
+     * penkki.setLiikeNimi("penkki");
+     * sali.getLiikkeita() === 0;
+     * sali.lisaa(kyykky); sali.lisaa(penkki);
+     * sali.getLiikkeita() === 2;
+     * </pre>
+     */
+    public void lisaa(Liike lii) throws SailoException {
+        liikkeet.lisaa(lii);
+    }
+    
+    
+    /** 
+     * Korvaa suorituksen tietorakenteessa.  Ottaa suorituksen omistukseensa. 
+     * Etsitään samalla tunnusnumerolla oleva suoritus.  Jos ei löydy, 
+     * niin lisätään uutena suorituksena. 
+     * @param suoritus lisättävän suorituksen viite.  Huom tietorakenne muuttuu omistajaksi 
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException  
+     *  alustaSali();
+     *  Suoritus kyykkysarja5 = new Suoritus();
+     *  kyykkysarja5.rekisteroi();
+     *  sali.getSuorituksia() === 2;
+     *  sali.korvaaTaiLisaa(kyykkysarja1);
+     *  sali.getSuorituksia() === 2;
+     *  sali.korvaaTaiLisaa(kyykkysarja5);
+     *  sali.getSuorituksia() === 3;
+     * </pre>
+     */ 
+    public void korvaaTaiLisaa(Suoritus suoritus) { 
+        suoritukset.korvaaTaiLisaa(suoritus); 
+    } 
     
     
     /** 
@@ -135,8 +232,9 @@ public class Sali {
      * jos niitä ei ole vielä ole olemassa
      * @param nimi uusi nimi
      * @throws IOException Jos tyhjien pohjatiedostojen luonnin kanssa on ongelmia
+     * @throws SailoException Jos kyykyn, penkin ja maastavedon kirjoittaminen uuteen pohjatiedostoon ei onnistu
      */
-    public void setTiedosto(String nimi) throws IOException {
+    public void setTiedosto(String nimi) throws IOException, SailoException {
         File dir = new File(nimi);
         dir.mkdirs();
         String hakemistonNimi = "";
@@ -150,7 +248,16 @@ public class Sali {
         File harjoituksetPohja = new File(harjoitukset.getTiedostonNimi());
         
         if (!suorituksetPohja.isFile()) suorituksetPohja.createNewFile();
-        if (!liikkeetPohja.isFile()) liikkeetPohja.createNewFile();
+        if (!liikkeetPohja.isFile()) {
+            liikkeetPohja.createNewFile();
+            try ( PrintWriter fo = new PrintWriter(new FileWriter(liikkeetPohja.getCanonicalPath())) ) {
+                fo.println("1|Kyykky\n2|Penkki\n3|Maastaveto");
+            } catch ( FileNotFoundException ex ) {
+                throw new SailoException("Tiedosto " + liikkeetPohja.getName() + " ei aukea");
+            } catch ( IOException ex ) {
+                throw new SailoException("Tiedoston " + liikkeetPohja.getName() + " kirjoittamisessa ongelmia");
+            }
+        }
         if (!harjoituksetPohja.isFile()) harjoituksetPohja.createNewFile();
     }
     
@@ -194,9 +301,7 @@ public class Sali {
      *  sali.lisaa(kyykky2);
      *  sali.lisaa(kyykky3);
      *  sali.lisaa(kyykky4);
-     *  sali.lisaa(kyykky);
-     *  sali.lisaa(penkki);
-     *  sali.lisaa(maastaveto); 
+     *  // Tästä poistettu kyykyn, penkin ja maastavedon lisääminen koska ne on nyt oletuksena uudessa liikkeet.datissa
      *  sali.tallenna();
      *  sali = new Sali();
      *  sali.lueTiedostosta(hakemisto);
@@ -217,7 +322,8 @@ public class Sali {
      *  ih.hasNext() === false;
      *  sali.lisaa(reeni2);
      *  sali.lisaa(kyykky4);
-     *  sali.lisaa(kyykky);
+     *  Liike kulmasoutu = new Liike(); kulmasoutu.rekisteroi(); kulmasoutu.setLiikeNimi("kulmasoutu");
+     *  sali.lisaa(kulmasoutu);
      *  sali.tallenna();
      *  fhtied.delete() === true;
      *  fltied.delete() === true;
@@ -275,16 +381,6 @@ public class Sali {
         }
         if ( !"".equals(virhe) ) throw new SailoException(virhe);
     }
-
-    
-    /**
-     * Lisätään uusi liike käyttäjälle
-     * @param lii lisättävä liike 
-     * @throws SailoException jos tulee ongelmia
-     */
-    public void lisaa(Liike lii) throws SailoException {
-        liikkeet.lisaa(lii);
-    }
     
     
     /**
@@ -302,7 +398,37 @@ public class Sali {
         return harjoitukset.getLkm();
     }
     
-
+    
+    /**
+     * @return suoritusten lukumäärä
+     */
+    public int getLiikkeita() {
+        return liikkeet.getLkm();
+    }
+    
+    
+    /**
+     * Tarkastaa, onko käyttäjän liikkeissä jo samannimistä liikettä olemassa
+     * @param liikenimi liikkeen nimi, josta etsitään onko samannimisiä
+     * @return false jos samannimisiä liikkeitä ei ole, true jos on
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException
+     * Sali sali = new Sali();
+     * Liike kyykky = new Liike(), penkki = new Liike();
+     * kyykky.rekisteroi(); penkki.rekisteroi();
+     * kyykky.setLiikeNimi("kyykky");
+     * penkki.setLiikeNimi("penkki");
+     * sali.lisaa(kyykky); sali.lisaa(penkki);
+     * sali.onkoLiike("petteri") === false;
+     * sali.onkoLiike("kyykky") === true;
+     * </pre>
+     */
+    public boolean onkoLiike(String liikenimi) {
+        return liikkeet.onkoLiike(liikenimi);
+    }
+    
+    
     /**
      * Antaa harjoittelijan i:nnen suorituksen
      * @param i monesko suoritus
@@ -333,6 +459,15 @@ public class Sali {
      */
     public List<Harjoitus> annaHarjoitukset() {
         return harjoitukset.annaHarjoitukset();
+    }
+    
+    
+    /**
+     * Antaa harjoittelijan liikkeet listana
+     * @return Lista liikkeistä
+     */
+    public List<Liike> annaLiikkeet() {
+        return liikkeet.annaLiikkeet();
     }
     
     

@@ -58,11 +58,13 @@ public class Liikkeet implements Iterable<Liike> {
      * #THROWS SailoException
      * Liikkeet liikkeet = new Liikkeet();
      * Liike kyykky = new Liike(), penkki = new Liike(), maastaveto = new Liike(), 
-     * dippi = new Liike(), pystypunnerrus = new Liike(), alatalja = new Liike();
+     * dippi = new Liike(), pystypunnerrus = new Liike(), alatalja = new Liike(), testi = new Liike();
      * kyykky.setLiikeNimi("kyykky"); penkki.setLiikeNimi("penkki"); maastaveto.setLiikeNimi("maastaveto");
-     * dippi.setLiikeNimi("dippi"); pystypunnerrus.setLiikeNimi("pystypunnerrus"); alatalja.setLiikeNimi("alatalja");  
+     * dippi.setLiikeNimi("dippi"); pystypunnerrus.setLiikeNimi("pystypunnerrus"); alatalja.setLiikeNimi("alatalja");
+     * testi.setLiikeNimi("kyykky");  
      * liikkeet.getLkm() === 0;
      * liikkeet.lisaa(kyykky); liikkeet.getLkm() === 1;
+     * liikkeet.lisaa(testi); #THROWS SailoException
      * liikkeet.lisaa(penkki); liikkeet.getLkm() === 2;
      * liikkeet.lisaa(maastaveto); liikkeet.getLkm() === 3;
      * liikkeet.lisaa(maastaveto); #THROWS SailoException
@@ -89,7 +91,7 @@ public class Liikkeet implements Iterable<Liike> {
         if ( Arrays.asList(alkiot).contains(liike) == true ) // Tarkistaa, onko sama olio lisätty
             throw new SailoException("Sama liike on jo olemassa");
         for (Liike olemassaoleva : alkiot) {                 // Tarkistaa, onko eri olio samalla nimellä lisätty
-            if (olemassaoleva != null && olemassaoleva.getLiikeNimi() == liike.getLiikeNimi())
+            if (olemassaoleva != null && olemassaoleva.getLiikeNimi().equalsIgnoreCase(liike.getLiikeNimi()))
                 throw new SailoException("Sama liike on jo olemassa");
         }
         
@@ -140,11 +142,13 @@ public class Liikkeet implements Iterable<Liike> {
      * #import java.io.File;
      * 
      *  Liikkeet liikkeet = new Liikkeet();
-     *  Liike kyykky = new Liike(), penkki = new Liike();
+     *  Liike kyykky = new Liike(), penkki = new Liike(), maastaveto = new Liike();
      *  kyykky.rekisteroi();
      *  kyykky.setLiikeNimi("kyykky");
      *  penkki.rekisteroi();
      *  penkki.setLiikeNimi("penkki");
+     *  maastaveto.rekisteroi();
+     *  maastaveto.setLiikeNimi("maastaveto");
      *  String hakemisto = "testiliikkeet";
      *  String tiedNimi = hakemisto+"/liikkeet";
      *  File ftied = new File(tiedNimi+".dat");
@@ -161,7 +165,7 @@ public class Liikkeet implements Iterable<Liike> {
      *  i.next().toString() === kyykky.toString();
      *  i.next().toString() === penkki.toString();
      *  i.hasNext() === false;
-     *  liikkeet.lisaa(penkki);
+     *  liikkeet.lisaa(maastaveto);
      *  liikkeet.tallenna();
      *  ftied.delete() === true;
      *  File fbak = new File(tiedNimi+".bak");
@@ -272,6 +276,31 @@ public class Liikkeet implements Iterable<Liike> {
         } 
         return null; 
     } 
+    
+    
+    /**
+     * Tarkistaa, onko samannimistä liikettä jo olemassa
+     * @param liikenimi liikkeen nimi, jota etsitään jo olemassaolevista
+     * @return false, jos samannimistä liikettä ei ole ja true, jos on.
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException 
+     * Liikkeet liikkeet = new Liikkeet();
+     * Liike kyykky = new Liike(), penkki = new Liike(), maastaveto = new Liike();
+     * kyykky.rekisteroi(); penkki.rekisteroi(); maastaveto.rekisteroi();
+     * kyykky.setLiikeNimi("kyykky"); penkki.setLiikeNimi("penkki"); maastaveto.setLiikeNimi("maastaveto");
+     * liikkeet.lisaa(kyykky); liikkeet.lisaa(penkki); liikkeet.lisaa(maastaveto);
+     * liikkeet.onkoLiike("leuanveto") === false;
+     * liikkeet.onkoLiike("kyykky") === true;
+     * liikkeet.onkoLiike("maastaveto") === true;
+     * </pre>
+     */
+    public boolean onkoLiike(String liikenimi) {
+        boolean onko = false;
+        for (Liike liike : alkiot)
+            if ( liike != null && liike.getLiikeNimi().equalsIgnoreCase(liikenimi)) onko = true;
+        return onko; 
+    }
     
     
     /**
@@ -433,6 +462,36 @@ public class Liikkeet implements Iterable<Liike> {
             if (id == alkiot[i].getLiikeID()) return i; 
         return -1; 
     } 
+    
+    
+    /**
+     * Haetaan kaikki harjoittelijan harjoitukset
+     * @return tietorakenne jossa viiteet löydettyihin harjoituksiin
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException
+     * #import java.util.*;
+
+     *  Liikkeet liikelista = new Liikkeet();
+     *  Liike liike1 = new Liike(); liike1.setLiikeNimi("liike1"); liikelista.lisaa(liike1);
+     *  Liike liike2 = new Liike(); liike2.setLiikeNimi("liike2"); liikelista.lisaa(liike2);
+     *  Liike liike3 = new Liike(); liike3.setLiikeNimi("liike3"); liikelista.lisaa(liike3);
+     *  Liike liike4 = new Liike(); liike4.setLiikeNimi("liike4"); liikelista.lisaa(liike4);
+     *  Liike liike5 = new Liike(); liike5.setLiikeNimi("liike5"); liikelista.lisaa(liike5);
+     *  
+     *  List<Liike> loytyneet;
+     *  loytyneet = liikelista.annaLiikkeet();
+     *  loytyneet.size() === 5; 
+     *  loytyneet.get(0) == liike1 === true;
+     *  loytyneet.get(3) == liike4 === true;
+     * </pre> 
+     */
+    public List<Liike> annaLiikkeet() {
+        List<Liike> loydetyt = new ArrayList<Liike>();
+        for (Liike lii : alkiot)
+            if (lii != null) loydetyt.add(lii);
+        return loydetyt;
+    }
     
     
     /**

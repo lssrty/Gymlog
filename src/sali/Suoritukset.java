@@ -87,6 +87,45 @@ public class Suoritukset implements Iterable<Suoritus> {
     
     
     /**
+     * Korvaa suorituksen tietorakenteessa.  Ottaa suorituksen omistukseensa.
+     * Etsitään samalla tunnusnumerolla oleva suoritus.  Jos ei löydy,
+     * niin lisätään uutena suorituksena.
+     * @param suoritus lisättävän suorituksen viite.  Huom tietorakenne muuttuu omistajaksi
+     * <pre name="test">
+     * #THROWS SailoException,CloneNotSupportedException
+     * #PACKAGEIMPORT
+     * Suoritukset suoritukset = new Suoritukset();
+     * Suoritus kyykkysarja1 = new Suoritus(), kyykkysarja2 = new Suoritus();
+     * kyykkysarja1.rekisteroi(); kyykkysarja2.rekisteroi();
+     * suoritukset.getLkm() === 0;
+     * suoritukset.korvaaTaiLisaa(kyykkysarja1); suoritukset.getLkm() === 1;
+     * suoritukset.korvaaTaiLisaa(kyykkysarja2); suoritukset.getLkm() === 2;
+     * Suoritus kyykkysarja3 = kyykkysarja1.clone();
+     * kyykkysarja3.taytaKyykkyTiedoilla();
+     * Iterator<Suoritus> it = suoritukset.iterator();
+     * it.next() == kyykkysarja1 === true;
+     * suoritukset.korvaaTaiLisaa(kyykkysarja3); suoritukset.getLkm() === 2;
+     * it = suoritukset.iterator();
+     * Suoritus s0 = it.next();
+     * s0 === kyykkysarja3;
+     * s0 == kyykkysarja3 === true;
+     * s0 == kyykkysarja1 === false;
+     * </pre>
+     */
+    public void korvaaTaiLisaa(Suoritus suoritus) {
+        int id = suoritus.getTunnusNro();
+        for (int i = 0; i < lkm; i++) {
+            if ( alkiot[i].getTunnusNro() == id ) {
+                alkiot[i] = suoritus;
+                muutettu = true;
+                return;
+            }
+        }
+        lisaa(suoritus);
+    }
+    
+    
+    /**
      * Lukee suoritukset tiedostosta.
      * @param tied tiedoston nimen alkuosa
      * @throws SailoException jos lukeminen epäonnistuu

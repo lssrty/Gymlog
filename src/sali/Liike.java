@@ -150,7 +150,7 @@ public class Liike {
      * </pre>
      */
     public void setLiikeNimi(String nimi) {
-        liikeNimi = nimi;
+        liikeNimi = nimi.substring(0, 1).toUpperCase() + nimi.substring(1).toLowerCase();
     }
     
     

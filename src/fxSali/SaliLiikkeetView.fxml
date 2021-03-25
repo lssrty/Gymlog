@@ -34,7 +34,7 @@
       </Label>
    </top>
    <center>
-      <StringGrid fx:id="sgLiikkeet" editable="true" rivit="liike|ennätys|pvm&#10;kyykky|1x180kg|30.10.2020&#10;penkki|1x130kg|30.12.2020&#10;maastaveto|2x210kg|15.07.2018" BorderPane.alignment="CENTER">
+      <StringGrid fx:id="sgLiikkeet" rivit="liike|ennätys|pvm" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </BorderPane.margin>

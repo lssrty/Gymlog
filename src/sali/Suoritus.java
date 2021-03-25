@@ -35,7 +35,7 @@ import fi.jyu.mit.ohj2.Mjonot;
  * @author lasse
  * @version 24 Feb 2021
  */
-public class Suoritus {
+public class Suoritus implements Cloneable {
     
     private int     tunnusNro;
     private int     harjoitusID = 0;
@@ -192,6 +192,15 @@ public class Suoritus {
         if (tunnusNro >= seuraavaNro) seuraavaNro = tunnusNro + 1;
     }
 
+    /**
+     * Eka kenttä stringGridistä joka on mielekäs kysyttäväksi. Tällä hetkellä 2, eli sarjat.
+     * TODO: Epäintuitiivinen muuttuja, siirrä suosiolla SaliGUIControllerin alusta-metodiin?
+     * @return ekan kentän indeksi
+     */
+    public int ekaKentta() {
+        return 2;
+    }
+
     
     /**
      * Selvittää liikkeen tiedot | erotellusta merkkijonosta
@@ -225,6 +234,28 @@ public class Suoritus {
     }
     
     
+    /**
+     * Tehdään identtinen klooni suorituksesta
+     * @return Object kloonattu suoritus
+     * @example
+     * <pre name="test">
+     * #THROWS CloneNotSupportedException 
+     *   Suoritus suoritus = new Suoritus();
+     *   suoritus.parse("   3  |  1  | 1");
+     *   Suoritus kopio = suoritus.clone();
+     *   kopio.toString() === suoritus.toString();
+     *   suoritus.parse("   4  |  1   | 1");
+     *   kopio.toString().equals(suoritus.toString()) === false;
+     * </pre>
+     */
+    @Override
+    public Suoritus clone() throws CloneNotSupportedException {
+        Suoritus uusi;
+        uusi = (Suoritus) super.clone();
+        return uusi;
+    }
+
+        
     /**
      * Apumetodi, jolla saadaan täytettyä testiarvot suoritukselle.
      * Harjoituksen ID arvotaan 1-9999 väliltä.
@@ -318,7 +349,8 @@ public class Suoritus {
     
     
     /**
-     * Kertoo, minkä sarakkeen kohdalle palautetaan mitäkin tietoa
+     * Kertoo, minkä sarakkeen kohdalle palautetaan mitäkin tietoa.
+     * Tehty SaliGUIController käyttöä varten, minkä takia caset alkaa vasta liikeID:stä.
      * @param i sarakkeen indeksi
      * @return sarakkeeseen tuleva tieto
      * @example
@@ -340,8 +372,111 @@ public class Suoritus {
         }
         return "";
     }
+
     
+    /**
+     * Asettaa k:n kentän arvoksi parametrina tuodun merkkijonon arvon
+     * @param k kuinka monennen kentän arvo asetetaan
+     * @param jono jonoa joka asetetaan kentän arvoksi
+     * @return null jos asettaminen onnistuu, muuten vastaava virheilmoitus.
+     * @example
+     * <pre name="test">
+     *   Suoritus suoritus = new Suoritus();
+     *   suoritus.aseta(1,"5") === null;
+     *   suoritus.aseta(2,"3") === null;
+     *   suoritus.aseta(2,"asd") === "LiikeID:hen syötetty arvo ei ole numero"; 
+     *   suoritus.aseta(5,"kissa") === "Painoihin syötetty arvo ei ole numero";
+     * </pre>
+     */
+    public String aseta(int k, String jono) {
+        String tjono = jono.trim();
+        StringBuffer sb = new StringBuffer(tjono);
+        switch ( k ) {
+        case 0:
+            setTunnusNro(Mjonot.erota(sb, '§', getTunnusNro()));
+            return null;
+        case 1:
+            try {
+                harjoitusID = Integer.parseInt(tjono);
+             }
+             catch (NumberFormatException e)
+             {
+                return "HarjoitusID:hen syötetty arvo ei ole numero";
+             }
+            return null;
+        case 2:
+            try {
+                liikeID = Integer.parseInt(tjono);
+             }
+             catch (NumberFormatException e)
+             {
+                 return "LiikeID:hen syötetty arvo ei ole numero";
+             }
+            return null;
+        case 3:
+            try {
+                sarjat = Integer.parseInt(tjono);
+             }
+             catch (NumberFormatException e)
+             {
+                 return "Sarjoihin syötetty arvo ei ole numero";
+             }
+            return null;
+        case 4:
+            try {
+                toistot = Integer.parseInt(tjono);
+             }
+             catch (NumberFormatException e)
+             {
+                 return "Toistoihin syötetty arvo ei ole numero";
+             }
+            return null;
+        case 5:
+            try {
+                painot = Double.parseDouble(tjono);
+             }
+             catch (NumberFormatException e)
+             {
+                 return "Painoihin syötetty arvo ei ole numero";
+             }
+            return null;
+        case 6:
+            try {
+                rasitus = Double.parseDouble(tjono);
+             }
+             catch (NumberFormatException e)
+             {
+                 return "Rasitukseen syötetty arvo ei ole numero";
+             }
+            return null;
+        case 7:
+            kommentit = tjono;
+            return null;
+        default:
+            return "Ääliö :D Nyt meni joku pieleen Suoritus.aseta kanssa";
+        }
+    }
+
     
+    /**
+     * Asettaa suoritukselle annetun liikkeen liikeID:n
+     * @param liike liike, jonka ID asetetaan
+     * @example
+     * <pre name="test">
+     * Suoritus kyykkysarja = new Suoritus();
+     * Liike kyykky = new Liike();
+     * kyykky.rekisteroi();
+     * kyykky.setLiikeNimi("kyykky");
+     * kyykkysarja.getLiikeID() === 0;
+     * kyykkysarja.asetaLiike(kyykky);
+     * kyykkysarja.getLiikeID() === kyykky.getLiikeID();
+     * </pre>
+     */
+    public void asetaLiike(Liike liike) {
+        liikeID = liike.getLiikeID();
+    }
+    
+   
     /**
      *
      * @param args ei käytössä

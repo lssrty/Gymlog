@@ -365,8 +365,8 @@ public class Suoritus implements Cloneable {
             case 0: return ""+liikeID;
             case 1: return ""+sarjat;
             case 2: return ""+toistot;
-            case 3: return ""+painot;
-            case 4: return ""+rasitus;
+            case 3: return ""+painot + " kg";
+            case 4: if ( rasitus == 0 ) return ""; return "@ "+rasitus;
             case 5: return kommentit;
             default: break;
         }
@@ -401,7 +401,7 @@ public class Suoritus implements Cloneable {
              }
              catch (NumberFormatException e)
              {
-                return "HarjoitusID:hen syötetty arvo ei ole numero";
+                return "HarjoitusID:hen syötetty arvo ei ole kokonaisluku";
              }
             return null;
         case 2:
@@ -410,7 +410,7 @@ public class Suoritus implements Cloneable {
              }
              catch (NumberFormatException e)
              {
-                 return "LiikeID:hen syötetty arvo ei ole numero";
+                 return "LiikeID:hen syötetty arvo ei ole kokonaisluku";
              }
             return null;
         case 3:
@@ -419,7 +419,7 @@ public class Suoritus implements Cloneable {
              }
              catch (NumberFormatException e)
              {
-                 return "Sarjoihin syötetty arvo ei ole numero";
+                 return "Sarjoihin syötetty arvo ei ole kokonaisluku";
              }
             return null;
         case 4:
@@ -428,7 +428,7 @@ public class Suoritus implements Cloneable {
              }
              catch (NumberFormatException e)
              {
-                 return "Toistoihin syötetty arvo ei ole numero";
+                 return "Toistoihin syötetty arvo ei ole kokonaisluku";
              }
             return null;
         case 5:

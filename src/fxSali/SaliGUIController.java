@@ -101,7 +101,7 @@ public class SaliGUIController implements Initializable {
      * Liikkeen nimeä klikkaamalla voi nähdä sen suoritushistorian.
      */
     @FXML void handleNaytaLiikkeet() {
-        ModalController.showModal(SaliGUIController.class.getResource("SaliLiikkeetView.fxml"), "Sali", null, sali);
+        ModalController.showModal(SaliLiikkeetController.class.getResource("SaliLiikkeetView.fxml"), "Sali", null, sali);
     }
     
 

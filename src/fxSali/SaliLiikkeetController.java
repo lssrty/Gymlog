@@ -1,10 +1,14 @@
 package fxSali;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import fi.jyu.mit.fxgui.StringGrid;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import sali.Liike;
 import sali.Sali;
 import sali.Suoritus;
@@ -15,10 +19,15 @@ import sali.Suoritus;
  * @version 3 Feb 2021
  *
  */
-public class SaliLiikkeetController implements ModalControllerInterface<Sali>{
+public class SaliLiikkeetController implements ModalControllerInterface<Sali>, Initializable {
 
     @FXML private StringGrid<Liike> sgLiikkeet;
     
+    @Override
+    public void initialize(URL url, ResourceBundle bundle) {
+        haeLiikkeet();  
+    }
+
     /*
      * Näyttää historian liikkeen suorituksista
      */
@@ -47,8 +56,7 @@ public class SaliLiikkeetController implements ModalControllerInterface<Sali>{
 
     @Override
     public Sali getResult() {
-        // TODO Auto-generated method stub
-        return null;
+        return sali;
     }
 
 
@@ -61,12 +69,14 @@ public class SaliLiikkeetController implements ModalControllerInterface<Sali>{
 
     @Override
     public void setDefault(Sali oletus) {
-        // TODO Auto-generated method stub
+        sali = oletus;
         
     }
     
   //===========================================================================================    
  // Tästä eteenpäin oleva koodi ei liity suoraan käyttöliittymään    
+    
+    private Sali sali;
     
     /**
      * Hakee tallennetut liikkeet StringGridiin, ja etsii niiden sarjaennätyksen sekä ennätyksen päivämäärän
@@ -74,7 +84,8 @@ public class SaliLiikkeetController implements ModalControllerInterface<Sali>{
      */
     private void haeLiikkeet() {
         sgLiikkeet.clear();
-        /*
+       
+        
         String[] rivi = new String[3];
          for (int i=0; i < sali.getLiikkeita(); i++) {
             Liike lii = sali.annaLiike(i);
@@ -83,6 +94,6 @@ public class SaliLiikkeetController implements ModalControllerInterface<Sali>{
             rivi[2] = "1.1.2000"; // TODO: Ylläolevan liikkeen harjoituksen pvm hakeminen    
             sgLiikkeet.add(lii, rivi);
             }
-        */
-    }   
+        
+    } 
 }

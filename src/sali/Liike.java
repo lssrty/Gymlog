@@ -131,7 +131,7 @@ public class Liike {
      * <pre name="test">
      * Liike dippi = new Liike();
      * dippi.setLiikeNimi("dippi");
-     * dippi.getLiikeNimi() === "dippi";
+     * dippi.getLiikeNimi() === "Dippi";
      * </pre>
      */
     public String getLiikeNimi() {
@@ -146,7 +146,7 @@ public class Liike {
      * <pre name="test">
      * Liike pystypunnerrus = new Liike();
      * pystypunnerrus.setLiikeNimi("pystypunnerrus");
-     * pystypunnerrus.getLiikeNimi() === "pystypunnerrus";
+     * pystypunnerrus.getLiikeNimi() === "Pystypunnerrus";
      * </pre>
      */
     public void setLiikeNimi(String nimi) {

@@ -357,7 +357,7 @@ public class Suoritus implements Cloneable {
      * <pre name="test">
      *   Suoritus kyykkysarja = new Suoritus();
      *   kyykkysarja.taytaKyykkyTiedoilla();
-     *   kyykkysarja.anna(4) === "8.0";
+     *   kyykkysarja.anna(4) === "@ 8.0";
      * </pre>
      */
     public String anna(int i) {
@@ -384,7 +384,7 @@ public class Suoritus implements Cloneable {
      *   Suoritus suoritus = new Suoritus();
      *   suoritus.aseta(1,"5") === null;
      *   suoritus.aseta(2,"3") === null;
-     *   suoritus.aseta(2,"asd") === "LiikeID:hen syötetty arvo ei ole numero"; 
+     *   suoritus.aseta(2,"asd") === "LiikeID:hen syötetty arvo ei ole kokonaisluku"; 
      *   suoritus.aseta(5,"kissa") === "Painoihin syötetty arvo ei ole numero";
      * </pre>
      */

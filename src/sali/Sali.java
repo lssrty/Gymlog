@@ -178,6 +178,26 @@ public class Sali {
     } 
     
     
+    /**
+     * Poistaa suorituksista valitun suorituksen tiedot
+     * @param suoritus suoritus jokapoistetaan
+     * @return montako suoritusta poistettiin
+     * @example
+     * <pre name="test">
+     * #THROWS Exception
+     *   alustaSali();
+     *   sali.getSuorituksia() === 2;
+     *   sali.poista(kyykkysarja1) === 1;
+     *   sali.getSuorituksia() === 1;
+     * </pre>
+     */
+    public int poista(Suoritus suoritus) {
+        if ( suoritus == null ) return 0;
+        int ret = suoritukset.poista(suoritus.getTunnusNro()); 
+        return ret; 
+    }
+    
+    
     /** 
      * Palauttaa "taulukossa" hakuehtoon (eli comboboxin päivämäärään) vastaavien suoritusten viitteet 
      * @param k etsittävän kentän indeksi  
@@ -369,6 +389,14 @@ public class Sali {
         }
 
         try {
+            for (Liike lii : liikkeet) { // Poistetaan muut käyttämättömät liikkeet kuin kyykky, penkki ja maastaveto
+                boolean kaytetty = false;
+                if (lii.getLiikeID() <= 3) kaytetty = true; // Säästetään kyykky, penkki ja maastaveto
+                for (Suoritus suo : suoritukset) { // Katsotaan, onko liikettä tehty missään suorituksessa
+                    if ( lii.getLiikeID() == suo.getLiikeID()) kaytetty = true;
+                }
+            if ( !kaytetty ) liikkeet.poista(lii.getLiikeID());
+            }
             liikkeet.tallenna();
         } catch ( SailoException ex ) {
             virhe += ex.getMessage();

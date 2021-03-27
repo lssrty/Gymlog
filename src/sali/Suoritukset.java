@@ -87,6 +87,67 @@ public class Suoritukset implements Iterable<Suoritus> {
     
     
     /**
+     * Poistaa liikkeen jolla on valittu tunnusNro
+     * @param id poistettavan liikkeen tunnusnumero
+     * @return 1 jos poistettiin, 0 jos ei löydy
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException 
+     * Suoritukset suoritukset = new Suoritukset();
+     * Suoritus kyykkysarja1 = new Suoritus(), kyykkysarja2 = new Suoritus(), kyykkysarja3 = new Suoritus();
+     * kyykkysarja1.rekisteroi(); kyykkysarja2.rekisteroi(); kyykkysarja3.rekisteroi();
+     * suoritukset.lisaa(kyykkysarja1); suoritukset.getLkm() === 1;
+     * suoritukset.lisaa(kyykkysarja2); suoritukset.getLkm() === 2;
+     * suoritukset.lisaa(kyykkysarja3); suoritukset.getLkm() === 3;
+     * suoritukset.anna(0) === kyykkysarja1;
+     * suoritukset.anna(1) == kyykkysarja2 === true;
+     * int id1 = kyykkysarja1.getTunnusNro();
+     * suoritukset.poista(id1+1) === 1;
+     * suoritukset.getLkm() === 2;
+     * suoritukset.poista(id1) === 1; suoritukset.getLkm() === 1;
+     * suoritukset.anna(0) === kyykkysarja3;
+     * suoritukset.poista(id1+3) === 0; suoritukset.getLkm() === 1;
+     * </pre>
+     * 
+     */ 
+    public int poista(int id) { 
+        int ind = etsiId(id); 
+        if (ind < 0) return 0; 
+        lkm--; 
+        for (int i = ind; i < lkm; i++) 
+            alkiot[i] = alkiot[i + 1]; 
+        alkiot[lkm] = null; 
+        muutettu = true; 
+        return 1; 
+    } 
+    
+    
+    /**
+     * Etsii suorituksen tunnusnumeron perusteella
+     * @param id tunnusnumero, jonka mukaan etsitään
+     * @return löytyneen liikkeen indeksi tai -1 jos ei löydy
+     * <pre name="test">
+     * #THROWS SailoException 
+     * Suoritukset suoritukset = new Suoritukset();
+     * Suoritus kyykkysarja1 = new Suoritus(), kyykkysarja2 = new Suoritus(), kyykkysarja3 = new Suoritus();
+     * kyykkysarja1.rekisteroi(); kyykkysarja2.rekisteroi(); kyykkysarja3.rekisteroi();
+     * suoritukset.lisaa(kyykkysarja1); suoritukset.getLkm() === 1;
+     * suoritukset.lisaa(kyykkysarja2); suoritukset.getLkm() === 2;
+     * suoritukset.lisaa(kyykkysarja3); suoritukset.getLkm() === 3;
+
+     * int id1 = kyykkysarja1.getTunnusNro();
+     * suoritukset.etsiId(id1+1) === 1;
+     * suoritukset.etsiId(id1+2) === 2;
+     * </pre>
+     */ 
+    public int etsiId(int id) { 
+        for (int i = 0; i < lkm; i++) 
+            if (id == alkiot[i].getTunnusNro()) return i; 
+        return -1; 
+    } 
+    
+    
+    /**
      * Korvaa suorituksen tietorakenteessa.  Ottaa suorituksen omistukseensa.
      * Etsitään samalla tunnusnumerolla oleva suoritus.  Jos ei löydy,
      * niin lisätään uutena suorituksena.

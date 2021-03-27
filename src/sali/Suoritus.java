@@ -18,11 +18,11 @@ import fi.jyu.mit.ohj2.Mjonot;
  * | Vastuualueet:                                      |                   |
  * |                                                    |                   |
  * | - tietää suorituksen attribuutit(liike,toistot jne)|                   |
- * | - osaa tarkistaa, että rasitus on 1-10 välillä     |                   | // <--- TODO: tee rasituksen arvon tarkistus
+ * | - osaa antaa merkkijonona i:n kentän tiedot        |                   |
  * | - osaa muuttaa 4|2|2|2|1|125|8|Hyvin meni          |                   |
  * |   suorituksen tiedoiksi                            |                   |
  * | - osaa laittaa merkkijonon i:nneksi kentäksi       |                   |
- * | - osaa antaa merkkijonona i:n kentän tiedot        |                   |
+ * |                                                    |                   |
  * |                                                    |                   |
  * |                                                    |                   |
  * |                                                    |                   |

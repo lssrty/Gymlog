@@ -92,7 +92,7 @@ public class SaliLiikkeetController implements ModalControllerInterface<Sali>, I
             rivi[0] = lii.getLiikeNimi();
             rivi[1] = "1000"; // TODO : suurimman painon hakeminen
             rivi[2] = "1.1.2000"; // TODO: Ylläolevan liikkeen harjoituksen pvm hakeminen    
-            sgLiikkeet.add(lii, rivi);
+            sgLiikkeet.add(lii, rivi); // TODO: Vain sellaisten liikkeiden lisäys, millä on suorituksia
             }
         
     } 

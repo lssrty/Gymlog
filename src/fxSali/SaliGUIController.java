@@ -70,9 +70,13 @@ public class SaliGUIController implements Initializable {
      * Poistaa valitun suorituksen, esim. kyykky 3x5x150kg @ 10
      */
     @FXML private void handlePoistaSuoritus() {
-        boolean vastaus = Dialogs.showQuestionDialog("Poisto?",
-                "Poistetaanko suoritus: EI OSATA POISTAA VIELÄ", "Kyllä", "Ei");
-        if ( vastaus ) return;// poistaSuoritus(...
+        int r = sgSuoritukset.getRowNr();
+        Suoritus suoritus = sgSuoritukset.getObject(r);
+        if ( suoritus == null ) return;
+        if ( !Dialogs.showQuestionDialog("Poisto", "Poistetaanko suoritus: " + suoritus.toString(), "Kyllä", "Ei") ) // TODO: Muuta sanomaan vain valittu suoritus
+            return;
+        sali.poista(suoritus);
+        haeSuoritukset();
     }
     
     

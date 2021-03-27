@@ -30,7 +30,6 @@ public class SaliMain extends Application {
             
             Sali sali = new Sali();
             saliCtrl.setSali(sali);
-            // Platform.setImplicitExit(false); // tätä ei kai saa laittaa
 
             primaryStage.setOnCloseRequest((event) -> {
                     if ( !saliCtrl.voikoSulkea() ) event.consume();

@@ -15,7 +15,7 @@ import java.util.*;
  * |                                                    | - Liike           |
  * | - Pitää yllä rekisteriä tallennetuista liikkeistä, |                   |
  * |   eli osaa lisätä ja poistaa liikkeen              |                   |
- * |   (vain liikkeitä joita ei ole tehty voi poistaa)  |                   | <- TODO: Poista vain liikkeitä, joita ei ole tehty
+ * |   (sali poistaa käyttämättömät liikkeet)           |                   |
  * | - lukee ja kirjoittaa liikkeet tiedostoon          |                   |
  * | - huolehtii, ettei samannimistä liikettä voi lisätä|                   |
  * |   kahdesti                                         |                   |

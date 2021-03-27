@@ -49,18 +49,22 @@ import java.util.List;
  *  private Harjoitus treeni22; 
  *  private Harjoitus treeni12; 
  *  private Harjoitus treeni23;
+ *  private Liike pystypunnerrus;
+ *  private Liike dippi;
  *  
  *  public void alustaSali() {
  *    sali = new Sali();
- *    kyykkysarja1 = new Suoritus(); kyykkysarja1.taytaKyykkyTiedoilla(); kyykkysarja1.rekisteroi();
- *    kyykkysarja2 = new Suoritus(); kyykkysarja2.taytaKyykkyTiedoilla(); kyykkysarja2.rekisteroi();
- *    sid1 = kyykkysarja1.getTunnusNro();
- *    sid2 = kyykkysarja2.getTunnusNro();
  *    treeni21 = new Harjoitus(); treeni21.rekisteroi();
  *    treeni11 = new Harjoitus(); treeni11.rekisteroi();
  *    treeni22 = new Harjoitus(); treeni22.rekisteroi(); 
  *    treeni12 = new Harjoitus(); treeni12.rekisteroi(); 
  *    treeni23 = new Harjoitus(); treeni23.rekisteroi();
+ *    kyykkysarja1 = new Suoritus(); kyykkysarja1.taytaKyykkyTiedoilla(treeni21.getHarjoitusID()); kyykkysarja1.rekisteroi();
+ *    kyykkysarja2 = new Suoritus(); kyykkysarja2.taytaKyykkyTiedoilla(treeni11.getHarjoitusID()); kyykkysarja2.rekisteroi();
+ *    pystypunnerrus = new Liike(); pystypunnerrus.rekisteroi(); pystypunnerrus.setLiikeNimi("pystypunnerrus");
+ *    dippi = new Liike(); dippi.rekisteroi(); dippi.setLiikeNimi("dippi");
+ *    sid1 = kyykkysarja1.getTunnusNro();
+ *    sid2 = kyykkysarja2.getTunnusNro();
  *    try {
  *    sali.lisaa(kyykkysarja1);
  *    sali.lisaa(kyykkysarja2);
@@ -69,6 +73,8 @@ import java.util.List;
  *    sali.lisaa(treeni22);
  *    sali.lisaa(treeni12);
  *    sali.lisaa(treeni23);
+ *    sali.lisaa(pystypunnerrus);
+ *    sali.lisaa(dippi);
  *    } catch ( Exception e) {
  *       System.err.println(e.getMessage());
  *    }
@@ -195,6 +201,55 @@ public class Sali {
         if ( suoritus == null ) return 0;
         int ret = suoritukset.poista(suoritus.getTunnusNro()); 
         return ret; 
+    }
+    
+    
+    /** 
+     * Poistaa tämän harjoituksen ja siihen kuuluneet suoritukset
+     * TODO: Miksi ei poista kaikkia tähän kuuluneita suorituksia?
+     * @param harjoitus poistettava harjoitus 
+     * @example
+     * <pre name="test">
+     * #THROWS Exception
+     *   alustaSali();
+     *   sali.annaHarjoitukset().size() === 5;
+     *   kyykkysarja2.getHarjoitusID() === treeni11.getHarjoitusID();
+     *   sali.getSuorituksia() === 2;
+     *   sali.poistaHarjoitus(treeni11);
+     *   sali.getSuorituksia() === 1;
+     *   sali.annaHarjoitukset().size() === 4;
+     */ 
+    public void poistaHarjoitus(Harjoitus harjoitus) { 
+        for (Suoritus suo : suoritukset) {
+            if ( suo.getHarjoitusID() == harjoitus.getHarjoitusID() ) poista(suo);
+        }
+        harjoitukset.poista(harjoitus); 
+    } 
+    
+    
+    /**
+     * Poistaa liikkeet, mitä ei ole merkitty mihinkään suoritukseen
+     * @example
+     * <pre name="test">
+     * alustaSali();
+     * sali.getLiikkeita() === 2;
+     * Suoritus dippisarja = new Suoritus(); 
+     * dippisarja.rekisteroi(); dippisarja.asetaLiike(dippi);
+     * sali.poistaTurhatLiikkeet();
+     * sali.getLiikkeita() === 1;
+     * </pre>
+     */
+    public void poistaTurhatLiikkeet() {
+        for (Liike lii : liikkeet) { // Poistetaan muut käyttämättömät liikkeet kuin kyykky, penkki ja maastaveto
+            boolean kaytetty = false;
+            if (lii.getLiikeID() <= 3) kaytetty = true; // Säästetään kyykky, penkki ja maastaveto
+            for (Suoritus suo : suoritukset) { // Katsotaan, onko liikettä tehty missään suorituksessa
+                if ( lii.getLiikeID() == suo.getLiikeID()) kaytetty = true;
+            }
+            if ( !kaytetty ) {
+                liikkeet.poista(lii.getLiikeID());
+            }
+        }
     }
     
     
@@ -389,14 +444,7 @@ public class Sali {
         }
 
         try {
-            for (Liike lii : liikkeet) { // Poistetaan muut käyttämättömät liikkeet kuin kyykky, penkki ja maastaveto
-                boolean kaytetty = false;
-                if (lii.getLiikeID() <= 3) kaytetty = true; // Säästetään kyykky, penkki ja maastaveto
-                for (Suoritus suo : suoritukset) { // Katsotaan, onko liikettä tehty missään suorituksessa
-                    if ( lii.getLiikeID() == suo.getLiikeID()) kaytetty = true;
-                }
-            if ( !kaytetty ) liikkeet.poista(lii.getLiikeID());
-            }
+            poistaTurhatLiikkeet();
             liikkeet.tallenna();
         } catch ( SailoException ex ) {
             virhe += ex.getMessage();

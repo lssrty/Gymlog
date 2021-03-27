@@ -70,13 +70,7 @@ public class SaliGUIController implements Initializable {
      * Poistaa valitun suorituksen, esim. kyykky 3x5x150kg @ 10
      */
     @FXML private void handlePoistaSuoritus() {
-        int r = sgSuoritukset.getRowNr();
-        Suoritus suoritus = sgSuoritukset.getObject(r);
-        if ( suoritus == null ) return;
-        if ( !Dialogs.showQuestionDialog("Poisto", "Poistetaanko suoritus: " + suoritus.toString(), "Kyllä", "Ei") ) // TODO: Muuta sanomaan vain valittu suoritus
-            return;
-        sali.poista(suoritus);
-        haeSuoritukset();
+        poistaSuoritus();
     }
     
     
@@ -94,9 +88,7 @@ public class SaliGUIController implements Initializable {
      * TODO: Edelliseen harjoitukseen siirtyminen, kun tämänhetkinen poistetaan
      */
     @FXML private void handlePoistaHarjoitus() {
-        boolean vastaus = Dialogs.showQuestionDialog("Poisto?",
-                "Poistetaanko harjoitus: EI OSATA POISTAA VIELÄ", "Kyllä", "Ei");
-        if ( vastaus ) return;// poistaHarjoitus(...
+        poistaHarjoitus();
     }
     
 
@@ -248,6 +240,33 @@ public class SaliGUIController implements Initializable {
                 sgSuoritukset.add(suor, rivi);
             }
         }
+    }
+    
+    /*
+     * Poistetaan valittu suoritus
+     */
+    private void poistaSuoritus() {
+        int r = sgSuoritukset.getRowNr();
+        Suoritus suoritus = sgSuoritukset.getObject(r);
+        if ( suoritus == null ) return;
+        if ( !Dialogs.showQuestionDialog("Poisto", "Poistetaanko suoritus: " + suoritus.toString(), "Kyllä", "Ei") ) // TODO: Muuta sanomaan vain valittu suoritus
+            return;
+        sali.poista(suoritus);
+        haeSuoritukset();
+    }
+    
+    
+    /*
+     * Poistetaan valittu harjoitus ja siihen liitetyt suoritukset
+     */
+    private void poistaHarjoitus() {
+        Harjoitus harjoitus = harjoitusKohdalla;
+        if ( harjoitus == null ) return;
+        if ( !Dialogs.showQuestionDialog(
+                "Poisto", "Poistetaanko harjoitus ja sen suoritukset: " + harjoitus.toString(), "Kyllä", "Ei") )
+            return;
+        sali.poistaHarjoitus(harjoitus);
+        haeHarjoitukset();
     }
     
     

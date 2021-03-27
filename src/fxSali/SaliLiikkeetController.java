@@ -43,16 +43,6 @@ public class SaliLiikkeetController implements ModalControllerInterface<Sali>, I
         Dialogs.showMessageDialog("Ei osata vielä lisätä uutta liikettä");
     }
 
-    
-    /*
-     * Avaa varmistusikkunan valitun liikkeen poistolle
-     */
-    @FXML void handlePoistaLiike() {
-        boolean vastaus = Dialogs.showQuestionDialog("Poisto?",
-                "Poistetaanko liike: EI OSATA POISTAA VIELÄ", "Kyllä", "Ei");
-        if ( vastaus ) return; // poistaLiike(...
-    }
-
 
     @Override
     public Sali getResult() {

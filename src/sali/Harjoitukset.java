@@ -64,6 +64,35 @@ public class Harjoitukset implements Iterable<Harjoitus> {
 
     
     /**
+     * Poistaa valitun harjoituksen
+     * @param harjoitus poistettava harjoitus
+     * @return tosi jos löytyi poistettava tietue 
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException 
+     * #import java.io.File;
+     *  Harjoitukset treenit = new Harjoitukset();
+     *  Harjoitus reeni21 = new Harjoitus(); reeni21.rekisteroi();
+     *  Harjoitus reeni11 = new Harjoitus(); reeni11.rekisteroi();
+     *  Harjoitus reeni22 = new Harjoitus(); reeni22.rekisteroi();
+     *  Harjoitus reeni12 = new Harjoitus(); reeni12.rekisteroi();
+     *  Harjoitus reeni23 = new Harjoitus(); reeni23.rekisteroi(); 
+     *  treenit.lisaa(reeni21);
+     *  treenit.lisaa(reeni11);
+     *  treenit.lisaa(reeni22);
+     *  treenit.lisaa(reeni12);
+     *  treenit.poista(reeni23) === false;  treenit.getLkm() === 4;
+     *  treenit.poista(reeni11) === true;   treenit.getLkm() === 3;
+     * </pre>
+     */
+    public boolean poista(Harjoitus harjoitus) {
+        boolean ret = alkiot.remove(harjoitus);
+        if (ret) muutettu = true;
+        return ret;
+    }
+    
+    
+    /**
      * Lukee harjoitukset tiedostosta.
      * @param tied tiedoston nimen alkuosa
      * @throws SailoException jos lukeminen epäonnistuu

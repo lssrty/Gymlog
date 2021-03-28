@@ -261,7 +261,25 @@ public class Sali {
      */ 
     public Collection<Suoritus> annaSuoritukset(int k) throws SailoException { 
         return suoritukset.annaSuoritukset(k); 
-    } 
+    }
+    
+    
+    /**
+     * Palauttaa haetun liikkeen korkeimman tehdyn sarjapainon ja sen sarjan toistot
+     * @param liikeID tutkittavan liikkeen
+     * @return ennätyksen toistot x sarjapaino Stringinä
+     * @example
+     * <pre name="test">
+     * alustaSali();
+     * kyykkysarja1.aseta(2, "1"); kyykkysarja1.aseta(4, "2"); kyykkysarja1.aseta(5, "170");
+     * sali.haeEnnatys(1) === kyykkysarja1; 
+     * kyykkysarja2.aseta(2, "1"); kyykkysarja2.aseta(4, "1"); kyykkysarja2.aseta(5, "180");
+     * sali.haeEnnatys(1) === kyykkysarja2;  
+     * </pre>
+     */
+    public Suoritus haeEnnatys (int liikeID) {
+        return suoritukset.haeEnnatys(liikeID);
+    }
     
     
     /**

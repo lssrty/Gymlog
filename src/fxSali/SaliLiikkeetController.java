@@ -9,6 +9,7 @@ import fi.jyu.mit.fxgui.ModalControllerInterface;
 import fi.jyu.mit.fxgui.StringGrid;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import sali.Harjoitus;
 import sali.Liike;
 import sali.Sali;
 import sali.Suoritus;
@@ -25,7 +26,7 @@ public class SaliLiikkeetController implements ModalControllerInterface<Sali>, I
     
     @Override
     public void initialize(URL url, ResourceBundle bundle) {
-        haeLiikkeet();  
+        //  
     }
 
     /*
@@ -52,7 +53,7 @@ public class SaliLiikkeetController implements ModalControllerInterface<Sali>, I
 
     @Override
     public void handleShown() {
-        // TODO Auto-generated method stub
+        haeLiikkeet();
         
     }
 
@@ -77,13 +78,14 @@ public class SaliLiikkeetController implements ModalControllerInterface<Sali>, I
        
         
         String[] rivi = new String[3];
-         for (int i=0; i < sali.getLiikkeita(); i++) {
-            Liike lii = sali.annaLiike(i);
-            rivi[0] = lii.getLiikeNimi();
-            rivi[1] = "1000"; // TODO : suurimman painon hakeminen
-            rivi[2] = "1.1.2000"; // TODO: Ylläolevan liikkeen harjoituksen pvm hakeminen    
-            sgLiikkeet.add(lii, rivi); // TODO: Vain sellaisten liikkeiden lisäys, millä on suorituksia
-            }
+         for (Liike lii : sali.annaLiikkeet()) {
+             Suoritus ennatys = sali.haeEnnatys(lii.getLiikeID());
+             Harjoitus harjoitus = sali.annaHarjoitukset().get(ennatys.getHarjoitusID()-1);
+             rivi[0] = lii.getLiikeNimi();
+             rivi[1] = ennatys.anna(2) + " x " + ennatys.anna(3); // TODO : suurimman painon hakeminen
+             rivi[2] = harjoitus.getPvm().substring(0, 10); // TODO: Ylläolevan liikkeen harjoituksen pvm hakeminen    
+             sgLiikkeet.add(lii, rivi); // TODO: Vain sellaisten liikkeiden lisäys, millä on suorituksia
+             }
         
     } 
 }

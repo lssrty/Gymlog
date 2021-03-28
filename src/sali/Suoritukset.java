@@ -343,6 +343,35 @@ public class Suoritukset implements Iterable<Suoritus> {
     
     
     /**
+     * Palauttaa haetun liikkeen korkeimman tehdyn sarjapainon ja sen sarjan toistot
+     * @param liikeID tutkittavan liikkeen
+     * @return ennätyksen toistot x sarjapaino Stringinä
+     * @example
+     * <pre name="test">
+     * Suoritukset suoritukset = new Suoritukset();
+     * Suoritus kyykkysarja1 = new Suoritus(), kyykkysarja2 = new Suoritus();
+     * suoritukset.lisaa(kyykkysarja1); 
+     * suoritukset.lisaa(kyykkysarja2);
+     * kyykkysarja1.aseta(2, "1"); kyykkysarja1.aseta(4, "2"); kyykkysarja1.aseta(5, "170");
+     * suoritukset.haeEnnatys(1) === kyykkysarja1; 
+     * kyykkysarja2.aseta(2, "1"); kyykkysarja2.aseta(4, "1"); kyykkysarja2.aseta(5, "180");
+     * suoritukset.haeEnnatys(1) === kyykkysarja2;  
+     * </pre>
+     */
+    public Suoritus haeEnnatys(int liikeID) {
+        double paino = 0;
+        Suoritus ennatys = new Suoritus();
+        for (Suoritus suo : alkiot) {
+            if ( suo != null && suo.getLiikeID() == liikeID && suo.getPainot() > paino ) {
+                paino = suo.getPainot();
+                ennatys = suo;
+            }
+        }
+        return ennatys;
+    }
+    
+    
+    /**
      * Luokka suoritusten iteroimiseksi.
      * @example
      * <pre name="test">

@@ -142,7 +142,7 @@ public class Harjoitus {
      * seuraava numero on aina suurempi kuin tähän mennessä suurin.
      * @param nr asetettava tunnusnumero
      */
-    private void setHarjoitusID(int nr) {
+    public void setHarjoitusID(int nr) {
         harjoitusID = nr;
         if (harjoitusID >= seuraavaNro) seuraavaNro = harjoitusID + 1;
     }

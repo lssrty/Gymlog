@@ -296,6 +296,31 @@ public class Harjoitukset implements Iterable<Harjoitus> {
 
     
     /**
+     * Palauttaa harjoituksen, jossa on tietty harjoitusID. Jos ei ole, palauttaa null.
+     * @param harjoitusID haettavan harjoituksen ID
+     * @return haettava harjoitus
+     * @example
+     * <pre name="test">
+     *  Harjoitukset treenit = new Harjoitukset();
+     *  Harjoitus reeni1 = new Harjoitus(); reeni1.setHarjoitusID(1); treenit.lisaa(reeni1);
+     *  Harjoitus reeni2 = new Harjoitus(); reeni2.setHarjoitusID(2); treenit.lisaa(reeni2);
+     *  Harjoitus reeni3 = new Harjoitus(); reeni3.setHarjoitusID(3); treenit.lisaa(reeni3);
+     *  Harjoitus reeni4 = new Harjoitus(); reeni4.setHarjoitusID(4); treenit.lisaa(reeni4);
+     *  Harjoitus reeni5 = new Harjoitus(); reeni5.setHarjoitusID(5); treenit.lisaa(reeni5);
+     *  treenit.annaHarjoitus(2) === reeni2;
+     *  treenit.annaHarjoitus(5) === reeni5;
+     *  treenit.annaHarjoitus(10) === null;
+     * </pre>
+     */
+    public Harjoitus annaHarjoitus(int harjoitusID) {
+        for (Harjoitus har : alkiot) {
+            if ( harjoitusID == har.getHarjoitusID()) return har;
+        }
+        return null;
+    }
+    
+    
+    /**
      * Testiohjelma harjoituksille
      * @param args ei käytössä
      * @throws SailoException jos tallennus ei onnistu

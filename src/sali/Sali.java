@@ -534,16 +534,30 @@ public class Sali {
     
     
     /**
-     * TODO: Antaa tyhjän liikkeen, jos kyseistä liikettä ei ole. Mieti, mikä olisi fiksumpi tapa toteuttaa.
-     * Antaa liikkeistä i:nnen liikkeen
+     * Antaa liikkeistä i:nnen liikkeen. Jos liikettä ei ole, palauttaa null.
      * @param i monesko liike
      * @return liike paikasta i
      */
     public Liike annaLiike(int i) {
-        Liike annettava = new Liike();
         for (Liike liike : liikkeet)
-            if (liike.getLiikeID() == i) annettava = liike;
-        return annettava;
+            if (liike.getLiikeID() == i) return liike;
+        return null;
+    }
+    
+    
+    /**
+     * Palauttaa harjoituksen, jossa on tietty harjoitusID. Jos ei ole, palauttaa null.
+     * @param harjoitusID haettavan harjoituksen ID
+     * @return haettava harjoitus
+     * @example
+     * <pre name="test">
+     * alustaSali();
+     * sali.annaHarjoitus(treeni21.getHarjoitusID()) === treeni21;
+     * sali.annaHarjoitus(99999) === null;
+     * </pre>
+     */
+    public Harjoitus annaHarjoitus(int harjoitusID) {
+        return harjoitukset.annaHarjoitus(harjoitusID);
     }
     
     

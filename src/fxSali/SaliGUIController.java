@@ -154,7 +154,7 @@ public class SaliGUIController implements Initializable {
                         suoritus.asetaLiike(liike);
                     }
                 }
-                if (!sali.onkoLiike(defValue)) {
+                if (!sali.onkoLiike(defValue) && defValue.length() > 0) {
                     Liike uusi = lisaaLiike(defValue);
                     suoritus.asetaLiike(uusi);
                 }
@@ -230,11 +230,14 @@ public class SaliGUIController implements Initializable {
      */
     private void haeSuoritukset() {
         sgSuoritukset.clear();
+        if ( sali.getSuorituksia() == 0 ) return;
         String[] rivi = new String[6];
         for (int i=0; i < sali.getSuorituksia(); i++) {
             Suoritus suor = sali.annaSuoritus(i);
             if (suor.getHarjoitusID() == harjoitusKohdalla.getHarjoitusID()) {
-                rivi[0] = sali.annaLiike(suor.getLiikeID()).getLiikeNimi();
+                rivi[0] = "";
+                if ( suor.getLiikeID() != 0 ) 
+                    rivi[0] = sali.annaLiike(suor.getLiikeID()).getLiikeNimi();
                 for (int k=1; k < rivi.length; k++)
                     rivi[k] = suor.anna(k);
                 sgSuoritukset.add(suor, rivi);
@@ -373,8 +376,7 @@ public class SaliGUIController implements Initializable {
         }
         
         String[] rivi = new String[6];
-        rivi[0] = sali.annaLiike(suoritus.getLiikeID()).getLiikeNimi();
-        for (int k=1; k < rivi.length; k++)
+        for (int k=0; k < rivi.length; k++)
             rivi[k] = suoritus.anna(k);
         sgSuoritukset.add(suoritus, rivi);
 
@@ -383,7 +385,6 @@ public class SaliGUIController implements Initializable {
     
     /**
      * Lisätään käyttäjälle uusi liike.
-     * TODO: Selvitä, miksi joskus LiikeID saattaa pompata esim. 6 -> 11
      */
     private Liike lisaaLiike(String nimi) {
         Liike liike = new Liike();
@@ -394,8 +395,7 @@ public class SaliGUIController implements Initializable {
         } catch (SailoException e) {
             System.err.println(e.getMessage());
         }
-        return liike;
-        // haeLiikkeet();   
+        return liike; 
     }
     
     

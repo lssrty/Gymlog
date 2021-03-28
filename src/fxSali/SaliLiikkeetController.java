@@ -76,14 +76,16 @@ public class SaliLiikkeetController implements ModalControllerInterface<Sali>, I
     private void haeLiikkeet() {
         sgLiikkeet.clear();
        
-        
-        String[] rivi = new String[3];
+        if ( sali.getSuorituksia() == 0 ) return;
+        String[] rivi = new String[3]; // TODO: Piilota suoritukset, joita ei ole tehty. Onnistuu haeEnnatys avulla.
          for (Liike lii : sali.annaLiikkeet()) {
              Suoritus ennatys = sali.haeEnnatys(lii.getLiikeID());
-             Harjoitus harjoitus = sali.annaHarjoitukset().get(ennatys.getHarjoitusID()-1);
+             Harjoitus harjoitus = sali.annaHarjoitus(ennatys.getHarjoitusID());
              rivi[0] = lii.getLiikeNimi();
              rivi[1] = ennatys.anna(2) + " x " + ennatys.anna(3); // TODO : suurimman painon hakeminen
-             rivi[2] = harjoitus.getPvm().substring(0, 10); // TODO: Ylläolevan liikkeen harjoituksen pvm hakeminen    
+             rivi[2] = "";
+             if (harjoitus != null ) 
+                 rivi[2] = harjoitus.getPvm().substring(0, 10); // TODO: Ylläolevan liikkeen harjoituksen pvm hakeminen    
              sgLiikkeet.add(lii, rivi); // TODO: Vain sellaisten liikkeiden lisäys, millä on suorituksia
              }
         

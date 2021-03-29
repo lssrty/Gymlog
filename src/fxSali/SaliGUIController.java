@@ -1,5 +1,6 @@
 package fxSali;
 
+import java.io.PrintStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -7,10 +8,12 @@ import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.StringGrid;
+import fi.jyu.mit.fxgui.TextAreaOutputStream;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import sali.*;
 
 /**
@@ -107,13 +110,8 @@ public class SaliGUIController implements Initializable {
     }
     
     
-    @FXML private void handleAvaa() {
+    @FXML private void handleVaihdaKayttaja() {
         avaa();
-    }
-    
-    
-    @FXML void handleVaihdaKayttaja() {
-        ModalController.showModal(SaliGUIController.class.getResource("SaliSplashView.fxml"), "Sali", null, "");
     }
     
     
@@ -205,7 +203,8 @@ public class SaliGUIController implements Initializable {
     private void haeHarjoitukset() {
         cbPvm.clear(); // Poistaa tyhjän arvon comboBoxista
         for (int i = sali.getHarjoituksia()-1; i >= 0; i--) {
-            cbPvm.add(sali.annaHarjoitukset().get(i)); //TODO: Piilota harjoitusID, näytä pelkkä päivämäärä?
+            Harjoitus harjoitus = sali.annaHarjoitukset().get(i);
+            cbPvm.add(harjoitus.getPvm(), harjoitus); //TODO: Piilota harjoitusID, näytä pelkkä päivämäärä?
         }
         cbPvm.setSelectedIndex(0);
     }
@@ -231,8 +230,7 @@ public class SaliGUIController implements Initializable {
         sgSuoritukset.clear();
         if ( sali.getSuorituksia() == 0 ) return;
         String[] rivi = new String[6];
-        for (int i=0; i < sali.getSuorituksia(); i++) {
-            Suoritus suor = sali.annaSuoritus(i);
+        for (Suoritus suor : sali.annaSuoritukset()) {
             if (suor.getHarjoitusID() == harjoitusKohdalla.getHarjoitusID()) {
                 rivi[0] = "";
                 if ( suor.getLiikeID() != 0 ) 

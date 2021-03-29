@@ -254,13 +254,33 @@ public class Sali {
     
     
     /** 
-     * Palauttaa "taulukossa" hakuehtoon (eli comboboxin päivämäärään) vastaavien suoritusten viitteet 
+     * Palauttaa "taulukossa" harjoittelijan tietyn harjoituksen suoritusten viitteet 
      * @param k etsittävän kentän indeksi  
      * @return tietorakenteen löytyneistä suorituksista 
      * @throws SailoException Jos jotakin menee väärin
      */ 
     public Collection<Suoritus> annaSuoritukset(int k) throws SailoException { 
         return suoritukset.annaSuoritukset(k); 
+    }
+    
+    
+    /** 
+     * Palauttaa harjoittelijan kaikkien suoritusten viitteet
+     * @return tietorakenteen löytyneistä suorituksista 
+     * @example
+     * <pre name="test">
+     * #import java.util.*;
+     * 
+     * alustaSali();
+     * List<Suoritus> loytyneet;
+     * loytyneet = sali.annaSuoritukset();
+     * loytyneet.size() === 2;
+     * loytyneet.get(0) === kyykkysarja1;
+     * loytyneet.get(1) === kyykkysarja2;
+     * </pre>
+     */ 
+    public List<Suoritus> annaSuoritukset() { 
+        return suoritukset.annaSuoritukset(); 
     }
     
     

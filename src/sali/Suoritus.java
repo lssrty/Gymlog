@@ -291,10 +291,12 @@ public class Suoritus implements Cloneable {
      * @param out tietovirta, johon tulostetaan
      */
     public void tulosta(PrintStream out) {
-        out.println(String.format("%03d", tunnusNro));
-        out.print("  harjoituksen ID: " + harjoitusID + " liikkeen ID: " + liikeID);
-        out.print(" sarjat: " + sarjat + " toistot: " + toistot + " painot: " + painot + " rasitus: " + rasitus);
-        out.println("  kommentit: " + kommentit);
+        // out.println(String.format("%03d", tunnusNro));
+        // out.print("  harjoituksen ID: " + harjoitusID + " liikkeen ID: " + liikeID);
+        out.print(String.format("|% -7d ", sarjat).replace('0', ' ') +
+                String.format("|% -8d ", toistot).replace('0', ' ') +
+                String.format("|% -4.1f kg ", painot) + String.format("| @% -6.1f ", rasitus));
+        out.println("| " + kommentit);
     }
     
     

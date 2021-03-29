@@ -1,5 +1,6 @@
 package fxSali;
 
+import java.io.PrintStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -7,8 +8,10 @@ import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import fi.jyu.mit.fxgui.StringGrid;
+import fi.jyu.mit.fxgui.TextAreaOutputStream;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TextArea;
 import sali.Harjoitus;
 import sali.Liike;
 import sali.Sali;
@@ -33,7 +36,9 @@ public class SaliLiikkeetController implements ModalControllerInterface<Sali>, I
      * Näyttää historian liikkeen suorituksista
      */
     @FXML void handleLiikeHistoria() {
-        ModalController.showModal(SaliLiikkeetController.class.getResource("LiikeHistoriaView.fxml"), "Sali", null, "");
+        LiikeHistoriaController liikeCtrl = LiikeHistoriaController.tulosta(null);
+        // ModalController.showModal(SaliLiikkeetController.class.getResource("LiikeHistoriaView.fxml"), "Sali", null, "");
+        tulostaValitut(liikeCtrl.getTextArea());
     }
 
 
@@ -90,4 +95,25 @@ public class SaliLiikkeetController implements ModalControllerInterface<Sali>, I
              }
         
     } 
+    
+    
+    /**
+     * Tulostaa valitun liikkeen suoritukset tekstialueeseen
+     * @param text alue johon tulostetaan
+     */
+    public void tulostaValitut(TextArea text) {
+        Liike liike = sgLiikkeet.getObject();
+        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(text)) {
+            os.println(liike.getLiikeNimi() + " suoritushistoria");
+            os.println("-------------------------------------\n\n");
+            os.println("Päivämäärä | sarjat | toistot |  painot  | rasitus | kommentit");
+            os.println("------------------------------------------------------------");
+            for (Suoritus suo: sali.annaSuoritukset()) {
+                if ( suo.getLiikeID() == liike.getLiikeID()) {
+                    os.print(sali.annaHarjoitus(suo.getHarjoitusID()).getPvm().substring(0, 11));
+                    suo.tulosta(os);
+                }
+            }
+        }
+    }
 }

@@ -19,7 +19,7 @@
       </ButtonBar>
    </bottom>
    <center>
-      <TextArea fx:id="tulostusAlue" editable="false" minWidth="500.0" prefHeight="200.0" prefWidth="200.0" text="Kyykky suoritushistoria (EI VALMIS, MALLIDATAA)&#10;----------------------------------------------&#10;&#10;Harjoitus        |sarjat     |toistot |painot  |rasitus  |kommentit&#10;-----------------------------------------------------------&#10;03.12.2020 16:00 |3&#9;     |5       |160     |8        |Selkä kipeä&#10;05.12.2020 14:33 |3&#9;     |5       |165     |         |&#10;08.12.2020 16:00 |3&#9;     |3       |170     |9        |Ennätystä kohti" BorderPane.alignment="CENTER">
+      <TextArea fx:id="tulostusAlue" editable="false" minWidth="500.0" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <font>
             <Font name="Consolas" size="12.0" />
          </font>

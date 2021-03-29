@@ -524,6 +524,36 @@ public class Suoritukset implements Iterable<Suoritus> {
     
     
     /**
+     * Haetaan kaikki harjoittelijan suoritukset harjoituksesta riippumatta
+     * @return tietorakenne jossa viiteet löydettyihin suorituksiin
+     * @example
+     * <pre name="test">
+     * #import java.util.*;
+     * 
+     *  Suoritukset suoritteet = new Suoritukset();
+     *  Suoritus kyykky21 = new Suoritus(2); suoritteet.lisaa(kyykky21);
+     *  Suoritus kyykky11 = new Suoritus(1); suoritteet.lisaa(kyykky11);
+     *  Suoritus kyykky22 = new Suoritus(2); suoritteet.lisaa(kyykky22);
+     *  Suoritus kyykky12 = new Suoritus(1); suoritteet.lisaa(kyykky12);
+     *  Suoritus kyykky23 = new Suoritus(2); suoritteet.lisaa(kyykky23);
+     *  Suoritus kyykky51 = new Suoritus(5); suoritteet.lisaa(kyykky51);
+     *  
+     *  List<Suoritus> loytyneet;
+     *  loytyneet = suoritteet.annaSuoritukset();
+     *  loytyneet.size() === 6; 
+     *  loytyneet.get(0) == kyykky21 === true;
+     *  loytyneet.get(1) == kyykky11 === true;
+     * </pre> 
+     */
+    public List<Suoritus> annaSuoritukset() {
+        List<Suoritus> loydetyt = new ArrayList<Suoritus>();
+        for (Suoritus suo : alkiot)
+            if (suo != null) loydetyt.add(suo);
+        return loydetyt;
+    }
+    
+    
+    /**
      * @param args ei käytössä
      * @throws SailoException jos tiedoston tallennus ei onnistu
      */

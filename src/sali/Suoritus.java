@@ -8,10 +8,9 @@ import java.io.PrintStream;
 
 import fi.jyu.mit.ohj2.Mjonot;
 
-// import static kanta.RasitusTarkistus.*; TODO: Onko turha?
+
 
 /**
- * TODO: Poista turhat getterit, anna(int i) toteuttaa saman switchillä varmaankin kaikissa tarvittavissa tilanteissa?
  * |------------------------------------------------------------------------|
  * | Luokan nimi: Suoritus                              | Avustajat:        |
  * |-------------------------------------------------------------------------
@@ -68,7 +67,6 @@ public class Suoritus implements Cloneable {
     
     /**
      * @return harjoituksen ID
-     * TODO: Lisää testejä
      * @example
      * <pre name="test">
      * Suoritus kyykkysarja = new Suoritus();
@@ -194,7 +192,6 @@ public class Suoritus implements Cloneable {
 
     /**
      * Eka kenttä stringGridistä joka on mielekäs kysyttäväksi. Tällä hetkellä 2, eli sarjat.
-     * TODO: Epäintuitiivinen muuttuja, siirrä suosiolla SaliGUIControllerin alusta-metodiin?
      * @return ekan kentän indeksi
      */
     public int ekaKentta() {

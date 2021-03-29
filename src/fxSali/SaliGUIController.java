@@ -1,6 +1,5 @@
 package fxSali;
 
-import java.io.PrintStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -8,12 +7,10 @@ import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.StringGrid;
-import fi.jyu.mit.fxgui.TextAreaOutputStream;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import sali.*;
 
 /**
@@ -87,7 +84,6 @@ public class SaliGUIController implements Initializable {
     
     /*
      * Poistaa aktiivisen harjoituksen, esim. 24.01.2021 18:00.
-     * TODO: Edelliseen harjoitukseen siirtyminen, kun tämänhetkinen poistetaan
      */
     @FXML private void handlePoistaHarjoitus() {
         poistaHarjoitus();
@@ -158,7 +154,7 @@ public class SaliGUIController implements Initializable {
                     suoritus.asetaLiike(uusi);
                 }
             }
-            haeSuoritukset(); // TODO: Nyt siirtää valitsimen aina ylimpään. Haittaako?
+            haeSuoritukset();
             return defValue;
         });
         
@@ -196,7 +192,7 @@ public class SaliGUIController implements Initializable {
     
     
     private void setTitle(String title) {
-        ModalController.getStage(sgSuoritukset).setTitle(title);  //TODO: Selvitä, mitä getStage tekee, mallissa getStage(hakuehto)
+        ModalController.getStage(sgSuoritukset).setTitle(title);
     }
     
     /**
@@ -206,7 +202,7 @@ public class SaliGUIController implements Initializable {
         cbPvm.clear(); // Poistaa tyhjän arvon comboBoxista
         for (int i = sali.getHarjoituksia()-1; i >= 0; i--) {
             Harjoitus harjoitus = sali.annaHarjoitukset().get(i);
-            cbPvm.add(harjoitus.getPvm(), harjoitus); //TODO: Piilota harjoitusID, näytä pelkkä päivämäärä?
+            cbPvm.add(harjoitus.getPvm(), harjoitus);
         }
         cbPvm.setSelectedIndex(0);
     }
@@ -226,7 +222,6 @@ public class SaliGUIController implements Initializable {
     
     /**
      * Hakee tallennetut suoritukset stringGridiin, ja muuttaa liikeID:t liikenimiksi
-     * TODO: overloadattu funktio mille annetaan parametriksi liikeID? Hakisi tietyn liikkeen suoritushistorian
      */
     private void haeSuoritukset() {
         sgSuoritukset.clear();
@@ -251,7 +246,7 @@ public class SaliGUIController implements Initializable {
         int r = sgSuoritukset.getRowNr();
         Suoritus suoritus = sgSuoritukset.getObject(r);
         if ( suoritus == null ) return;
-        if ( !Dialogs.showQuestionDialog("Poisto", "Poistetaanko suoritus: " + suoritus.toString(), "Kyllä", "Ei") ) // TODO: Muuta sanomaan vain valittu suoritus
+        if ( !Dialogs.showQuestionDialog("Poisto", "Poistetaanko suoritus: " + suoritus.toString(), "Kyllä", "Ei") )
             return;
         sali.poista(suoritus);
         haeSuoritukset();
@@ -277,7 +272,7 @@ public class SaliGUIController implements Initializable {
      * @param nimi tiedosto josta kerhon tiedot luetaan
      * @return null jos onnistuu, muuten virhe tekstinä
      */
-    protected String lueTiedosto(String nimi) { //TODO: Voiko olla private?
+    protected String lueTiedosto(String nimi) {
         kayttajanimi = nimi;
         setTitle("Salipäiväkirja - " + kayttajanimi);
         try {
@@ -317,7 +312,7 @@ public class SaliGUIController implements Initializable {
      */
     public void uusiHarjoitus() {
         Harjoitus harjoitus = new Harjoitus();
-        harjoitus.rekisteroi(); //TODO: Luo tyhjä rivi, johon voi kirjoittaa halutut tiedot. Jos ei onnistu, luo dialogi.
+        harjoitus.rekisteroi();
         
         try {
             sali.lisaa(harjoitus);
@@ -366,7 +361,6 @@ public class SaliGUIController implements Initializable {
         
         Suoritus suoritus = new Suoritus(harjoitusKohdalla.getHarjoitusID());
         suoritus.rekisteroi();
-        // suoritus.taytaKyykkyTiedoilla();    //TODO: Luo tyhjä rivi, johon voi kirjoittaa halutut tiedot. Jos ei onnistu, luo dialogi.
         try {
             sali.lisaa(suoritus);
         } catch (SailoException e) {

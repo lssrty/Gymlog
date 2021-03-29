@@ -12,7 +12,6 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * TODO: Suoritusten etsiminen listaan, missä tietty liike (liikelistaa varten). Mallia "Collection<Jasen> etsi" -metodista?
  * |------------------------------------------------------------------------|
  * | Luokan nimi: Sali                                  | Avustajat:        |
  * |-------------------------------------------------------------------------
@@ -206,7 +205,6 @@ public class Sali {
     
     /** 
      * Poistaa tämän harjoituksen ja siihen kuuluneet suoritukset
-     * TODO: Miksi ei poista kaikkia tähän kuuluneita suorituksia?
      * @param harjoitus poistettava harjoitus 
      * @example
      * <pre name="test">
@@ -600,7 +598,6 @@ public class Sali {
     
     
     /**
-     * TODO: Isot testit kaikkien luokkien yhteistoiminnasta tähän
      * @param args ei käytössä
      */
     public static void main(String[] args) {

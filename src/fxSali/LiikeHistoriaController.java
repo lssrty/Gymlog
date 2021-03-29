@@ -6,11 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
 /**
- * TODO: Laita näyttämään oikean liikkeen dataa mallidatan sijaan
- * TODO: Liike tuodaan samalla tavalla kuin sali LiikkeetControlleriin, sali tuodaan erikseen
- * https://tim.jyu.fi/view/kurssit/tie/ohj2/tyokalut/JavaFX/Dialogs#enemm%C3%A4n-parametreja-modal-dialogille
- * Liikehistorian esittämisen hoitava luokka
- * 
  * @author lasse
  * @version 3.3.2021
  */

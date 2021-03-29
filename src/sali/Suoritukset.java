@@ -13,9 +13,9 @@ import java.util.*;
  * | Vastuualueet:                                      |                   |
  * |                                                    | - Suoritus        |
  * | - pitää yllä rekisteriä suorituksista, eli osaa    |                   |
- * |   lisätä ja poistaa suorituksia                    |                   |<-- TODO: Suoritusten poisto
+ * |   lisätä ja poistaa suorituksia                    |                   |
  * | - lukee ja kirjoittaa suoritukset tiedostoon       |                   |
- * | - osaa etsiä liikkeistä niiden suurimman           |                   | <-- TODO: Liikekohtaisten ennätysten etsintä
+ * | - osaa etsiä liikkeistä niiden suurimman           |                   |
  * |   sarjapainon eli ennätyksen                       |                   |
  * |                                                    |                   |
  * |                                                    |                   |

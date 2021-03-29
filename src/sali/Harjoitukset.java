@@ -19,7 +19,7 @@ import java.util.*;
  * | Vastuualueet:                                      |                   |
  * |                                                    |                   |
  * | - pitää yllä rekisteriä harjoitusten päivämääristä |                   |
- * | - osaa lisätä ja poistaa harjoituksen              |                   | <- TODO: Harjoituksen poisto
+ * | - osaa lisätä ja poistaa harjoituksen              |                   |
  * |                                                    |                   |
  * |                                                    |                   |
  * |                                                    |                   |

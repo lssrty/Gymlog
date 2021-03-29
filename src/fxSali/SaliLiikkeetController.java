@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import fi.jyu.mit.fxgui.Dialogs;
-import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import fi.jyu.mit.fxgui.StringGrid;
 import fi.jyu.mit.fxgui.TextAreaOutputStream;
@@ -18,7 +17,7 @@ import sali.Sali;
 import sali.Suoritus;
 
 /**
- * Controller ohjelman liikelistalle. TODO: Tarkista, hakeeko SaliGUIControllerissa olevan salin. Säätöä modaalisuuden kanssa.
+ * Controller ohjelman liikelistalle.
  * @author lasse
  * @version 3 Feb 2021
  *
@@ -77,22 +76,21 @@ public class SaliLiikkeetController implements ModalControllerInterface<Sali>, I
     
     /**
      * Hakee tallennetut liikkeet StringGridiin, ja etsii niiden sarjaennätyksen sekä ennätyksen päivämäärän
-     * TODO: Miten saadaan tähän SaliGUIControllerin sali?
      */
     private void haeLiikkeet() {
         sgLiikkeet.clear();
        
         if ( sali.getSuorituksia() == 0 ) return;
-        String[] rivi = new String[3]; // TODO: Piilota suoritukset, joita ei ole tehty. Onnistuu haeEnnatys avulla.
+        String[] rivi = new String[3];
          for (Liike lii : sali.annaLiikkeet()) {
              Suoritus ennatys = sali.haeEnnatys(lii.getLiikeID());
              Harjoitus harjoitus = sali.annaHarjoitus(ennatys.getHarjoitusID());
              rivi[0] = lii.getLiikeNimi();
-             rivi[1] = ennatys.anna(2) + " x " + ennatys.anna(3); // TODO : suurimman painon hakeminen
+             rivi[1] = ennatys.anna(2) + " x " + ennatys.anna(3);
              rivi[2] = "";
              if (harjoitus != null ) 
-                 rivi[2] = harjoitus.getPvm().substring(0, 10); // TODO: Ylläolevan liikkeen harjoituksen pvm hakeminen    
-             sgLiikkeet.add(lii, rivi); // TODO: Vain sellaisten liikkeiden lisäys, millä on suorituksia
+                 rivi[2] = harjoitus.getPvm().substring(0, 10);  
+             sgLiikkeet.add(lii, rivi);
              }
         
     } 

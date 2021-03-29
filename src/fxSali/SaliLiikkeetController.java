@@ -59,6 +59,7 @@ public class SaliLiikkeetController implements ModalControllerInterface<Sali>, I
     @Override
     public void handleShown() {
         haeLiikkeet();
+        sgLiikkeet.setSortable(-1, false);
         
     }
 

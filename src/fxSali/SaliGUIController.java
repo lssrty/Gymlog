@@ -141,6 +141,8 @@ public class SaliGUIController implements Initializable {
         cbPvm.clear();
         cbPvm.addSelectionListener(e -> naytaHarjoitus());
         
+        sgSuoritukset.setSortable(-1, false); 
+        
         Suoritus apusuoritus = new Suoritus();
         int eka = apusuoritus.ekaKentta();
 

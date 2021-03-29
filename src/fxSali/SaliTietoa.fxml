@@ -29,7 +29,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <Label layoutX="184.0" layoutY="33.0" text="Ohjelmaan voi tallentaa treenin aikana tehdyt toistot, sarjat ja painot per liike.&#10;Ohjelmassa on valmiina kyykky, penkki ja maastaveto, ja muita liikkeitä voi lisätä.&#10;Joka sarjan perään voi lisätä koetun rasituksen sekä vapaamuotoista tekstiä." textAlignment="CENTER">
+            <Label layoutX="184.0" layoutY="33.0" text="Ohjelmaan voi tallentaa treenin aikana tehdyt toistot, sarjat ja painot per liike.&#10;Joka suoritukseen voi lisätä koetun rasituksen sekä vapaamuotoista tekstiä.&#10;Liikelistasta voi tarkastella liikekohtaisia ennätyksiä sekä suoritushistoriaa." textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
